@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Affix.Controllers
 {
@@ -10,15 +11,20 @@ namespace Affix.Controllers
     [Route("[controller]")]
     public class PostsController : ControllerBase
     {
-        private static readonly IList<Post> posts = new List<Post>();
+        private readonly AffixContext context;
+
+        public PostsController(AffixContext context)
+        {
+            this.context = context;
+        }
 
         [Route("{id?}")]
         [HttpGet]
-        public async Task<IActionResult> GetByIdAsync(Guid id)
+        public async Task<ActionResult<PostModel>> GetByIdAsync(Guid id)
         {
-            await Task.Delay(1000);
-
-            var result = posts.FirstOrDefault(p => p.Id == id);
+            var result = await context.Posts
+                .Where(p => p.Id == id)
+                .FirstOrDefaultAsync();
 
             if (result == null)
             {
@@ -31,19 +37,17 @@ namespace Affix.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<PostModel>>> GetAllAsync()
         {
-            await Task.Delay(1000);
-
-            return Ok(posts);
+            return Ok(await context.Posts.ToListAsync());
         }
 
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {
-            await Task.Delay(1000);
-            var newPost = new Post { Id = Guid.NewGuid(), Title = post.Title, Content = post.Content};
-            posts.Add(newPost);
+            var newPost = new PostDataModel { Title = post.Title, Content = post.Content};
+            await context.Posts.AddAsync(newPost);
+            await context.SaveChangesAsync();
 
             return Created($"posts/{newPost.Id}", newPost);
 
