@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
 namespace Affix
@@ -28,6 +29,16 @@ namespace Affix
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("localhost",
+                  builder =>
+                  {
+                      builder.WithOrigins("http://localhost:4200")
+                      .WithMethods( "PUT", "GET")
+                      .WithHeaders(HeaderNames.ContentType);
+                  });
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -48,6 +59,8 @@ namespace Affix
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("localhost");
 
             app.UseAuthorization();
 
