@@ -1,3 +1,5 @@
+// TODO: delete if unused
+
 export class PostModel {
     public title: string;
     public content: string;

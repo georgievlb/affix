@@ -7,10 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './modules/material.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
+import { RenderHtmlPipe } from './pipes/render-html.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RenderHtmlPipe
   ],
   imports: [
     BrowserModule,

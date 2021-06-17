@@ -15,7 +15,8 @@
 
     <mat-sidenav-content>
       <p *ngFor="let post of posts">{{post.title}}</p>
-      <div *ngFor="let post of posts" [innerHTML]="post.content"></div>
+      <p *ngFor="let post of posts" [innerHTML]="post.content | renderHtml"></p>
+      <hr>
       <div>
         <label for="title">Title</label>
         <input type="text" name="" id="title" [(ngModel)]="postTitle">
