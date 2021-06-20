@@ -1,17 +1,11 @@
 .footer {
-    background:#ff9000;
-    height: 4em;
-    flex-shrink: 0;
-}
-ul.flex-container {
-    display: flex;
-    flex-direction: row;
-    //flex-flow: row wrap; // same as flex-direction: row + flex-wrap: wrap
-    flex-wrap: wrap;
+  background: #ff9000;
+  height: 4em;
+  flex-shrink: 0;
+  & .flex-container {
     justify-content: space-between;
-}
-
-ul li {
-    font-size: 0.8em;
-    list-style-type: none;
+    & .flex-item {
+      font-size: 0.8em;
+    }
+  }
 }

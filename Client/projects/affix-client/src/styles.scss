@@ -3,10 +3,14 @@
 html,
 body {
   height: 100%;
-  // display: flex;
-}
-body {
   margin: 0.25em;
   padding: 0.25em;
-  //   font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  & .flex-container {
+    display: flex;
+    flex-flow: row wrap;
+    & .flex-item {
+      list-style: none;
+    }
+  }
 }

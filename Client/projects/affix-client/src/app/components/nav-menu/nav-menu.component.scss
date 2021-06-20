@@ -1,29 +1,19 @@
-h3 {
-    text-align: center;
-}
-
-.flex-container {
-    display: flex;
-    justify-content: center;
-    flex-flow: row wrap;
-}
-
-ul {
-    position: relative;
+nav {
+  & ul.flex-container {
+    // position: relative;
     padding-left: 0;
-}
-
-li.flex-item {
-    list-style: none;
-    text-align: center;
-    font-size: 1.1em;
-    font-weight: bold;
-    line-height: 2em;
-    margin: 0.25em;
-    padding: 0.25em;
-}
-
-.subtitle {
+    justify-content: center;
+    & .flex-item {
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: bold;
+      line-height: 2em;
+      margin: 0.25em;
+      padding: 0.25em;
+    }
+  }
+  .subtitle {
     text-align: center;
     display: block;
+  }
 }

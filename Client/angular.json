@@ -31,7 +31,7 @@
               "projects/affix-client/src/assets"
             ],
             "styles": [
-              "projects/affix-client/src/theme.css",
+              "projects/affix-client/src/theme.scss",
               "projects/affix-client/src/styles.scss"
             ],
             "scripts": []
@@ -100,7 +100,7 @@
               "projects/affix-client/src/assets"
             ],
             "styles": [
-              "projects/affix-client/src/theme.css",
+              "projects/affix-client/src/theme.scss",
               "projects/affix-client/src/styles.scss"
             ],
             "scripts": []
