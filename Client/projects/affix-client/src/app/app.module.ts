@@ -8,11 +8,17 @@ import { MaterialModule } from './modules/material.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { RenderHtmlPipe } from './pipes/render-html.pipe';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { MainContentComponent } from './components/main-content/main-content.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RenderHtmlPipe
+    RenderHtmlPipe,
+    NavMenuComponent,
+    MainContentComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
