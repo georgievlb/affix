@@ -1,9 +1,5 @@
 @import "../../../variables.scss";
 
-@mixin changeBackground {
-  
-}
-
 footer {
   position: relative;
   margin-left: 0%;
@@ -24,9 +20,10 @@ footer {
 
 svg {
   position: relative;
+  margin: 2px;
   // bottom: 0;
   width: 100%;
-  height: 60px;
+  height: 40px;
 }
 
 svg:hover {
