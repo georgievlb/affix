@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { PostModel } from '../../domain/post/modles/post.model';
 
 @Component({
   selector: 'app-main-content',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainContentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
+
+  public posts: PostModel[] = [];
 
   ngOnInit(): void {
+    this.httpClient.get('https://localhost:5001/posts')
+      .subscribe((data: any) => {
+        this.posts = data });
   }
 
 }

@@ -11,6 +11,7 @@ import { RenderHtmlPipe } from './pipes/render-html.pipe';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { MainContentComponent } from './components/main-content/main-content.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ViewPostComponent } from './/domain/post/view-post/view-post.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FooterComponent } from './components/footer/footer.component';
     RenderHtmlPipe,
     NavMenuComponent,
     MainContentComponent,
-    FooterComponent
+    FooterComponent,
+    ViewPostComponent
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,8 @@
 // TODO: delete if unused
 
 export class PostModel {
-    public title: string;
-    public content: string;
+    public title: string = '';
+    public content: string = '';
 
     constructor(title: string, content: string) {
         this.title = title;
