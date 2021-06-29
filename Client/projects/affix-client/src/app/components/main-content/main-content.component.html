@@ -1,31 +1,5 @@
 <!-- <app-view-post-card [postTitle]="posts[0].title" [postContent]="posts[0].content"></app-view-post-card> -->
-<app-view-post-card [header]="sampleHeader"
-                    [title]="sampleTitle"
-                    [subtitle]="sampleSubtitle"
-                    [content]="sampleContent"
-                    >
-</app-view-post-card>
-<app-view-post-card [header]="sampleHeader"
-                    [title]="sampleTitle"
-                    [subtitle]="sampleSubtitle"
-                    [content]="sampleContent"
-                    >
-</app-view-post-card>
-<app-view-post-card [header]="sampleHeader"
-                    [title]="sampleTitle"
-                    [subtitle]="sampleSubtitle"
-                    [content]="sampleContent"
-                    >
-</app-view-post-card>
-<app-view-post-card [header]="sampleHeader"
-                    [title]="sampleTitle"
-                    [subtitle]="sampleSubtitle"
-                    [content]="sampleContent"
-                    >
-</app-view-post-card>
-<app-view-post-card [header]="sampleHeader"
-                    [title]="sampleTitle"
-                    [subtitle]="sampleSubtitle"
-                    [content]="sampleContent"
-                    >
-</app-view-post-card>
+
+<div class="flex-container" fxLayout.xs="column">
+  <app-view-post-card *ngFor="let card of postCards" [postCardModel]="card"></app-view-post-card>
+</div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PostCardModel } from '../models/post.model';
+import { PostCardModel } from '../models/post-card.model';
 
 @Component({
   selector: 'app-view-post-card',
@@ -11,16 +11,7 @@ export class ViewPostCardComponent implements OnInit {
   constructor() { }
 
   @Input()
-  public header: string;
-
-  @Input()
-  public title: string;
-
-  @Input()
-  public subtitle: string;
-
-  @Input()
-  public content: string;
+  public postCardModel: PostCardModel;
 
   ngOnInit(): void {
   }
