@@ -1,6 +1,6 @@
 // TODO: delete if unused
 
-export class PostModel {
+export class PostCardModel {
     public title: string = '';
     public content: string = '';
 

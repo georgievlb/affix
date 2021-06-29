@@ -1,0 +1,22 @@
+<!-- <h1>{{ postTitle }}</h1>
+<div [innerHtml]="postContent | renderHtml"></div> -->
+
+<div class="flex-container" fxLayout.xs="column">
+    <mat-card class="flex-item">
+      <mat-card-header
+        >{{ header }}
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{ title }}</mat-card-title>
+        <mat-card-subtitle>{{ subtitle }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{ content }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+</div>

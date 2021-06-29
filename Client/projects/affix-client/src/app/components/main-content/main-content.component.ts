@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { PostModel } from '../../domain/post/modles/post.model';
+import { PostCardModel } from '../../domain/post/models/post.model';
 
 @Component({
   selector: 'app-main-content',
@@ -11,7 +11,7 @@ export class MainContentComponent implements OnInit {
 
   constructor(private httpClient: HttpClient) { }
 
-  public posts: PostModel[] = [];
+  public posts: PostCardModel[] = [];
 
   ngOnInit(): void {
     this.httpClient.get('https://localhost:5001/posts')
@@ -19,4 +19,8 @@ export class MainContentComponent implements OnInit {
         this.posts = data });
   }
 
+  public sampleHeader: string = 'My Header';
+  public sampleTitle: string = 'My Title';
+  public sampleSubtitle: string = 'My Subtitle';
+  public sampleContent: string = "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.";
 }

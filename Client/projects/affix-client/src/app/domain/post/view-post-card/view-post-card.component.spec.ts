@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewPostComponent } from './view-post.component';
+import { ViewPostCardComponent } from './view-post-card.component';
 
 describe('ViewPostComponent', () => {
-  let component: ViewPostComponent;
-  let fixture: ComponentFixture<ViewPostComponent>;
+  let component: ViewPostCardComponent;
+  let fixture: ComponentFixture<ViewPostCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewPostComponent ]
+      declarations: [ ViewPostCardComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewPostComponent);
+    fixture = TestBed.createComponent(ViewPostCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
