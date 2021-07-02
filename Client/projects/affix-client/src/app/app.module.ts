@@ -12,6 +12,8 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { MainContentComponent } from './components/main-content/main-content.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ViewPostCardComponent } from './domain/post/view-post-card/view-post-card.component';
+import { CreatePostComponent } from './domain/post/create-post/create-post.component';
+import { ViewPostDetailsComponent } from './domain/post/view-post-details/view-post-details.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { ViewPostCardComponent } from './domain/post/view-post-card/view-post-ca
     NavMenuComponent,
     MainContentComponent,
     FooterComponent,
-    ViewPostCardComponent
+    ViewPostCardComponent,
+    CreatePostComponent,
+    ViewPostDetailsComponent
   ],
   imports: [
     BrowserModule,

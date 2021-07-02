@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PostCardModel } from '../models/post-card.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-post-card',
@@ -8,12 +9,16 @@ import { PostCardModel } from '../models/post-card.model';
 })
 export class ViewPostCardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   @Input()
   public postCardModel: PostCardModel;
 
   ngOnInit(): void {
+  }
+
+  openPostDetails(): void {
+    this.router.navigate(['/post/details']);
   }
 
 }

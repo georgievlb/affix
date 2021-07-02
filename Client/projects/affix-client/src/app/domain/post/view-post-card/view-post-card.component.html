@@ -1,6 +1,4 @@
-<!-- <h1>{{ postTitle }}</h1>
-<div [innerHtml]="postContent | renderHtml"></div> -->
-<mat-card class="flex-item">
+<mat-card class="flex-item" (click)="openPostDetails()">
   <mat-card-header
     >{{ postCardModel.header }}
     <div mat-card-avatar class="example-header-image"></div>
