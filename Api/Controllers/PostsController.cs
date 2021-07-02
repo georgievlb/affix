@@ -45,7 +45,10 @@ namespace Affix.Controllers
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {
-            var newPost = new PostDataModel { Title = post.Title, Content = post.Content};
+            var newPost = new PostDataModel
+            {
+                Id = post.Id, Title = post.Title, Content = post.Content
+            };
             await context.Posts.AddAsync(newPost);
             await context.SaveChangesAsync();
 

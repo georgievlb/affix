@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { PostDetails } from '../models/post-details.model';
 
 @Component({
   selector: 'app-view-post-details',
@@ -7,15 +10,20 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ViewPostDetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private httpClient: HttpClient
+  ) {
+    this.route.params.subscribe(params => {
+      this.post.id = params['id'];
+    });
+  }
 
-  @Input()
-  public title: string = '';
+  public post: PostDetails = new PostDetails('', '', '');
 
-  @Input()
-  public content: string = '';
-
-  ngOnInit(): void {
+  ngOnInit() {
+    this.httpClient.get(`https://localhost:5001/posts/${this.post.id}`)
+    .subscribe((data: any) => this.post = data);
   }
 
 }
