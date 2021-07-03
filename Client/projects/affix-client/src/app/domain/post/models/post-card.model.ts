@@ -5,13 +5,13 @@ export class PostCardModel {
     public header: string = '';
     public title: string = '';
     public subtitle: string = '';
-    public content: string = '';
+    public summary: string = '';
 
-    constructor(id: string, header: string, title: string, subtitle: string, content: string) {
+    constructor(id: string, header: string, title: string, subtitle: string, summary: string) {
         this.id = id;
         this.header = header;
         this.title = title;
         this.subtitle = subtitle;
-        this.content = content;
+        this.summary = summary;
     }
 }

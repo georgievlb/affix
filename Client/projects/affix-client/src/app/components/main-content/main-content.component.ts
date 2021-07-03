@@ -15,18 +15,22 @@ export class MainContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.httpClient.get('https://localhost:5001/posts')
-      .subscribe((data: any) => this.postCards = data);
+      .subscribe((data: any) => {
+        this.postCards = data;
+        this.postCards[0].header = 'C#, AWS, CI/CD';
+        this.postCards[0].subtitle = 'How to..';
+      });
   }
 
   public sampleId: string = 'MyId';
   public sampleHeader: string = 'My Header';
   public sampleTitle: string = 'My Title';
   public sampleSubtitle: string = 'My Subtitle';
-  public sampleContent: string = "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.";
+  public sampleSummary: string = "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.";
   public postCardModel: PostCardModel = new PostCardModel(
     this.sampleId,
     this.sampleHeader,
     this.sampleTitle,
     this.sampleSubtitle,
-    this.sampleContent);
+    this.sampleSummary);
 }

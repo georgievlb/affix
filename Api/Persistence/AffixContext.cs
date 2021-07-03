@@ -22,5 +22,9 @@ public class AffixContext : DbContext
         modelBuilder.Entity<PostDataModel>()
             .Property(x => x.Content)
             .IsRequired();
-    }   
+
+                modelBuilder.Entity<PostDataModel>()
+            .Property(x => x.Summary)
+            .IsRequired();
+    }
 }

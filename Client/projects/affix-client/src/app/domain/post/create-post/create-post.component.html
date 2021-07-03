@@ -1,7 +1,9 @@
-<label for="postTitle">Title</label>
-<input type="text" name="" id="postTitle" [(ngModel)]="title">
-<br>
-<label for="postContent">Content</label>
-<input type="text" name="" id="postContent" [(ngModel)]="content">
-<br>
+<div id="markdown-editor">
+    <textarea placeholder="Enter title in plain text" [(ngModel)]="title"></textarea>
+    <textarea placeholder="Enter summary in plain text" [(ngModel)]="summary"></textarea>
+    <textarea placeholder="Enter content in markdown"(keyup)="onValueChanged($event)"></textarea>
+</div>
+<h1 [innerHtml]="title"></h1>
+<div [innerHtml]="parsedString"></div>
+
 <button mat-button (click)="createPost()">Create Post</button>
