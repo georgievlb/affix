@@ -13,11 +13,18 @@ export class CreatePostComponent implements OnInit {
 
   public title: string = '';
   public summary: string = '';
+  public header: string = '';
   public parsedString: string = 'Parsed Markdown';
 
 
   createPost():void {
-    const body = { title : this.title, content : this.parsedString, summary: this.summary };
+    const body =
+    {
+      title : this.title,
+      content : this.parsedString,
+      summary: this.summary,
+      header: this.header
+    };
     this.httpClient.put('https://localhost:5001/posts', body)
       .subscribe(data => console.log(data));
   }

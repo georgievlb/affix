@@ -1,7 +1,30 @@
 <div id="markdown-editor">
-    <textarea placeholder="Enter title in plain text" [(ngModel)]="title"></textarea>
-    <textarea placeholder="Enter summary in plain text" [(ngModel)]="summary"></textarea>
-    <textarea placeholder="Enter content in markdown"(keyup)="onValueChanged($event)"></textarea>
+  <textarea
+    cdkTextareaAutosize
+    placeholder="Enter title in plain text"
+    [(ngModel)]="title"
+  ></textarea>
+</div>
+<div>
+    <textarea
+    cdkTextareaAutosize
+    placeholder="Enter summary in plain text"
+    [(ngModel)]="summary"
+  ></textarea>
+</div>
+<div>
+    <textarea
+    cdkTextareaAutosize
+    placeholder="Enter header e.g. 1 min read"
+    [(ngModel)]="header"
+  ></textarea>
+</div>
+<div>
+    <textarea
+    cdkTextareaAutosize
+    placeholder="Enter content in markdown"
+    (keyup)="onValueChanged($event)"
+  ></textarea>
 </div>
 <h1 [innerHtml]="title"></h1>
 <div [innerHtml]="parsedString"></div>

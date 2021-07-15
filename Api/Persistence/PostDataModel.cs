@@ -9,4 +9,8 @@ public class PostDataModel
     public string Content { get; set; }
 
     public string Summary { get; set; }
+
+    public string Header { get; set; }
+
+    public DateTime Date { get; set; }
 }

@@ -1,17 +1,17 @@
-<mat-card class="flex-item" (click)="openPostDetails()">
-  <mat-card-header
-    >{{ postCardModel.header }}
+<mat-card class="flex-item">
+  <mat-card-header (click)="openPostDetails()">
+    {{ postCardModel.header }}
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{ postCardModel.title }}</mat-card-title>
-    <mat-card-subtitle>{{ postCardModel.subtitle }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ postCardModel.date | date: 'longDate' }}</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content (click)="openPostDetails()">
     <p>
       {{ postCardModel.summary }}
     </p>
   </mat-card-content>
-  <mat-card-actions>
+  <!-- <mat-card-actions>
     <button mat-button>LIKE</button>
     <button mat-button>SHARE</button>
-  </mat-card-actions>
+  </mat-card-actions> -->
 </mat-card>

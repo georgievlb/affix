@@ -47,7 +47,12 @@ namespace Affix.Controllers
         {
             var newPost = new PostDataModel
             {
-                Id = post.Id, Title = post.Title, Content = post.Content, Summary = post.Summary
+                Id = post.Id, 
+                Title = post.Title, 
+                Content = post.Content,
+                Summary = post.Summary,
+                Header = post.Header,
+                Date = DateTime.UtcNow
             };
             await context.Posts.AddAsync(newPost);
             await context.SaveChangesAsync();

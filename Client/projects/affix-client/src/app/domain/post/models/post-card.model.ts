@@ -4,14 +4,14 @@ export class PostCardModel {
     public id: string = '';
     public header: string = '';
     public title: string = '';
-    public subtitle: string = '';
+    public date: Date = new Date();
     public summary: string = '';
 
-    constructor(id: string, header: string, title: string, subtitle: string, summary: string) {
+    constructor(id: string, header: string, title: string, date: Date, summary: string) {
         this.id = id;
         this.header = header;
         this.title = title;
-        this.subtitle = subtitle;
+        this.date = date;
         this.summary = summary;
     }
 }

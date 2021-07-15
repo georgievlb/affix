@@ -19,3 +19,8 @@
     0 1px 3px 0 $lightblue;
   cursor: pointer;
 }
+
+.example-header-image {
+  background-image: url("../../../../assets/c-sharp.png");
+  background-size: cover;
+}
