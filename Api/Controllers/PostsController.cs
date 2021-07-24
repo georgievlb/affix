@@ -2,11 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Affix.Models;
+using Affix.Persistence.DataModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Afix.Persistence;
 
 namespace Affix.Controllers
 {
+#if !Debug
+    [Authorize]
+#endif
     [ApiController]
     [Route("[controller]")]
     public class PostsController : ControllerBase

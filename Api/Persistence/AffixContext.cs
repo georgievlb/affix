@@ -1,38 +1,41 @@
+using Affix.Persistence.DataModels;
 using Microsoft.EntityFrameworkCore;
-using System;
 
-public class AffixContext : DbContext
+namespace Afix.Persistence
 {
-    public DbSet<PostDataModel> Posts { get; set; }
-
-    public AffixContext(DbContextOptions<AffixContext> options)
-        : base(options)
-    {}
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public class AffixContext : DbContext
     {
-        modelBuilder.Entity<PostDataModel>()
-            .HasKey(p => p.Id)
-            .HasName("PrimaryKey_Id");
+        public DbSet<PostDataModel> Posts { get; set; }
 
-        modelBuilder.Entity<PostDataModel>()
-            .Property(x => x.Id)
-            .ValueGeneratedOnAdd();
+        public AffixContext(DbContextOptions<AffixContext> options)
+            : base(options)
+        { }
 
-        modelBuilder.Entity<PostDataModel>()
-            .Property(x => x.Content)
-            .IsRequired();
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PostDataModel>()
+                .HasKey(p => p.Id)
+                .HasName("PrimaryKey_Id");
 
-        modelBuilder.Entity<PostDataModel>()
-            .Property(x => x.Summary)
-            .IsRequired();
+            modelBuilder.Entity<PostDataModel>()
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<PostDataModel>()
-            .Property(x => x.Header)
-            .IsRequired();
+            modelBuilder.Entity<PostDataModel>()
+                .Property(x => x.Content)
+                .IsRequired();
 
-        modelBuilder.Entity<PostDataModel>()
-            .Property(x => x.Date)
-            .IsRequired();
+            modelBuilder.Entity<PostDataModel>()
+                .Property(x => x.Summary)
+                .IsRequired();
+
+            modelBuilder.Entity<PostDataModel>()
+                .Property(x => x.Header)
+                .IsRequired();
+
+            modelBuilder.Entity<PostDataModel>()
+                .Property(x => x.Date)
+                .IsRequired();
+        }
     }
 }
