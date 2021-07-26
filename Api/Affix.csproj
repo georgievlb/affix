@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <SpaRoot>ClientApp\</SpaRoot>
+    <SpaRoot>..\Client\</SpaRoot>
     <SpaProxyServerUrl>https://localhost:5002</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
   </PropertyGroup>

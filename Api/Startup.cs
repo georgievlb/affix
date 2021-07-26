@@ -34,7 +34,7 @@ namespace Affix
                 options.AddPolicy("localhost",
                   builder =>
                   {
-                      builder.WithOrigins("http://localhost:4200")
+                      builder.WithOrigins("https://localhost:5002")
                       .WithMethods("PUT", "GET")
                       .WithHeaders(HeaderNames.ContentType);
                   });

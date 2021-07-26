@@ -10,9 +10,17 @@ export class NavMenuComponent implements OnInit {
 
   constructor() { }
 
-  public toggleSidenav: EventEmitter<void> = new EventEmitter<void>();
-
   ngOnInit(): void {
+  }
+
+  isExpanded = false;
+
+  collapse() {
+    this.isExpanded = false;
+  }
+
+  toggle() {
+    this.isExpanded = !this.isExpanded;
   }
 
 }

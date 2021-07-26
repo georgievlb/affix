@@ -20,6 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "progress": false,
             "outputPath": "dist/affix-client",
             "index": "projects/affix-client/src/index.html",
             "main": "projects/affix-client/src/main.ts",
@@ -32,7 +33,8 @@
             ],
             "styles": [
               "projects/affix-client/src/theme.scss",
-              "projects/affix-client/src/styles.scss"
+              "projects/affix-client/src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []
           },
@@ -76,7 +78,8 @@
               "browserTarget": "affix-client:build:production"
             },
             "development": {
-              "browserTarget": "affix-client:build:development"
+              "browserTarget": "affix-client:build:development",
+              "proxyConfig": "proxy.conf.js"
             }
           },
           "defaultConfiguration": "development"
@@ -100,10 +103,35 @@
               "projects/affix-client/src/assets"
             ],
             "styles": [
-              "projects/affix-client/src/theme.scss",
-              "projects/affix-client/src/styles.scss"
+              "src/styles.css"
             ],
             "scripts": []
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "projects/affix-client/dist-server",
+            "main": "projects/affix-client/src/main.ts",
+            "tsConfig": "projects/affix-client/tsconfig.server.json"
+          },
+          "configurations": {
+            "dev": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": true
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false
+            }
           }
         }
       }

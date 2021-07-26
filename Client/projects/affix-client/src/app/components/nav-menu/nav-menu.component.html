@@ -1,21 +1,46 @@
-<nav>
-  <section>
-    <article>
-      <ul class="flex-container">
-        <li class="flex-item">
-          <button mat-button color="primary" routerLink="/" routerLinkActive="active">Home</button>
-        </li>
-        <li class="flex-item">
-          <button mat-button color="primary">Posts</button>
-        </li>
-        <li class="flex-item">
-          <button mat-button color="primary">Projects</button>
-        </li>
-        <li class="flex-item">
-          <button mat-button color="primary">About</button>
-        </li>
-      </ul>
-    </article>
-    <span class="subtitle"> Nav menu that servers as a header </span>
-  </section>
-</nav>
+<header>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <section>
+      <article>
+        <div class="flex-container">
+          <a class="navbar-brand" [routerLink]="['/']">Affix</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target=".navbar-collapse"
+            aria-label="Toggle navigation"
+            [attr.aria-expanded]="isExpanded"
+            (click)="toggle()">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
+            [ngClass]="{ show: isExpanded }">
+            <ul class="navbar-nav flex-grow">
+              <li class="flex-item"
+                  routerLink="/"
+                  routerLinkActive="active">
+                <button mat-button color="primary">
+                  Home
+                </button>
+              </li>
+
+              <li class="flex-item">
+                <button mat-button color="primary">Posts</button>
+              </li>
+              <li class="flex-item">
+                <button mat-button color="primary">Projects</button>
+              </li>
+              <li class="flex-item">
+                <button mat-button color="primary">About</button>
+              </li>
+            </ul>
+            <app-login-menu></app-login-menu>
+          </div>
+        </div>
+      </article>
+      <span class="subtitle"> Nav menu that servers as a header </span>
+    </section>
+  </nav>
+</header>

@@ -11,9 +11,6 @@ using Afix.Persistence;
 
 namespace Affix.Controllers
 {
-#if !Debug
-    [Authorize]
-#endif
     [ApiController]
     [Route("[controller]")]
     public class PostsController : ControllerBase
@@ -49,6 +46,7 @@ namespace Affix.Controllers
             return Ok(await context.Posts.ToListAsync());
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {
