@@ -1,15 +1,59 @@
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
+@import "../../../variables.scss";
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
+nav {
+  & ul.flex-container {
+    padding-left: 0;
+    justify-content: center;
+
+    & .flex-item {
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: bold;
+      line-height: 2em;
+      margin: 0.25em;
+      padding: 0.25em;
+
+      & button {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .subtitle {
+    text-align: center;
+    display: block;
   }
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+mat-icon {
+  cursor: pointer;
+  float: right;
+}
+
+mat-icon.hidden {
+  display: none;
+}
+
+article.hidden {
+  transition: max-height 0.75s ease-out;
+  overflow: hidden;
+  max-height: 0;
+
+}
+
+article.visible {
+  transition: max-height 0.75s ease-in;
+  overflow: hidden;
+  max-height: 250px; // TODO: increment this value if more items are added in the nav menu
+}
+
+@media screen and (max-width: 44em) {
+  button {
+    width: 15em;
+  }
+
+  mat-icon.visible {
+    color: #ff9000;
+  }
+
 }

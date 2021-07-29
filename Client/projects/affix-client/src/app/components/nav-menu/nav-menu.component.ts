@@ -1,5 +1,7 @@
-import { EventEmitter } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
+
+const SMALL_WIDTH_BREAKPOINT = 44;
 
 @Component({
   selector: 'app-nav-menu',
@@ -8,19 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavMenuComponent implements OnInit {
 
-  constructor() { }
+  public isScreenSmall: boolean;
+  public isCollapsed = true;
+
+  constructor(private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit(): void {
-  }
-
-  isExpanded = false;
-
-  collapse() {
-    this.isExpanded = false;
+    this.breakpointObserver
+      .observe([`(max-width: ${SMALL_WIDTH_BREAKPOINT}em)`])
+      .subscribe((state: BreakpointState) => {
+        this.isScreenSmall = state.matches;
+      });
   }
 
   toggle() {
-    this.isExpanded = !this.isExpanded;
+    // this.isExpanded = !this.isExpanded;
+    this.isCollapsed = !this.isCollapsed;
   }
 
 }

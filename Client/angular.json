@@ -33,8 +33,7 @@
             ],
             "styles": [
               "projects/affix-client/src/theme.scss",
-              "projects/affix-client/src/styles.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "projects/affix-client/src/styles.scss"
             ],
             "scripts": []
           },
@@ -103,7 +102,8 @@
               "projects/affix-client/src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "projects/affix-client/src/theme.scss",
+              "projects/affix-client/src/styles.scss"
             ],
             "scripts": []
           }

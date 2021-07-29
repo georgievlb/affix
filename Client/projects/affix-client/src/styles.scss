@@ -1,32 +1,23 @@
 @import "./variables.scss";
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+html {
+  box-sizing: border-box;
 }
-
-code {
-  color: #e01a76;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-
-
 
 html,
 body {
   height: 100%;
-  margin: 0.25em;
-  padding: 0.25em;
+  margin-bottom: 0.25em;
+  margin-top: 0.25em;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: $softgray;
+
   & .flex-container {
     display: flex;
     flex-flow: row wrap;
+    justify-content: center;
+    align-content: stretch;
+
     & .flex-item {
       list-style: none;
     }

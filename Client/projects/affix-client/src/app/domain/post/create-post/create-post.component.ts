@@ -19,12 +19,12 @@ export class CreatePostComponent implements OnInit {
 
   createPost():void {
     const body =
-    {
-      title : this.title,
-      content : this.parsedString,
-      summary: this.summary,
-      header: this.header
-    };
+      {
+        title : this.title,
+        content : this.parsedString,
+        summary: this.summary,
+        header: this.header
+      };
     this.httpClient.put('https://localhost:5001/posts', body)
       .subscribe(data => console.log(data));
   }

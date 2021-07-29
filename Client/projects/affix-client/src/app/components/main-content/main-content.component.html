@@ -1,5 +1,3 @@
-<!-- <app-view-post-card [postTitle]="posts[0].title" [postContent]="posts[0].content"></app-view-post-card> -->
-
-<div class="flex-container" fxLayout.xs="column">
-  <app-view-post-card *ngFor="let card of postCards" [postCardModel]="card"></app-view-post-card>
+<div class="flex-container">
+  <app-view-post-card *ngFor="let card of postCards" [postCardModel]="card" class="flex-item"></app-view-post-card>
 </div>

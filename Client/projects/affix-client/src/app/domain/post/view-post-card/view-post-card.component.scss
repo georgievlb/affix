@@ -1,22 +1,14 @@
 @import "../../../../variables.scss";
 
-.flex-item {
-  margin: 5px;
-  min-width: 40%;
-  // width: 50%;
-  // height: 150px;
-  // margin-top: 55px;
-
-  // background: cornflowerblue;
-  // color: white;
-  // font-weight: bold;
-  // font-size: 3em;
-  // text-align: center;
-  // line-height: 150px;
+.post-card {
+  max-width: 338px;
+  min-height: 180px;
+  margin: 0.5em;
 }
+
 .mat-card:hover {
   box-shadow: 0 2px 1px -1px $lightblue, 0 1px 1px 0 $lightblue,
-    0 1px 3px 0 $lightblue;
+  0 1px 3px 0 $lightblue;
   cursor: pointer;
 }
 
