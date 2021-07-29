@@ -11,6 +11,7 @@ using Afix.Persistence;
 
 namespace Affix.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class PostsController : ControllerBase
@@ -22,6 +23,7 @@ namespace Affix.Controllers
             this.context = context;
         }
 
+        [AllowAnonymous]
         [Route("{id?}")]
         [HttpGet]
         public async Task<ActionResult<PostModel>> GetByIdAsync(Guid id)
@@ -40,13 +42,13 @@ namespace Affix.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostModel>>> GetAllAsync()
         {
             return Ok(await context.Posts.ToListAsync());
         }
-
-        [Authorize]
+        
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {

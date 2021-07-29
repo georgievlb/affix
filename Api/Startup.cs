@@ -36,7 +36,7 @@ namespace Affix
                   {
                       builder.WithOrigins("https://localhost:5002")
                       .WithMethods("PUT", "GET")
-                      .WithHeaders(HeaderNames.ContentType);
+                      .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
                   });
             });
 
@@ -48,8 +48,8 @@ namespace Affix
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, AffixIdentityContext>()
-                .AddDeveloperSigningCredential();
+                .AddApiAuthorization<ApplicationUser, AffixIdentityContext>();
+                // .AddDeveloperSigningCredential();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
