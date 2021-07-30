@@ -1,8 +1,16 @@
 <nav>
   <section>
     <article>
-      <mat-icon *ngIf="isScreenSmall" (click)="toggle()" [ngClass]="isCollapsed ? 'visible': 'hidden'">menu</mat-icon>
-      <mat-icon *ngIf="isScreenSmall" (click)="toggle()" [ngClass]="isCollapsed ? 'hidden': 'visible'">menu_open</mat-icon>
+      <ul class="flex-container header-container">
+        <li class="flex-item logo header-item">Affix</li>
+        <li class="flex-item header-item">
+          <mat-icon *ngIf="isScreenSmall" (click)="toggle()" [ngClass]="isCollapsed ? 'visible': 'hidden'">menu</mat-icon>
+          <mat-icon *ngIf="isScreenSmall" (click)="toggle()" [ngClass]="isCollapsed ? 'hidden': 'visible'">menu_open</mat-icon>
+        </li>
+      </ul>
+<!--      <span class="logo">Affix</span>-->
+<!--      <mat-icon *ngIf="isScreenSmall" (click)="toggle()" [ngClass]="isCollapsed ? 'visible': 'hidden'">menu</mat-icon>-->
+<!--      <mat-icon *ngIf="isScreenSmall" (click)="toggle()" [ngClass]="isCollapsed ? 'hidden': 'visible'">menu_open</mat-icon>-->
     </article>
     <article [ngClass]="!isCollapsed || !isScreenSmall ? 'visible' : 'hidden'">
       <ul class="flex-container">
@@ -22,9 +30,9 @@
     </article>
     <section>
       <article>
-        <div class="subtitle"> Nav menu that servers as a header
-        <app-login-menu></app-login-menu>
-        </div>
+        <h2 class="subtitle"> Nav menu that servers as a header
+<!--        <app-login-menu></app-login-menu>-->
+        </h2>
       </article>
     </section>
   </section>

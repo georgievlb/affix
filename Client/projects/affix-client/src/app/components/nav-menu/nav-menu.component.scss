@@ -1,11 +1,17 @@
 @import "../../../variables.scss";
 
 nav {
+  & ul.flex-container.header-container {
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+
   & ul.flex-container {
+    margin-top: 0;
     padding-left: 0;
     justify-content: center;
 
-    & .flex-item {
+    & li.flex-item {
       text-align: center;
       font-size: 1.1em;
       font-weight: bold;
@@ -21,8 +27,15 @@ nav {
 
   .subtitle {
     text-align: center;
-    display: block;
+    //display: block;
   }
+}
+
+span.logo {
+  //padding: 3em;
+  font-weight: bold;
+  font-size: 1.5em;
+  font-family: 'Montserrat', sans-serif;
 }
 
 mat-icon {
@@ -55,5 +68,9 @@ article.visible {
   mat-icon.visible {
     color: #ff9000;
   }
+
+}
+
+.header-item {
 
 }
