@@ -4,13 +4,30 @@ nav {
   & ul.flex-container.header-container {
     justify-content: space-between;
     margin-bottom: 0;
+    //flex-flow: row-reverse;
+    & .flex-item.header-item.logo { // TODO: extract common CSS
+      color: $lightblue;
+      line-height: inherit;
+      font-weight: bold;
+      font-size: 2em;
+      font-family: 'Montserrat', sans-serif;
+      & .hidden{
+        display: none;
+      }
+    }
   }
 
   & ul.flex-container {
     margin-top: 0;
     padding-left: 0;
     justify-content: center;
-
+    & .flex-item.header-item.logo { // TODO: extract common CSS
+      color: $lightblue;
+      line-height: inherit;
+      font-weight: bold;
+      font-size: 2em;
+      font-family: 'Montserrat', sans-serif;
+    }
     & li.flex-item {
       text-align: center;
       font-size: 1.1em;
@@ -31,31 +48,25 @@ nav {
   }
 }
 
-span.logo {
-  //padding: 3em;
-  font-weight: bold;
-  font-size: 1.5em;
-  font-family: 'Montserrat', sans-serif;
-}
-
 mat-icon {
   cursor: pointer;
   float: right;
+  font-size: 2em;
 }
 
 mat-icon.hidden {
   display: none;
 }
 
-article.hidden {
-  transition: max-height 0.75s ease-out;
+ul.hidden {
+  transition: max-height 0.4s ease-out;
   overflow: hidden;
   max-height: 0;
 
 }
 
-article.visible {
-  transition: max-height 0.75s ease-in;
+ul.visible {
+  transition: max-height 0.4s ease-in;
   overflow: hidden;
   max-height: 250px; // TODO: increment this value if more items are added in the nav menu
 }
@@ -72,5 +83,4 @@ article.visible {
 }
 
 .header-item {
-
 }
