@@ -1,32 +1,70 @@
-<div id="markdown-editor">
-  <textarea
-    cdkTextareaAutosize
-    placeholder="Enter title in plain text"
-    [(ngModel)]="title"
-  ></textarea>
-</div>
 <div>
-    <textarea
-    cdkTextareaAutosize
-    placeholder="Enter summary in plain text"
-    [(ngModel)]="summary"
-  ></textarea>
+  <div class='row'>
+    <div class='column'>
+      <div>
+        <div>
+          <strong>Title:</strong>
+        </div>
+        <div id="markdown-editor">
+            <textarea cdkTextareaAutosize
+                      rows="3"
+                      cols="80"
+                      placeholder="Enter title in plain text"
+                      [(ngModel)]="title"
+                      [ngClass]="validateInput(title) === true ? 'valid' : 'invalid'">
+            </textarea>
+        </div>
+          <div>
+            <div><strong>Header:</strong></div>
+            <textarea cdkTextareaAutosize
+                      rows="3"
+                      cols="80"
+                      placeholder="Enter header e.g. 1 min read"
+                      [(ngModel)]="header"
+                      [ngClass]="validateInput(header) === true ? 'valid' : 'invalid'">
+            </textarea>
+          </div>
+        <div>
+          <div><strong>Summary:</strong></div>
+          <textarea cdkTextareaAutosize
+                    rows="3"
+                    cols="80"
+                    placeholder="Enter summary in plain text"
+                    [(ngModel)]="summary"
+                    [ngClass]="validateInput(summary) === true ? 'valid' : 'invalid'">
+              </textarea>
+        </div>
+      </div>
+      <div>
+        <strong>Content in Markdown:</strong>
+      </div>
+      <div>
+          <textarea cdkTextareaAutosize
+                    rows="20"
+                    cols="80"
+                    placeholder="Enter content in markdown"
+                    (keyup)="onValueChanged($event)"
+                    [ngClass]="validateInput(parsedString) === true ? 'valid' : 'invalid'">
+          </textarea>
+      </div>
+    </div>
+    <div class='column'>
+      <div><strong>Title:</strong></div>
+      <div>
+        <h1 [innerHtml]="title"></h1>
+      </div>
+      <div><strong>Header:</strong></div>
+        <div>
+          {{ header }}
+        </div>
+      <div><strong>Summary:</strong></div>
+      <div>
+        {{ summary }}
+      </div>
+      <div><strong>Parsed Markdown</strong></div>
+      <div [innerHtml]="parsedString"></div>
+    </div>
+  </div>
 </div>
-<div>
-    <textarea
-    cdkTextareaAutosize
-    placeholder="Enter header e.g. 1 min read"
-    [(ngModel)]="header"
-  ></textarea>
-</div>
-<div>
-    <textarea
-    cdkTextareaAutosize
-    placeholder="Enter content in markdown"
-    (keyup)="onValueChanged($event)"
-  ></textarea>
-</div>
-<h1 [innerHtml]="title"></h1>
-<div [innerHtml]="parsedString"></div>
 
-<button mat-button (click)="createPost()">Create Post</button>
+<button mat-button (click)="createPost()" [disabled]="!validatePost()">Create Post</button>

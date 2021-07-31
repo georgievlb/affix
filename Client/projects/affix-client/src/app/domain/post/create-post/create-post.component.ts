@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 import * as marked from 'marked';
-import * as Oidc from 'oidc-client';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthorizeService } from "../../../../api-authorization/authorize.service";
 
@@ -12,26 +12,12 @@ import { AuthorizeService } from "../../../../api-authorization/authorize.servic
 })
 export class CreatePostComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient, private authorizeService: AuthorizeService) { }
+  constructor(private httpClient: HttpClient, private authorizeService: AuthorizeService, private router: Router) { }
 
   public title: string = '';
   public summary: string = '';
   public header: string = '';
-  public parsedString: string = 'Parsed Markdown';
-
-  public config = {
-    authority: "https://localhost:5001",
-    client_id: "js",
-    redirect_uri: "https://localhost:5003/callback.html",
-    response_type: "code",
-    scope:"openid profile api1",
-    post_logout_redirect_uri : "https://localhost:5003/index.html",
-  };
-
-  public mgr = new Oidc.UserManager(this.config);
-
-  public userToken: any;
-
+  public parsedString: string = '';
 
   createPost():void {
     this.authorizeService.getAccessToken()
@@ -48,7 +34,7 @@ export class CreatePostComponent implements OnInit {
           };
 
         this.httpClient.put('https://localhost:5001/posts', body, { 'headers': headers })
-          .subscribe(data => console.log(data));
+          .subscribe((data: any) => this.router.navigate([`/posts/${data.id}`]));
       });
   }
 
@@ -61,11 +47,15 @@ export class CreatePostComponent implements OnInit {
     return marked.parser(marked.lexer(value));
   }
 
-  private setToken(token: any) {
-    this.userToken = token;
+  validateInput(input: string): boolean {
+    return !!input;
+  }
+
+  validatePost(): boolean {
+    const postFields = [ this.title, this.summary, this.header, this.parsedString ];
+    return postFields.every(p => !!p);
   }
 
   ngOnInit(): void {
-
   }
 }
