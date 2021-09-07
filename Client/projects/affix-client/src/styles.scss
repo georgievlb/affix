@@ -1,24 +1,35 @@
 @import "./variables.scss";
 
-html {
-  box-sizing: border-box;
+* {
+    box-sizing: border-box;
 }
 
 html,
 body {
   height: 100%;
-  margin-bottom: 0.25em;
-  margin-top: 0.25em;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-  & .flex-container {
+body {
+  margin: 0;
+  /*border: 2px solid $black;*/
+}
+main {
+    /*margin: 0 40px;*/
+    border: solid 2px $blue;
+}
+
+/*.flex-container {
     display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-content: stretch;
+    flex-flow: column wrap;
+    justify-content: center;*/
+  /*align-content: stretch;*/
+/*}*/
 
-    & .flex-item {
-      list-style: none;
-    }
-  }
+.flex-item {
+  /*list-style: none;*/
+}
+
+mat-icon {
+  cursor: pointer;
 }

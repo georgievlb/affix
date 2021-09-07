@@ -1,86 +1,87 @@
 @import "../../../variables.scss";
 
-nav {
-  & ul.flex-container.header-container {
-    justify-content: space-between;
-    margin-bottom: 0;
-    //flex-flow: row-reverse;
-    & .flex-item.header-item.logo { // TODO: extract common CSS
-      color: $lightblue;
-      line-height: inherit;
-      font-weight: bold;
-      font-size: 2em;
-      font-family: 'Montserrat', sans-serif;
-      & .hidden{
-        display: none;
-      }
-    }
-  }
+@mixin ul-display-flex() {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
 
-  & ul.flex-container {
-    margin-top: 0;
-    padding-left: 0;
-    justify-content: center;
-    & .flex-item.header-item.logo { // TODO: extract common CSS
-      color: $lightblue;
-      line-height: inherit;
-      font-weight: bold;
-      font-size: 2em;
-      font-family: 'Montserrat', sans-serif;
-    }
-    & li.flex-item {
-      text-align: center;
-      font-size: 1.1em;
-      font-weight: bold;
-      line-height: 2em;
-      margin: 0.25em;
-      padding: 0.25em;
-
-      & button {
-        font-size: 20px;
-      }
-    }
-  }
-
-  .subtitle {
-    text-align: center;
-    //display: block;
-  }
+#main-nav-small {
+  display: none; // fixes flickering when resizing the window
+  max-height: 0;
+  margin: 0;
 }
 
 mat-icon {
-  cursor: pointer;
-  float: right;
-  font-size: 2em;
+  /*display: none; // fixes flickering when resizing the window*/
 }
+
+.main-nav {
+
+  .main-nav-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .main-nav-list {
+    @include ul-display-flex();
+    justify-content: center;
+    flex: 3;
+    flex-wrap: wrap;
+    margin: 0;
+
+    .flex-item {
+      margin: 0 16px;
+    }
+  }
+
+  #brand-name {
+    font-weight: bold;
+    flex: 1;
+  }
+
+  #brand-name2 {
+    font-weight: bold;
+    flex: 1;
+    text-align: right;
+  }
+
+  mat-icon {
+    flex: 1;
+    text-align: right;
+  }
+}
+
 
 mat-icon.hidden {
   display: none;
 }
 
-ul.hidden {
-  transition: max-height 0.4s ease-out;
-  overflow: hidden;
-  max-height: 0;
-
-}
-
-ul.visible {
-  transition: max-height 0.4s ease-in;
-  overflow: hidden;
-  max-height: 250px; // TODO: increment this value if more items are added in the nav menu
-}
 
 @media screen and (max-width: 44em) {
-  button {
-    width: 15em;
+  #main-nav-large {
+    display: none;
+  }
+
+  #main-nav-small {
+    @include ul-display-flex();
+    flex-direction: column;
+    align-items: flex-end;
+
+    &.hidden {
+      transition: max-height 0.4s ease-out;
+      overflow: hidden;
+      max-height: 0;
+    }
+
+    &.visible {
+      transition: max-height 0.4s ease-in;
+      overflow: hidden;
+      max-height: 150px; // TODO: increment this value if more items are added in the nav menu*/
+    }
   }
 
   mat-icon.visible {
-    color: #ff9000;
+    color: $orange;
   }
-
-}
-
-.header-item {
 }

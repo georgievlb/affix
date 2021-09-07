@@ -1,0 +1,26 @@
+.main-content {
+    /*padding: 0 100px;*/
+}
+
+.main-content-header {
+    background: #808080;
+    height: 300px;
+}
+
+.main-content-section {
+    display: flex;
+    flex-flow: row wrap;
+    max-width: 1040px;
+    margin: 10px auto;
+
+    .flex-item {
+        display: flex;
+        justify-content: center;
+        /*border: solid 2px #ae3131;*/
+        /*flex: 1 1 30rem;*/
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 30rem;
+        margin: 10px auto;
+    }
+}

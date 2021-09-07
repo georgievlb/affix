@@ -1,21 +1,27 @@
 @import "../../../variables.scss";
 
-footer {
-  position: relative;
-  margin-left: 0%;
-  height: 200px;
-  background-image: linear-gradient($white, $lightblue);
-  flex-shrink: 0;
-  & ul.flex-container {
-    padding: 0;
-    justify-content: center;
-    position: relative;
-    flex-shrink: 0;
-    & .flex-item {
-      margin: 0;
-      width: 10%;
-    }
-  }
+//footer {
+//  position: relative;
+//  margin-left: 0%;
+//  height: 200px;
+//  background-image: linear-gradient($white, $lightblue);
+//  flex-shrink: 0;
+//  & ul.flex-container {
+//    padding: 0;
+//    justify-content: center;
+//    position: relative;
+//    flex-shrink: 0;
+//    & .flex-item {
+//      margin: 0;
+//      width: 10%;
+//    }
+//  }
+//}
+
+.main-footer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 svg {
@@ -33,3 +39,46 @@ svg:hover {
 svg:hover > path {
   fill: $orange;
 }
+
+footer {
+  background: $softgray;
+  box-shadow: whitesmoke;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  padding: 0;
+}
+
+ul.flex-container .flex-item {
+  font-size: 5px;
+  width: 5em;
+  padding: 0;
+}
+
+ul.flex-container .footer-link {
+  margin: 0 10px;
+}
+
+.date-stamp {
+  align-self: flex-end;
+}
+
+
+/*footer {
+  background-color: $softgray;
+  box-shadow: whitesmoke;
+  & ul.flex-container {
+    & .flex-item {
+      font-size: 5px;
+      width: 5em;
+    }
+    & .footer-link {
+      margin: 0 10px;
+      padding: 0;
+    }
+  }
+}
+*/
