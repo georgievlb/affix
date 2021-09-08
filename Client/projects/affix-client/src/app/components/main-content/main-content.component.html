@@ -1,5 +1,9 @@
 <header class="main-content-header">
 </header>
 <section class="main-content-section">
-  <app-view-post-card *ngFor="let card of postCards" [postCardModel]="card" class="flex-item"></app-view-post-card>
+  <app-view-post-card *ngFor="let card of currentSetOfPostCards" [postCardModel]="card" class="flex-item"></app-view-post-card>
 </section>
+<mat-paginator [length]="allPostCards.length"
+               [pageSize]="5"
+               (page)="printEvent($event)">
+</mat-paginator>

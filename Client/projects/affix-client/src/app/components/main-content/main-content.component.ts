@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { PostCardModel } from '../../domain/post/models/post-card.model';
 
 @Component({
@@ -11,13 +12,33 @@ export class MainContentComponent implements OnInit {
 
   constructor(private httpClient: HttpClient) { }
 
-  public postCards: PostCardModel[] = [];
+  pageEvent: PageEvent = new PageEvent();
+
+  public allPostCards: PostCardModel[] = [];
+  public currentSetOfPostCards: PostCardModel[] = [];
+  public currentPageIndex = 0;
 
   ngOnInit(): void {
     this.httpClient.get('https://localhost:5001/posts')
       .subscribe((data: any) => {
-        this.postCards = data;
+        this.allPostCards = data;
+        this.currentSetOfPostCards = this.allPostCards.slice(5 * this.currentPageIndex, 5 * this.currentPageIndex + 5);
       });
+  }
+
+
+  printEvent(event: any) {
+    if (!this.pageEvent.pageIndex)
+      this.pageEvent.pageIndex = 0;
+
+    if (this.pageEvent.pageIndex < event.pageIndex) {
+      console.log('next');
+    } else {
+      console.log('previous');
+    }
+    this.pageEvent = event;
+    this.currentPageIndex = event.pageIndex;
+    this.currentSetOfPostCards = this.allPostCards.slice(5 * this.currentPageIndex, 5 * this.currentPageIndex + 5);
   }
 
   public sampleId: string = 'MyId';

@@ -24,3 +24,22 @@
         margin: 10px auto;
     }
 }
+
+::ng-deep .mat-paginator-range-actions {
+   width: 100%;
+   justify-content: space-between;
+}
+
+::ng-deep .mat-paginator-page-size,
+::ng-deep .mat-paginator-page-size-label,
+::ng-deep .mat-paginator-page-size-value {
+  display: none;
+}
+
+::ng-deep .mat-paginator-range-label {
+  order: 3;
+}
+
+::ng-deep .mat-paginator-navigation-next {
+  order: 3;
+}
