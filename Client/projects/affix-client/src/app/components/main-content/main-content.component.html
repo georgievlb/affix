@@ -1,9 +1,12 @@
 <header class="main-content-header">
 </header>
 <section class="main-content-section">
-  <app-view-post-card *ngFor="let card of currentSetOfPostCards" [postCardModel]="card" class="flex-item"></app-view-post-card>
+  <app-view-post-card *ngFor="let card of currentSetOfPostCards$ | async" [postCardModel]="card" class="flex-item"></app-view-post-card>
 </section>
-<mat-paginator [length]="allPostCards.length"
+
+<mat-paginator [length]="postsCount$ | async"
                [pageSize]="5"
-               (page)="printEvent($event)">
+               (page)="onPageChanged($event)"
+               [pageIndex]="currentPageIndex"
+               hidePageSize="true">
 </mat-paginator>

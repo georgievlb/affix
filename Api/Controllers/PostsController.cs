@@ -44,9 +44,12 @@ namespace Affix.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostModel>>> GetAllAsync()
+        public async Task<ActionResult<Tuple<IEnumerable<PostModel>, int>>> GetAllAsync(int skip = 0, int take = 0)
         {
-            return Ok(await context.Posts.ToListAsync());
+            var posts = await context.Posts.Skip(skip).Take(take).ToListAsync();
+            var result = new Tuple<List<PostDataModel>, int>(posts, context.Posts.Count());
+
+            return Ok(result);
         }
         
         [HttpPut]

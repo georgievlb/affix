@@ -1,55 +1,62 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { PostCardModel } from '../../domain/post/models/post-card.model';
+import { PostService } from '../../domain/post/services/post.service';
 
 @Component({
   selector: 'app-main-content',
   templateUrl: './main-content.component.html',
   styleUrls: ['./main-content.component.scss']
 })
-export class MainContentComponent implements OnInit {
+export class MainContentComponent implements OnInit, AfterViewInit {
 
-  constructor(private httpClient: HttpClient) { }
+  public readonly numberOfItemsPerPage = 5;
+  public currentSetOfPostCards$: Observable<PostCardModel[]>;
+  public postsCount$: Observable<number>;
+  public currentPageIndex: number;
 
-  pageEvent: PageEvent = new PageEvent();
+  constructor(private postService: PostService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
-  public allPostCards: PostCardModel[] = [];
-  public currentSetOfPostCards: PostCardModel[] = [];
-  public currentPageIndex = 0;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
-    this.httpClient.get('https://localhost:5001/posts')
-      .subscribe((data: any) => {
-        this.allPostCards = data;
-        this.currentSetOfPostCards = this.allPostCards.slice(5 * this.currentPageIndex, 5 * this.currentPageIndex + 5);
+    this.currentSetOfPostCards$ = this.postService.getNextPostCardsPage();
+    this.postsCount$ = this.postService.getPostsCount();
+    const routeParam: any = this.route.snapshot.paramMap.get('number');
+    this.currentPageIndex = Number.parseInt(routeParam);    
+
+    if (this.currentPageIndex > 0) {
+      this.navigateToPage();
+      this.router.navigate(['/page/' + this.currentPageIndex]);
+    }
+  }
+
+  ngAfterViewInit() {
+    this.paginator.pageIndex = this.currentPageIndex,
+      this.paginator.page.next({
+        pageIndex: this.currentPageIndex,
+        pageSize: this.paginator.pageSize,
+        length: this.paginator.length
       });
   }
 
 
-  printEvent(event: any) {
-    if (!this.pageEvent.pageIndex)
-      this.pageEvent.pageIndex = 0;
-
-    if (this.pageEvent.pageIndex < event.pageIndex) {
-      console.log('next');
-    } else {
-      console.log('previous');
-    }
-    this.pageEvent = event;
+  // TODO: fix the following issues
+  // 1. Navigate pages using 1-based index
+  // 2. When navigating on home page, don't route /page/NaN
+  // 3. When navigating from /page/2 to /page/1 no content is loaded
+  onPageChanged(event: any) {
     this.currentPageIndex = event.pageIndex;
-    this.currentSetOfPostCards = this.allPostCards.slice(5 * this.currentPageIndex, 5 * this.currentPageIndex + 5);
+    this.navigateToPage();
   }
 
-  public sampleId: string = 'MyId';
-  public sampleHeader: string = 'My Header';
-  public sampleTitle: string = 'My Title';
-  public sampleDate: Date = new Date();
-  public sampleSummary: string = "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.";
-  public postCardModel: PostCardModel = new PostCardModel(
-    this.sampleId,
-    this.sampleHeader,
-    this.sampleTitle,
-    this.sampleDate,
-    this.sampleSummary);
+  navigateToPage() {
+    this.currentSetOfPostCards$ = this.postService.getNextPostCardsPage(this.numberOfItemsPerPage * this.currentPageIndex, this.numberOfItemsPerPage);
+    this.router.navigate(['/page/' + this.currentPageIndex]);
+  }
+
 }
