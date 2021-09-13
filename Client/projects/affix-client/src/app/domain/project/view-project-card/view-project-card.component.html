@@ -1,0 +1,39 @@
+<mat-card class="project-card">
+  <!--<mat-card-header (click)="openPostDetails()">-->
+  <mat-card-header>
+    {{ projectCardModel.header }}
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ projectCardModel.title }}</mat-card-title>
+    <mat-card-subtitle>{{ projectCardModel.date | date: 'longDate' }}</mat-card-subtitle>
+  </mat-card-header>
+  <div class="project-card-slider">
+    <ul class="project-card-slider slides">
+      <li #slide1 id="slide-1">
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      </li>
+      <li #slide2 id="slide-2">
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      </li>
+      <li #slide3 id="slide-3">
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      </li>
+      <li #slide4 id="slide-4">
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      </li>
+      <li #slide5 id="slide-5">
+        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+      </li>
+    </ul>
+  </div>
+  <!--<mat-card-content (click)="openPostDetails()">  -->
+  <mat-card-content class="project-card-content">
+    <p>
+      {{ projectCardModel.summary }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button>LIKE</button>
+    <button mat-button>PIN</button>
+    <button mat-button>SHARE</button>
+  </mat-card-actions>
+</mat-card>

@@ -33,3 +33,8 @@ main {
 mat-icon {
   cursor: pointer;
 }
+
+pre {
+  border-left: solid 5px $orange;
+  background: #f4f5f6;
+}
