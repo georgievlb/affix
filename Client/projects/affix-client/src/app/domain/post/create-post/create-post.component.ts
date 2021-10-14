@@ -56,6 +56,18 @@ export class CreatePostComponent implements OnInit {
     return postFields.every(p => !!p);
   }
 
+  previewPost(): void {
+
+  }
+
+  saveDraft(): void {
+
+  }
+
+  cancel() {
+    this.router.navigate(['/admin']);
+  }
+
   ngOnInit(): void {
   }
 }

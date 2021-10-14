@@ -1,70 +1,153 @@
 <div>
   <div class='row'>
     <div class='column'>
-      <div>
-        <div>
-          <strong>Title:</strong>
-        </div>
-        <div id="markdown-editor">
-            <textarea cdkTextareaAutosize
-                      rows="3"
-                      cols="80"
-                      placeholder="Enter title in plain text"
-                      [(ngModel)]="title"
-                      [ngClass]="validateInput(title) === true ? 'valid' : 'invalid'">
-            </textarea>
-        </div>
-          <div>
-            <div><strong>Header:</strong></div>
-            <textarea cdkTextareaAutosize
-                      rows="3"
-                      cols="80"
-                      placeholder="Enter header e.g. 1 min read"
-                      [(ngModel)]="header"
-                      [ngClass]="validateInput(header) === true ? 'valid' : 'invalid'">
-            </textarea>
-          </div>
-        <div>
-          <div><strong>Summary:</strong></div>
-          <textarea cdkTextareaAutosize
-                    rows="3"
-                    cols="80"
-                    placeholder="Enter summary in plain text"
-                    [(ngModel)]="summary"
-                    [ngClass]="validateInput(summary) === true ? 'valid' : 'invalid'">
-              </textarea>
-        </div>
+      <div class="editor-section">
+        <strong>Title:</strong>
       </div>
-      <div>
+      <mat-divider></mat-divider>
+      <div class="editor-section">
+        <textarea matInput
+                  cdkTextareaAutosize
+                  rows="3"
+                  cols="80"
+                  placeholder="Enter title in plain text"
+                  [(ngModel)]="title"
+                  [ngClass]="validateInput(title) === true ? 'valid' : 'invalid'">
+        </textarea>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="editor-section">
+        <strong>Header:</strong>
+      </div>
+      <div class="editor-section">
+        <textarea matInput
+                  cdkTextareaAutosize
+                  rows="3"
+                  cols="80"
+                  placeholder="Enter header e.g. 1 min read"
+                  [(ngModel)]="header"
+                  [ngClass]="validateInput(header) === true ? 'valid' : 'invalid'">
+            </textarea>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="editor-section">
+        <strong>Summary:</strong>
+      </div>
+      <div class="editor-section">
+        <textarea matInput
+                  cdkTextareaAutosize
+                  rows="3"
+                  cols="80"
+                  placeholder="Enter summary in plain text"
+                  [(ngModel)]="summary"
+                  [ngClass]="validateInput(summary) === true ? 'valid' : 'invalid'">
+            </textarea>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="editor-section">
         <strong>Content in Markdown:</strong>
       </div>
-      <div>
-          <textarea cdkTextareaAutosize
-                    rows="20"
-                    cols="80"
-                    placeholder="Enter content in markdown"
-                    (keyup)="onValueChanged($event)"
-                    [ngClass]="validateInput(parsedString) === true ? 'valid' : 'invalid'">
+      <mat-divider></mat-divider>
+      <div class="editor-section">
+        <textarea matInput
+                  cdkTextareaAutosize
+                  rows="20"
+                  cols="80"
+                  placeholder="Enter content in markdown"
+                  (keyup)="onValueChanged($event)"
+                  [ngClass]="validateInput(parsedString) === true ? 'valid' : 'invalid'">
           </textarea>
       </div>
+      <mat-divider></mat-divider>
     </div>
     <div class='column'>
-      <div><strong>Title:</strong></div>
-      <div>
+      <div class="editor-section">
+        <strong>Title:</strong>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="editor-field-container">
         <h1 [innerHtml]="title"></h1>
       </div>
-      <div><strong>Header:</strong></div>
-        <div>
-          {{ header }}
-        </div>
-      <div><strong>Summary:</strong></div>
-      <div>
+      <mat-divider></mat-divider>
+      <div class="editor-section">
+        <strong>Header:</strong>
+      </div>
+      <div class="editor-field-container">
+        {{ header }}
+      </div>
+      <mat-divider></mat-divider>
+      <div class="editor-section">
+        <strong>Summary:</strong>
+      </div>
+      <div class="editor-field-container">
         {{ summary }}
       </div>
-      <div><strong>Parsed Markdown</strong></div>
-      <div [innerHtml]="parsedString"></div>
+      <mat-divider></mat-divider>
+      <div class="editor-section"><strong>Parsed Markdown</strong></div>
+      <mat-divider></mat-divider>
+      <div [innerHtml]="parsedString" class="editor-field-markdown-container"></div>
+      <mat-divider></mat-divider>
     </div>
   </div>
 </div>
 
 <button mat-button (click)="createPost()" [disabled]="!validatePost()">Create Post</button>
+<button mat-button (click)="previewPost()" [disabled]="!validatePost()">Preview Post</button>
+<button mat-button (click)="saveDraft()">Save draft</button>
+<button mat-button (click)="cancel()">Cancel</button>
+
+<!--<div class="container">
+  <div class="editor-section2">
+    <strong>Title:</strong>
+    <textarea matInput
+              cdkTextareaAutosize
+              rows="3"
+              cols="80"
+              placeholder="Enter title in plain text"
+              [(ngModel)]="title"
+              [ngClass]="validateInput(title) === true ? 'valid' : 'invalid'">
+    </textarea>
+  </div>
+  <div class="editor-preview">
+    <strong>Title:</strong>
+    <h1 [innerHtml]="title"></h1>
+  </div>
+</div>
+<div class="container">
+  <div class="editor-section2">
+    <strong>Header:</strong>
+    <textarea matInput
+              cdkTextareaAutosize
+              rows="3"
+              cols="80"
+              placeholder="Enter header e.g. 1 min read"
+              [(ngModel)]="header"
+              [ngClass]="validateInput(header) === true ? 'valid' : 'invalid'">
+    </textarea>
+  </div>
+  <div class="editor-preview">
+    <strong>Header:</strong>
+    <div>
+      {{ header }}
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="editor-section2">
+    <strong>Summary:</strong>
+    <textarea matInput
+              cdkTextareaAutosize
+              rows="3"
+              cols="80"
+              placeholder="Enter summary in plain text"
+              [(ngModel)]="summary"
+              [ngClass]="validateInput(summary) === true ? 'valid' : 'invalid'">
+    </textarea>
+  </div>
+  <div class="editor-preview">
+    <strong>Summary:</strong>
+    <div>
+      {{ summary }}
+    </div>
+  </div>
+</div>-->

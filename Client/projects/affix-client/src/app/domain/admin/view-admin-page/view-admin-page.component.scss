@@ -1,0 +1,13 @@
+@import "../../../../variables.scss";
+
+.view-admin-page-container {
+  margin: 20px 5px;
+
+  .expansion-panel:focus-within {
+    box-shadow: 0 2px 1px -1px $lightblue, 0 1px 1px 0 $lightblue, 0 1px 3px 0 $lightblue;
+    cursor: pointer;
+  }
+  .expansion-panel-description {
+      justify-content: flex-end;
+  }
+}
