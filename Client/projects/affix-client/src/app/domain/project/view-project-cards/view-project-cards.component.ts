@@ -10,33 +10,33 @@ export class ViewProjectCardsComponent implements OnInit {
 
   public currentSetOfProjectCards: ProjectCardModel[] = [
     {
-      id: 'MyId',
+      id: 'MyId0',
       header: 'My Header',
-      title: 'My Title',
+      title: 'My Title 1',
       date: new Date(),
       summary: "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting."
 
     },
     {
-      id: 'MyId',
+      id: 'MyId1',
       header: 'My Header',
-      title: 'My Title',
+      title: 'My Title 2',
       date: new Date(),
       summary: "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting."
 
     },
     {
-      id: 'MyId',
+      id: 'MyId2',
       header: 'My Header',
-      title: 'My Title',
+      title: 'My Title 3',
       date: new Date(),
       summary: "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting."
 
     },
     {
-      id: 'MyId',
+      id: 'MyId3',
       header: 'My Header',
-      title: 'My Title',
+      title: 'My Title 4',
       date: new Date(),
       summary: "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting."
 

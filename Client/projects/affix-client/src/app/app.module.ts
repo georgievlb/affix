@@ -31,7 +31,7 @@ import { ViewProjectCardsComponent } from './domain/project/view-project-cards/v
     ViewPostCardComponent,
     CreatePostComponent,
     ViewPostDetailsComponent,
-    ViewAdminPageComponent
+    ViewAdminPageComponent,
     ViewPostDetailsComponent,
     ViewProjectCardComponent,
     ViewProjectCardsComponent
