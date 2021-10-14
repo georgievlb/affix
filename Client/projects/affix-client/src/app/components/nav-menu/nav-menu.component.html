@@ -20,8 +20,12 @@
       <li class="flex-item">
         <button mat-button color="primary">Subscribe</button>
       </li>
+      <li class="flex-item" *ngIf="this.isUserLoggedIn">
+        <button id="admin-button" mat-button color="primary" routerLink="/admin">Admin Area</button>
+      </li>
     </ul>
-    <a id="brand-name2" class="flex-item header-item logo" *ngIf="!isScreenSmall">Affix</a>
+    <span id="brand-name2" class="flex-item header-item logo" *ngIf="!isScreenSmall">Welcome to Affix<a id="profile-page" *ngIf="this.isUserLoggedIn" href="/Identity/Account/Manage">, {{ this.userName }}</a>!
+    </span>
   </section>
   <ul id="main-nav-small" *ngIf="isScreenSmall" [ngClass]="isCollapsed ? 'hidden' : 'visible'">
     <li class="flex-item">
@@ -38,6 +42,9 @@
     </li>
     <li class="flex-item">
       <button mat-button color="primary">Subscribe</button>
+    </li>
+    <li class="flex-item" *ngIf="this.isUserLoggedIn">
+      <button id="admin-button" mat-button color="primary" routerLink="/admin">Admin Area</button>
     </li>
   </ul>
 </nav>

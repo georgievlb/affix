@@ -1,3 +1,5 @@
+@import "../../../../variables.scss";
+
 .row {
   display: flex;
   flex-direction: row;
@@ -11,6 +13,38 @@
   flex: 1;
 }
 
+.editor-section:focus-visible {
+  border: none;
+}
+
+.editor-section {
+  margin: 10px;
+}
+
+.editor-field-container {
+  min-height: 52.5521px;
+  margin: 10px;
+}
+
+.editor-field-markdown-container {
+  min-height: 316.545px;
+  margin: 10px;
+}
+
 .invalid {
-  border: 5px solid red;
+  border: 0.5px solid $tomato;
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.editor-section2 {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin: 10px;
 }

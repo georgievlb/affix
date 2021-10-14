@@ -4,12 +4,14 @@ import { MainContentComponent } from './components/main-content/main-content.com
 import { CreatePostComponent } from './domain/post/create-post/create-post.component';
 import { ViewPostDetailsComponent } from './domain/post/view-post-details/view-post-details.component';
 import { AuthorizeGuard } from "../api-authorization/authorize.guard";
+import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
 import { ViewProjectCardsComponent } from './domain/project/view-project-cards/view-project-cards.component';
 
 const routes: Routes = [
   { path: 'posts/create', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
   { path: 'posts/:id', component: ViewPostDetailsComponent },
   { path: 'page/:number', component: MainContentComponent },
+  { path: 'admin', component: ViewAdminPageComponent, canActivate: [AuthorizeGuard] },
   { path: 'projects', component: ViewProjectCardsComponent },
   { path: '', component: MainContentComponent, pathMatch: 'full' }
 ];

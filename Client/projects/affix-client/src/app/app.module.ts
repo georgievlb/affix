@@ -17,6 +17,7 @@ import { ViewPostDetailsComponent } from './domain/post/view-post-details/view-p
 
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
 import { ViewProjectCardComponent } from './domain/project/view-project-card/view-project-card.component';
 import { ViewProjectCardsComponent } from './domain/project/view-project-cards/view-project-cards.component';
 
@@ -29,6 +30,8 @@ import { ViewProjectCardsComponent } from './domain/project/view-project-cards/v
     FooterComponent,
     ViewPostCardComponent,
     CreatePostComponent,
+    ViewPostDetailsComponent,
+    ViewAdminPageComponent
     ViewPostDetailsComponent,
     ViewProjectCardComponent,
     ViewProjectCardsComponent

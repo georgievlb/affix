@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
 
 const SMALL_WIDTH_BREAKPOINT = 44;
@@ -14,6 +14,12 @@ export class NavMenuComponent implements OnInit {
   public isCollapsed = true;
 
   constructor(private breakpointObserver: BreakpointObserver) { }
+
+  @Input()
+  public isUserLoggedIn: boolean;
+
+  @Input()
+  public userName: string | undefined;
 
   ngOnInit(): void {
     this.breakpointObserver

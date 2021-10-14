@@ -35,6 +35,11 @@ mat-icon {
     }
   }
 
+  #admin-button {
+    color: $lightblue;
+    font-weight: bold;
+  }
+
   #brand-name {
     font-weight: bold;
     flex: 1;
@@ -46,6 +51,10 @@ mat-icon {
     flex: 1;
     text-align: right;
     padding-right: 20px;
+  }
+
+  #profile-page {
+      text-decoration: none;
   }
 
   mat-icon {
@@ -80,7 +89,7 @@ mat-icon.hidden {
     &.visible {
       transition: max-height 0.4s ease-in;
       overflow: hidden;
-      max-height: 150px; // TODO: increment this value if more items are added in the nav menu*/
+      max-height: 220px; // TODO: increment this value if more items are added in the nav menu*/
     }
   }
 
