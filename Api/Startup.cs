@@ -70,7 +70,7 @@ namespace Affix
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, AffixIdentityContext>();
 
-             services.AddAuthentication()
+            services.AddAuthentication()
                 .AddIdentityServerJwt();
 
             services.AddControllers(); // TODO: Delete this
