@@ -60,9 +60,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="affixis.pfx">
+    <Content Include="affixis.pfx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
