@@ -19,7 +19,7 @@ namespace Affix.Areas.Identity
             {
                 services.AddDbContext<AffixIdentityContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("DefaultConnection")));
+                        context.Configuration.GetConnectionString("AffixIdentityDb")));
 
                 services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<AffixIdentityContext>();

@@ -400,3 +400,8 @@ testem.log
 Thumbs.db
 .vscode/launch.json
 .vscode/tasks.json
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

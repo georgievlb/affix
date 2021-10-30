@@ -21,7 +21,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "progress": false,
-            "outputPath": "dist/affix-client",
+            "outputPath": "dist",
             "index": "projects/affix-client/src/index.html",
             "main": "projects/affix-client/src/main.ts",
             "polyfills": "projects/affix-client/src/polyfills.ts",
@@ -42,8 +42,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1000kb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -65,10 +65,24 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/affix-client/src/environments/environment.ts",
+                  "with": "projects/affix-client/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "local"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -79,9 +93,13 @@
             "development": {
               "browserTarget": "affix-client:build:development",
               "proxyConfig": "proxy.conf.js"
+            },
+            "local": {
+              "browserTarget": "affix-client:build:local",
+              "proxyConfig": "proxy.conf.js"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "local"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -111,7 +129,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "projects/affix-client/dist-server",
+            "outputPath": "dist",
             "main": "projects/affix-client/src/main.ts",
             "tsConfig": "projects/affix-client/tsconfig.server.json"
           },
@@ -119,18 +137,16 @@
             "dev": {
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": true,
               "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": true
+              "extractLicenses": true
             },
             "production": {
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false
+              "extractLicenses": true
             }
           }
         }
