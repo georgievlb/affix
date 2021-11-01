@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PostDetails } from '../models/post-details.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-view-post-details',
@@ -22,7 +23,7 @@ export class ViewPostDetailsComponent implements OnInit {
   public post: PostDetails = new PostDetails('', '', '');
 
   ngOnInit() {
-    this.httpClient.get(`https://localhost:5001/posts/${this.post.id}`)
+    this.httpClient.get(`https://${environment.apiUrl}:${environment.port}/posts/${this.post.id}`)
     .subscribe((data: any) => this.post = data);
   }
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { PostCardModel } from '../models/post-card.model';
+import { environment } from "../../../../environments/environment";
 
 const PostsCards: PostCardModel[] = [
   {
@@ -23,10 +24,11 @@ export class PostService implements OnDestroy {
   private readonly posts$$: BehaviorSubject<PostCardModel[]> = new BehaviorSubject<PostCardModel[]>(PostsCards);
   private readonly postsCount$$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   private readonly currentPageIndex$$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private readonly postsUrl = `https://${environment.apiUrl}:${environment.port}/posts`;
 
   constructor(private httpClient: HttpClient) {
     this.subscription.add(
-      this.httpClient.get('https://localhost:5001/posts')
+      this.httpClient.get(this.postsUrl)
         .subscribe((postCards: any) => {
           this.posts$$.next(postCards[0]);
           this.postsCount$$.next(postCards[1]);
@@ -35,7 +37,7 @@ export class PostService implements OnDestroy {
   }
 
   getNextPostCardsPage(skip: number = 0, take: number = 5): Observable<PostCardModel[]>{
-    this.httpClient.get(`https://localhost:5001/posts?skip=${skip}&take=${take}`)
+    this.httpClient.get(`${this.postsUrl}?skip=${skip}&take=${take}`)
       .subscribe((postCards: any) => {
         this.posts$$.next(postCards.item1);
         this.postsCount$$.next(postCards.item2);

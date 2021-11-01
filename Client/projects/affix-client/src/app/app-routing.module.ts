@@ -7,7 +7,7 @@ import { AuthorizeGuard } from "../api-authorization/authorize.guard";
 import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
 
 const routes: Routes = [
-  { path: 'posts/create', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
+  { path: 'post/create', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
   { path: 'posts/:id', component: ViewPostDetailsComponent },
   { path: 'page/:number', component: MainContentComponent },
   { path: 'admin', component: ViewAdminPageComponent, canActivate: [AuthorizeGuard] },

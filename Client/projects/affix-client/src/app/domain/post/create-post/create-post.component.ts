@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import * as marked from 'marked';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthorizeService } from "../../../../api-authorization/authorize.service";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: 'app-create-post',
@@ -33,7 +34,7 @@ export class CreatePostComponent implements OnInit {
             header: this.header
           };
 
-        this.httpClient.put('https://localhost:5001/posts', body, { 'headers': headers })
+        this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/posts`, body, { 'headers': headers })
           .subscribe((data: any) => this.router.navigate([`/posts/${data.id}`]));
       });
   }
