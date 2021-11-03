@@ -79,7 +79,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/affix-client/src/environments/environment.ts",
+                  "with": "projects/affix-client/src/environments/environment.local.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "local"
