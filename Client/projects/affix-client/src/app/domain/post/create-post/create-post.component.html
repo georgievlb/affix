@@ -1,6 +1,8 @@
 <div>
   <div class='row'>
+    <!-- Column 1 -->
     <div class='column'>
+      <!-- Title -->
       <div class="editor-section">
         <strong>Title:</strong>
       </div>
@@ -16,6 +18,22 @@
         </textarea>
       </div>
       <mat-divider></mat-divider>
+      <!-- Moniker -->
+      <div class="editor-section">
+        <strong>Moniker:</strong>
+      </div>
+      <div class="editor-section">
+        <textarea matInput
+                  cdkTextareaAutosize
+                  rows="3"
+                  cols="80"
+                  placeholder="Enter title in plain text"
+                  [(ngModel)]="moniker"
+                  [ngClass]="validateInput(title) === true ? 'valid' : 'invalid'">
+        </textarea>
+      </div>
+      <mat-divider></mat-divider>
+      <!-- Header -->
       <div class="editor-section">
         <strong>Header:</strong>
       </div>
@@ -27,9 +45,10 @@
                   placeholder="Enter header e.g. 1 min read"
                   [(ngModel)]="header"
                   [ngClass]="validateInput(header) === true ? 'valid' : 'invalid'">
-            </textarea>
+        </textarea>
       </div>
       <mat-divider></mat-divider>
+      <!-- Summary -->
       <div class="editor-section">
         <strong>Summary:</strong>
       </div>
@@ -41,9 +60,41 @@
                   placeholder="Enter summary in plain text"
                   [(ngModel)]="summary"
                   [ngClass]="validateInput(summary) === true ? 'valid' : 'invalid'">
-            </textarea>
+        </textarea>
       </div>
       <mat-divider></mat-divider>
+      <!-- Image -->
+      <div class="editor-section">
+        <strong>Image:</strong>
+      </div>
+      <div class="editor-section image-upload">
+        <input type="file" class="file-input"
+               (change)="onFileSelected($event)" #fileUpload>
+        <div class="file-upload">
+          {{ fileName || "No file uploaded yet." }}
+          <button mat-mini-fab color="primary" class="upload-btn"
+                  (click)="fileUpload.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <!-- ImageAltText -->
+      <div class="editor-section">
+        <strong>Image Alt Text:</strong>
+      </div>
+      <div class="editor-section">
+        <textarea matInput
+                  cdkTextareaAutosize
+                  rows="3"
+                  cols="80"
+                  placeholder="Enter image alt text"
+                  [(ngModel)]="imageAltText"
+                  [ngClass]="validateInput(summary) === true ? 'valid' : 'invalid'">
+        </textarea>
+      </div>
+      <mat-divider></mat-divider>
+      <!-- Content in Markdown -->
       <div class="editor-section">
         <strong>Content in Markdown:</strong>
       </div>
@@ -60,7 +111,9 @@
       </div>
       <mat-divider></mat-divider>
     </div>
+    <!-- Column 2 -->
     <div class='column'>
+      <!-- Title Preview -->
       <div class="editor-section">
         <strong>Title:</strong>
       </div>
@@ -69,6 +122,15 @@
         <h1 [innerHtml]="title"></h1>
       </div>
       <mat-divider></mat-divider>
+      <!-- Moniker Preview -->
+      <div class="editor-section">
+        <strong>Moniker:</strong>
+      </div>
+      <div class="editor-field-container">
+        {{ moniker }}
+      </div>
+      <mat-divider></mat-divider>
+      <!-- Header Preview -->
       <div class="editor-section">
         <strong>Header:</strong>
       </div>
@@ -76,6 +138,7 @@
         {{ header }}
       </div>
       <mat-divider></mat-divider>
+      <!-- Summary Preview -->
       <div class="editor-section">
         <strong>Summary:</strong>
       </div>
@@ -83,6 +146,23 @@
         {{ summary }}
       </div>
       <mat-divider></mat-divider>
+      <!-- Image Preview -->
+      <div class="editor-section">
+        <strong>Image:</strong>
+      </div>
+      <div class="editor-section image-upload">
+        <img *ngIf="imageId !== '' && imageSrc !== ''" [src]="imageSrc " [alt]="imageAltText" width="auto" height="100%">
+      </div>
+      <mat-divider></mat-divider>
+      <!-- Image Alt Text Preview -->
+      <div class="editor-section">
+        <strong>Image Alt Text:</strong>
+      </div>
+      <div class="editor-field-container">
+        {{ imageAltText }}
+      </div>
+      <mat-divider></mat-divider>
+      <!-- Parsed Markdown Preview -->
       <div class="editor-section"><strong>Parsed Markdown</strong></div>
       <mat-divider></mat-divider>
       <div [innerHtml]="parsedString" class="editor-field-markdown-container"></div>
@@ -92,62 +172,7 @@
 </div>
 
 <button mat-button (click)="createPost()" [disabled]="!validatePost()">Create Post</button>
-<button mat-button (click)="previewPost()" [disabled]="!validatePost()">Preview Post</button>
+<button mat-button (click)="previewPostCard()" [disabled]="!validatePost()">Preview Post Card</button>
+<button mat-button (click)="previewPostDetails()" [disabled]="!validatePost()">Preview Post Details</button>
 <button mat-button (click)="saveDraft()">Save draft</button>
 <button mat-button (click)="cancel()">Cancel</button>
-
-<!--<div class="container">
-  <div class="editor-section2">
-    <strong>Title:</strong>
-    <textarea matInput
-              cdkTextareaAutosize
-              rows="3"
-              cols="80"
-              placeholder="Enter title in plain text"
-              [(ngModel)]="title"
-              [ngClass]="validateInput(title) === true ? 'valid' : 'invalid'">
-    </textarea>
-  </div>
-  <div class="editor-preview">
-    <strong>Title:</strong>
-    <h1 [innerHtml]="title"></h1>
-  </div>
-</div>
-<div class="container">
-  <div class="editor-section2">
-    <strong>Header:</strong>
-    <textarea matInput
-              cdkTextareaAutosize
-              rows="3"
-              cols="80"
-              placeholder="Enter header e.g. 1 min read"
-              [(ngModel)]="header"
-              [ngClass]="validateInput(header) === true ? 'valid' : 'invalid'">
-    </textarea>
-  </div>
-  <div class="editor-preview">
-    <strong>Header:</strong>
-    <div>
-      {{ header }}
-    </div>
-  </div>
-</div>
-<div class="container">
-  <div class="editor-section2">
-    <strong>Summary:</strong>
-    <textarea matInput
-              cdkTextareaAutosize
-              rows="3"
-              cols="80"
-              placeholder="Enter summary in plain text"
-              [(ngModel)]="summary"
-              [ngClass]="validateInput(summary) === true ? 'valid' : 'invalid'">
-    </textarea>
-  </div>
-  <div class="editor-preview">
-    <strong>Summary:</strong>
-    <div>
-      {{ summary }}
-    </div>
-  </div>
-</div>-->

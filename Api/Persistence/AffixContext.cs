@@ -7,6 +7,8 @@ namespace Afix.Persistence
     {
         public DbSet<PostDataModel> Posts { get; set; }
 
+        public DbSet<ScoreDataModel> Scores { get; set; }
+
         public AffixContext(DbContextOptions<AffixContext> options)
             : base(options)
         { }
@@ -27,15 +29,58 @@ namespace Afix.Persistence
 
             modelBuilder.Entity<PostDataModel>()
                 .Property(x => x.Summary)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(500);
 
             modelBuilder.Entity<PostDataModel>()
                 .Property(x => x.Header)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(20);
 
             modelBuilder.Entity<PostDataModel>()
                 .Property(x => x.Date)
                 .IsRequired();
+
+            modelBuilder.Entity<PostDataModel>()
+                .Property(x => x.Title)
+                .IsRequired()
+                .HasMaxLength(150);
+
+            modelBuilder.Entity<PostDataModel>()
+                .Property(x => x.Moniker)
+                .IsRequired()
+                .HasMaxLength(150);
+
+            modelBuilder.Entity<PostDataModel>()
+                .HasIndex(x => x.Moniker)
+                .IsUnique();
+
+            modelBuilder.Entity<PostDataModel>()
+                .Property(p => p.ImageId);
+
+            modelBuilder.Entity<PostDataModel>()
+                .Property(p => p.ImageAltText);
+
+            modelBuilder.Entity<PostDataModel>()
+                .Property(p => p.IsDraft);
+
+            modelBuilder.Entity<ScoreDataModel>()
+                .HasKey(s => s.Id);
+
+            modelBuilder.Entity<ScoreDataModel>()
+                .Property(s => s.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<PostDataModel>()
+                .HasOne(p => p.Score)
+                .WithOne(s => s.Post)
+                .HasForeignKey<ScoreDataModel>(s => s.PostId);
+
+            modelBuilder.Entity<ScoreDataModel>()
+                .Property(x => x.Likes);
+
+            modelBuilder.Entity<ScoreDataModel>()
+                .Property(x => x.Shares);
         }
     }
 }

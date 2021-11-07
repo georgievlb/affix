@@ -27,7 +27,7 @@ export class MainContentComponent implements OnInit, AfterViewInit {
     this.currentSetOfPostCards$ = this.postService.getNextPostCardsPage();
     this.postsCount$ = this.postService.getPostsCount();
     const routeParam: any = this.route.snapshot.paramMap.get('number');
-    this.currentPageIndex = Number.parseInt(routeParam);    
+    this.currentPageIndex = Number.parseInt(routeParam);
 
     if (this.currentPageIndex > 0) {
       this.navigateToPage();
