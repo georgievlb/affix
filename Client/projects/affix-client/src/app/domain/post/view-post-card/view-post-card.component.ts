@@ -18,7 +18,7 @@ export class ViewPostCardComponent implements OnInit {
   }
 
   openPostDetails(): void {
-    this.router.navigate(['/posts/'+ this.postCardModel.id]);
+    this.router.navigate(['/posts/'+ this.postCardModel.moniker]);
   }
 
 }

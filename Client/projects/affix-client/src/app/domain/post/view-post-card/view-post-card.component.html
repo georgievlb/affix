@@ -1,11 +1,11 @@
-<mat-card class="post-card">
+<mat-card class="post-card" [ngClass]="postCardModel.index === 0 ? 'first-post-card' : 'not-first-post-card'">
   <mat-card-header (click)="openPostDetails()">
     {{ postCardModel.header }}
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{ postCardModel.title }}</mat-card-title>
     <mat-card-subtitle>{{ postCardModel.date | date: 'longDate' }}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <img mat-card-image [src]="postCardModel.imageSrc" [alt]="postCardModel.imageAltText">
   <mat-card-content (click)="openPostDetails()">
     <p>
       {{ postCardModel.summary }}

@@ -10,8 +10,12 @@ const PostsCards: PostCardModel[] = [
     header: 'My Header',
     title: 'My Title',
     date: new Date(),
-    summary: "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting."
-
+    summary: "My Summary",
+    moniker: 'my-moniker',
+    imageId: 'my-image-id',
+    imageSrc: '',
+    index: 0,
+    imageAltText: 'My Image Alt Text'
   }
 ];
 
@@ -39,6 +43,11 @@ export class PostService implements OnDestroy {
   getNextPostCardsPage(skip: number = 0, take: number = 5): Observable<PostCardModel[]>{
     this.httpClient.get(`${this.postsUrl}?skip=${skip}&take=${take}`)
       .subscribe((postCards: any) => {
+        postCards.item1.map((p: PostCardModel) => {
+          p.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
+          p.index = postCards.item1.indexOf(p);
+          console.log('ImageAltText:', p.imageAltText);
+        });
         this.posts$$.next(postCards.item1);
         this.postsCount$$.next(postCards.item2);
       })

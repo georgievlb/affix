@@ -21,13 +21,21 @@
   margin: 10px;
 }
 
+.editor-section {
+  margin: 10px;
+}
+
+.image-upload {
+  height: 200px;
+}
+
 .editor-field-container {
-  min-height: 52.5521px;
+  min-height: 51px;
   margin: 10px;
 }
 
 .editor-field-markdown-container {
-  min-height: 316.545px;
+  min-height: 306px;
   margin: 10px;
 }
 
@@ -47,4 +55,8 @@
   flex-direction: column;
   flex-wrap: nowrap;
   margin: 10px;
+}
+
+.file-input {
+  display: none;
 }

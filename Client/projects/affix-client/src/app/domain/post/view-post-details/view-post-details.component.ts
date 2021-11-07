@@ -16,14 +16,14 @@ export class ViewPostDetailsComponent implements OnInit {
     private httpClient: HttpClient
   ) {
     this.route.params.subscribe(params => {
-      this.post.id = params['id'];
+      this.post.moniker = params['moniker'];
     });
   }
 
-  public post: PostDetails = new PostDetails('', '', '');
+  public post: PostDetails = new PostDetails('', '', '', '');
 
   ngOnInit() {
-    this.httpClient.get(`https://${environment.apiUrl}:${environment.port}/posts/${this.post.id}`)
+    this.httpClient.get(`https://${environment.apiUrl}:${environment.port}/posts/${this.post.moniker}`)
     .subscribe((data: any) => this.post = data);
   }
 

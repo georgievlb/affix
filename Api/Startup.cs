@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
+using Affix.Services;
 
 namespace Affix
 {
@@ -76,6 +77,8 @@ namespace Affix
             services.AddControllers(); // TODO: Delete this
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddScoped<IImageService, ImageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
