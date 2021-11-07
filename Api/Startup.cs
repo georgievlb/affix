@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
 using Affix.Services;
+using System.Text.Json.Serialization;
 
 namespace Affix
 {
@@ -74,8 +75,10 @@ namespace Affix
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            services.AddControllers(); // TODO: Delete this
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            });
             services.AddRazorPages();
 
             services.AddScoped<IImageService, ImageService>();
