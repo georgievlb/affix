@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  port: 5001,
+  apiUrl: "localhost",
+  bucketName: "affix-images"
 };
 
 /*

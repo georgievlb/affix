@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Afix.Persistence;
+using Affix.Services;
+using System.IO;
+using System.Net.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace Affix.Controllers
 {
@@ -17,19 +21,24 @@ namespace Affix.Controllers
     public class PostsController : ControllerBase
     {
         private readonly AffixContext context;
+        private readonly string bucketName;
+        private readonly IImageService imageService;
 
-        public PostsController(AffixContext context)
+        public PostsController(AffixContext context, IImageService imageService)
         {
             this.context = context;
+            // TODO: Put this in a config file
+            this.bucketName = "affix-images";
+            this.imageService = imageService;
         }
 
         [AllowAnonymous]
-        [Route("{id?}")]
+        [Route("{moniker?}")]
         [HttpGet]
-        public async Task<ActionResult<PostModel>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<PostModel>> GetByIdAsync(string moniker)
         {
             var result = await context.Posts
-                .Where(p => p.Id == id)
+                .Where(p => p.Moniker == moniker)
                 .FirstOrDefaultAsync();
 
             if (result == null)
@@ -46,29 +55,60 @@ namespace Affix.Controllers
         [HttpGet]
         public async Task<ActionResult<Tuple<IEnumerable<PostModel>, int>>> GetAllAsync(int skip = 0, int take = 0)
         {
-            var posts = await context.Posts.Skip(skip).Take(take).ToListAsync();
+            var posts = await context.Posts
+                .Where(p => p.IsDraft == false)
+                .OrderByDescending(p => p.Date)
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
             var result = new Tuple<List<PostDataModel>, int>(posts, context.Posts.Count());
 
             return Ok(result);
         }
-        
+
+        [AllowAnonymous]
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {
             var newPost = new PostDataModel
             {
-                Id = post.Id, 
-                Title = post.Title, 
+                Title = post.Title,
                 Content = post.Content,
                 Summary = post.Summary,
                 Header = post.Header,
-                Date = DateTime.UtcNow
+                Date = DateTime.UtcNow,
+                Moniker = post.Moniker,
+                ImageId = post.ImageId,
+                ImageAltText = post.ImageAltText,
+                IsDraft = post.IsDraft,
+                Score = new ScoreDataModel()
             };
+
             await context.Posts.AddAsync(newPost);
             await context.SaveChangesAsync();
 
-            return Created($"posts/{newPost.Id}", newPost);
+            return Created($"posts/{newPost.Moniker}", newPost);
 
+        }
+
+        [Route("image")]
+        [HttpPut]
+        public async Task<ActionResult> PutImageAsync([FromForm]IFormFile image)
+        {
+            var maximumImageSizeInBytes = 2000000;
+            var imageId = Guid.NewGuid().ToString();
+            using (var memoryStream = new MemoryStream())
+            {
+                await image.CopyToAsync(memoryStream);
+
+                if (memoryStream.Length > maximumImageSizeInBytes)
+                {
+                    return BadRequest("Maximum image size is 2 megabytes. Try an image with a smaller size.");
+                }
+                await imageService.PutImage(memoryStream, bucketName, imageId);
+            }
+
+            return Created($"posts/image/{imageId}", System.Text.Json.JsonSerializer.Serialize(imageId));
         }
     }
 }

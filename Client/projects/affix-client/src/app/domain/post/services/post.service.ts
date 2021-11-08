@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { PostCardModel } from '../models/post-card.model';
+import { environment } from "../../../../environments/environment";
 
 const PostsCards: PostCardModel[] = [
   {
@@ -9,8 +10,12 @@ const PostsCards: PostCardModel[] = [
     header: 'My Header',
     title: 'My Title',
     date: new Date(),
-    summary: "The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting."
-
+    summary: "My Summary",
+    moniker: 'my-moniker',
+    imageId: 'my-image-id',
+    imageSrc: '',
+    index: 0,
+    imageAltText: 'My Image Alt Text'
   }
 ];
 
@@ -23,10 +28,11 @@ export class PostService implements OnDestroy {
   private readonly posts$$: BehaviorSubject<PostCardModel[]> = new BehaviorSubject<PostCardModel[]>(PostsCards);
   private readonly postsCount$$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   private readonly currentPageIndex$$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private readonly postsUrl = `https://${environment.apiUrl}:${environment.port}/posts`;
 
   constructor(private httpClient: HttpClient) {
     this.subscription.add(
-      this.httpClient.get('https://localhost:5001/posts')
+      this.httpClient.get(this.postsUrl)
         .subscribe((postCards: any) => {
           this.posts$$.next(postCards[0]);
           this.postsCount$$.next(postCards[1]);
@@ -35,8 +41,13 @@ export class PostService implements OnDestroy {
   }
 
   getNextPostCardsPage(skip: number = 0, take: number = 5): Observable<PostCardModel[]>{
-    this.httpClient.get(`https://localhost:5001/posts?skip=${skip}&take=${take}`)
+    this.httpClient.get(`${this.postsUrl}?skip=${skip}&take=${take}`)
       .subscribe((postCards: any) => {
+        postCards.item1.map((p: PostCardModel) => {
+          p.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
+          p.index = postCards.item1.indexOf(p);
+          console.log('ImageAltText:', p.imageAltText);
+        });
         this.posts$$.next(postCards.item1);
         this.postsCount$$.next(postCards.item2);
       })

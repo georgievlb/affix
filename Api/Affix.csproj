@@ -1,14 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <SpaRoot>..\Client\</SpaRoot>
     <SpaProxyServerUrl>https://localhost:5002</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+    <Configurations>Debug;Release;Local</Configurations>
+    <!--TODO: Research if this is how the server side renderer is configured-->
+    <!--<BuildServerSideRenderer>True</BuildServerSideRenderer>-->
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.3.23" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="6.0.0-preview.6.21355.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0-preview.6.21355.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0-preview.6.21355.2" />
@@ -18,20 +23,47 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-preview.6.21352.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-preview.6.21352.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.6.21352.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0-preview.6.21362.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0-rc.2.21511.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove=".ebextensions\nginx\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove=".ebextensions\nginx\**" />
+    <EmbeddedResource Remove=".ebextensions\nginx\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove=".ebextensions\nginx\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Persistence\Migrations\" />
     <Folder Include="Persistence\Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".ebextensions\https-instance-single.config" />
+    <None Include=".ebextensions\https-instance.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".ebextensions\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".platform\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="affixis.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
@@ -47,7 +79,9 @@
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" Condition="'$(Configuration)' == 'Local'" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:dev" Condition="'$(Configuration)' == 'Debug'" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:prod" Condition="'$(Configuration)' == 'Release'" />
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>

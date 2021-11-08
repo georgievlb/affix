@@ -8,8 +8,8 @@ import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admi
 import { ViewProjectCardsComponent } from './domain/project/view-project-cards/view-project-cards.component';
 
 const routes: Routes = [
-  { path: 'posts/create', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
-  { path: 'posts/:id', component: ViewPostDetailsComponent },
+  { path: 'post/create', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
+  { path: 'posts/:moniker', component: ViewPostDetailsComponent },
   { path: 'page/:number', component: MainContentComponent },
   { path: 'admin', component: ViewAdminPageComponent, canActivate: [AuthorizeGuard] },
   { path: 'projects', component: ViewProjectCardsComponent },

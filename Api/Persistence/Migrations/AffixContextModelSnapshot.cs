@@ -34,19 +34,84 @@ namespace Affix.Persistence.Migrations
 
                     b.Property<string>("Header")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("Summary")
+                    b.Property<string>("ImageAltText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDraft")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Moniker")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<Guid>("ScoreId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id")
                         .HasName("PrimaryKey_Id");
 
+                    b.HasIndex("Moniker")
+                        .IsUnique();
+
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Affix.Persistence.DataModels.ScoreDataModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Shares")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId")
+                        .IsUnique();
+
+                    b.ToTable("Scores");
+                });
+
+            modelBuilder.Entity("Affix.Persistence.DataModels.ScoreDataModel", b =>
+                {
+                    b.HasOne("Affix.Persistence.DataModels.PostDataModel", "Post")
+                        .WithOne("Score")
+                        .HasForeignKey("Affix.Persistence.DataModels.ScoreDataModel", "PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Affix.Persistence.DataModels.PostDataModel", b =>
+                {
+                    b.Navigation("Score")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
