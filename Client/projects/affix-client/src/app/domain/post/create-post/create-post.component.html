@@ -172,7 +172,7 @@
 </div>
 
 <button mat-button (click)="createPost()" [disabled]="!validatePost()">Create Post</button>
-<button mat-button (click)="previewPostCard()" [disabled]="!validatePost()">Preview Post Card</button>
+<button mat-button (click)="previewPostCard(moniker)" [disabled]="!validatePost()">Preview Post Card</button>
 <button mat-button (click)="previewPostDetails()" [disabled]="!validatePost()">Preview Post Details</button>
-<button mat-button (click)="saveDraft()">Save draft</button>
+<button mat-button (click)="saveDraft()" [disabled]="!validatePost()">Save draft</button>
 <button mat-button (click)="cancel()">Cancel</button>

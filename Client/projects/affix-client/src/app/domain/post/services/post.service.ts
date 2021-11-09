@@ -6,7 +6,6 @@ import { environment } from "../../../../environments/environment";
 
 const PostsCards: PostCardModel[] = [
   {
-    id: 'MyId',
     header: 'My Header',
     title: 'My Title',
     date: new Date(),
@@ -28,6 +27,7 @@ export class PostService implements OnDestroy {
   private readonly posts$$: BehaviorSubject<PostCardModel[]> = new BehaviorSubject<PostCardModel[]>(PostsCards);
   private readonly postsCount$$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   private readonly currentPageIndex$$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  private readonly postCardPreview$$: BehaviorSubject<PostCardModel> = new BehaviorSubject<PostCardModel>(PostsCards[0]);
   private readonly postsUrl = `https://${environment.apiUrl}:${environment.port}/posts`;
 
   constructor(private httpClient: HttpClient) {
@@ -65,6 +65,14 @@ export class PostService implements OnDestroy {
 
   getCurrentPageIndex(): Observable<number> {
     return this.currentPageIndex$$.asObservable();
+  }
+
+  getPostCardPreview(): Observable<PostCardModel> {
+    return this.postCardPreview$$.asObservable();
+  }
+
+  setPostCardPreview(postCard: PostCardModel): void {
+    this.postCardPreview$$.next(postCard);
   }
 
   ngOnDestroy(): void {

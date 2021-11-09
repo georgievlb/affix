@@ -5,10 +5,12 @@ import { CreatePostComponent } from './domain/post/create-post/create-post.compo
 import { ViewPostDetailsComponent } from './domain/post/view-post-details/view-post-details.component';
 import { AuthorizeGuard } from "../api-authorization/authorize.guard";
 import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
+import { PreviewPostCardComponent } from './domain/post/preview-post-card/preview-post-card.component';
 
 const routes: Routes = [
   { path: 'post/create', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
   { path: 'posts/:moniker', component: ViewPostDetailsComponent },
+  { path: 'post/preview/:moniker', component: PreviewPostCardComponent, canActivate: [AuthorizeGuard] },
   { path: 'page/:number', component: MainContentComponent },
   { path: 'admin', component: ViewAdminPageComponent, canActivate: [AuthorizeGuard] },
   { path: '', component: MainContentComponent, pathMatch: 'full' }

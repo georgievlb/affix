@@ -5,6 +5,8 @@ import * as marked from 'marked';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthorizeService } from "../../../../api-authorization/authorize.service";
 import { environment } from "../../../../environments/environment";
+import { PostCardModel } from '../models/post-card.model';
+import { PostService } from '../services/post.service';
 
 @Component({
   selector: 'app-create-post',
@@ -13,7 +15,8 @@ import { environment } from "../../../../environments/environment";
 })
 export class CreatePostComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient, private authorizeService: AuthorizeService, private router: Router) { }
+  constructor(private httpClient: HttpClient, private authorizeService: AuthorizeService, private router: Router,
+    private postService: PostService) { }
 
   public title: string = '';
   public summary: string = '';
@@ -89,8 +92,19 @@ export class CreatePostComponent implements OnInit {
       });
   }
 
-  previewPostCard(): void {
-
+  previewPostCard(postCardMoniker: string): void {
+    const postCardPreview = new PostCardModel(
+      this.header,
+      this.title,
+      new Date(),
+      this.summary,
+      this.moniker,
+      this.imageId,
+      this.imageSrc,
+      0,
+      this.imageAltText);
+    this.postService.setPostCardPreview(postCardPreview);
+    this.router.navigate([`/post/preview/${postCardMoniker}`]);
   }
 
   previewPostDetails(): void {
