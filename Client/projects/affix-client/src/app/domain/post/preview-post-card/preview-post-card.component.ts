@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { PostCardModel } from '../models/post-card.model';
+import { PostModel } from '../models/post.model';
 import { PostService } from '../services/post.service';
 
 @Component({
@@ -12,10 +12,10 @@ export class PreviewPostCardComponent {
 
 
   @Input()
-  public postCardPreview: PostCardModel;
+  public postCardPreview: PostModel;
 
   constructor(private postService: PostService, private router: Router) {
-    this.postService.getPostCardPreview().subscribe(
+    this.postService.getPostPreview().subscribe(
       (data) => {
         this.postCardPreview = data;
       },

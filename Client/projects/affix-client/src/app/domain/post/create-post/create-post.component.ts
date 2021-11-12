@@ -5,8 +5,9 @@ import * as marked from 'marked';
 import { HttpHeaders } from '@angular/common/http';
 import { AuthorizeService } from "../../../../api-authorization/authorize.service";
 import { environment } from "../../../../environments/environment";
-import { PostCardModel } from '../models/post-card.model';
 import { PostService } from '../services/post.service';
+import { Subscription } from 'rxjs';
+import { PostModel } from '../models/post.model';
 
 @Component({
   selector: 'app-create-post',
@@ -15,18 +16,18 @@ import { PostService } from '../services/post.service';
 })
 export class CreatePostComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient, private authorizeService: AuthorizeService, private router: Router,
-    private postService: PostService) { }
+  private readonly subscription: Subscription = new Subscription();
 
-  public title: string = '';
-  public summary: string = '';
-  public header: string = '';
-  public parsedString: string = '';
+  constructor(private httpClient: HttpClient, private authorizeService: AuthorizeService, private router: Router,
+    private postService: PostService) {
+      this.subscription.add(this.postService.getPostPreview().subscribe((postPreview: PostModel)  => {
+        this.postPreview = postPreview;
+      }));
+    }
+
+  public postModel: PostModel = new PostModel('', new Date(), '', '', '', false, '', '', '', 0, '', '');
+  public postPreview: PostModel;
   public fileName = '';
-  public imageId = '';
-  public moniker = '';
-  public imageSrc = '';
-  public imageAltText = '';
 
   createPost(isDraft: boolean = false): void {
     this.authorizeService.getAccessToken()
@@ -34,17 +35,7 @@ export class CreatePostComponent implements OnInit {
         const headers = new HttpHeaders()
           .set('Authorization', `Bearer ${token}`);
 
-        const body =
-        {
-          title: this.title,
-          content: this.parsedString,
-          summary: this.summary,
-          header: this.header,
-          imageId: this.imageId,
-          moniker: this.moniker,
-          imageAltText: this.imageAltText,
-          isDraft: isDraft
-        };
+        const body = this.postModel;
 
         this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/posts`, body, { 'headers': headers })
           .subscribe((data: any) => this.router.navigate([`/posts/${data.moniker}`]));
@@ -52,8 +43,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   onValueChanged(event: any) {
-    this.parsedString = this.compileMarkdown(event.target.value);
-    console.log(this.parsedString);
+    this.postModel.content = this.compileMarkdown(event.target.value);
   }
 
   private compileMarkdown(value: string): string {
@@ -65,7 +55,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   validatePost(): boolean {
-    const postFields = [this.title, this.summary, this.header, this.parsedString];
+    const postFields = [this.postModel.title, this.postModel.summary, this.postModel.header, this.postModel.content];
     return postFields.every(p => !!p);
   }
 
@@ -85,25 +75,29 @@ export class CreatePostComponent implements OnInit {
           const upload$ = this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/posts/image`, formData, { 'headers': headers });
           
           upload$.subscribe(imageId => {
-            this.imageId = imageId.toString();
-            this.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${this.imageId}`;
+            this.postModel.imageId = imageId.toString();
+            this.postModel.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${this.postModel.imageId}`;
           });
         }
       });
   }
 
   previewPostCard(postCardMoniker: string): void {
-    const postCardPreview = new PostCardModel(
-      this.header,
-      this.title,
-      new Date(),
-      this.summary,
-      this.moniker,
-      this.imageId,
-      this.imageSrc,
-      0,
-      this.imageAltText);
-    this.postService.setPostCardPreview(postCardPreview);
+    this.postPreview = new PostModel(
+      this.postModel.title,
+      this.postModel.date,
+      this.postModel.moniker,
+      this.postModel.imageId,
+      this.postModel.imageAltText,
+      this.postModel.isDraft,
+      this.postModel.header,
+      this.postModel.summary,
+      this.postModel.imageSrc,
+      this.postModel.index,
+      this.postModel.content,
+      this.postModel.rawContent
+      );
+    this.postService.setPostPreview(this.postPreview);
     this.router.navigate([`/post/preview/${postCardMoniker}`]);
   }
 
@@ -120,5 +114,21 @@ export class CreatePostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.postPreview) {
+      this.postModel = new PostModel(
+        this.postPreview.title,
+        this.postPreview.date,
+        this.postPreview.moniker,
+        this.postPreview.imageId,
+        this.postPreview.imageAltText,
+        this.postPreview.isDraft,
+        this.postPreview.header,
+        this.postPreview.summary,
+        this.postPreview.imageSrc,
+        this.postPreview.index,
+        this.postPreview.content,
+        this.postPreview.rawContent
+        );
+    }
   }
 }

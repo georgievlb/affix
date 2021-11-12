@@ -1,21 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { PostCardModel } from '../models/post-card.model';
+import { PostModel } from '../models/post.model';
 import { environment } from "../../../../environments/environment";
 
-const PostsCards: PostCardModel[] = [
-  {
-    header: 'My Header',
-    title: 'My Title',
-    date: new Date(),
-    summary: "My Summary",
-    moniker: 'my-moniker',
-    imageId: 'my-image-id',
-    imageSrc: '',
-    index: 0,
-    imageAltText: 'My Image Alt Text'
-  }
+const PostsCards: PostModel[] = [
+  new PostModel(
+    '',
+    new Date(),
+    '',
+    '',
+    '',
+    false,
+    '',
+    "",
+    "",
+    0,
+    '',
+    ''
+  )
 ];
 
 @Injectable({
@@ -24,10 +27,10 @@ const PostsCards: PostCardModel[] = [
 export class PostService implements OnDestroy {
 
   private readonly subscription: Subscription = new Subscription();
-  private readonly posts$$: BehaviorSubject<PostCardModel[]> = new BehaviorSubject<PostCardModel[]>(PostsCards);
+  private readonly posts$$: BehaviorSubject<PostModel[]> = new BehaviorSubject<PostModel[]>(PostsCards);
   private readonly postsCount$$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   private readonly currentPageIndex$$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  private readonly postCardPreview$$: BehaviorSubject<PostCardModel> = new BehaviorSubject<PostCardModel>(PostsCards[0]);
+  private readonly postPreview$$: BehaviorSubject<PostModel> = new BehaviorSubject<PostModel>(PostsCards[0]);
   private readonly postsUrl = `https://${environment.apiUrl}:${environment.port}/posts`;
 
   constructor(private httpClient: HttpClient) {
@@ -40,10 +43,10 @@ export class PostService implements OnDestroy {
     )
   }
 
-  getNextPostCardsPage(skip: number = 0, take: number = 5): Observable<PostCardModel[]>{
+  getNextPostCardsPage(skip: number = 0, take: number = 5): Observable<PostModel[]>{
     this.httpClient.get(`${this.postsUrl}?skip=${skip}&take=${take}`)
       .subscribe((postCards: any) => {
-        postCards.item1.map((p: PostCardModel) => {
+        postCards.item1.map((p: PostModel) => {
           p.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
           p.index = postCards.item1.indexOf(p);
           console.log('ImageAltText:', p.imageAltText);
@@ -67,12 +70,12 @@ export class PostService implements OnDestroy {
     return this.currentPageIndex$$.asObservable();
   }
 
-  getPostCardPreview(): Observable<PostCardModel> {
-    return this.postCardPreview$$.asObservable();
+  getPostPreview(): Observable<PostModel> {
+    return this.postPreview$$.asObservable();
   }
 
-  setPostCardPreview(postCard: PostCardModel): void {
-    this.postCardPreview$$.next(postCard);
+  setPostPreview(postCard: PostModel): void {
+    this.postPreview$$.next(postCard);
   }
 
   ngOnDestroy(): void {
