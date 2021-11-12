@@ -18,6 +18,7 @@ import { ViewPostDetailsComponent } from './domain/post/view-post-details/view-p
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
+import { PreviewPostCardComponent } from './domain/post/preview-post-card/preview-post-card.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admi
     ViewPostCardComponent,
     CreatePostComponent,
     ViewPostDetailsComponent,
-    ViewAdminPageComponent
+    ViewAdminPageComponent,
+    PreviewPostCardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

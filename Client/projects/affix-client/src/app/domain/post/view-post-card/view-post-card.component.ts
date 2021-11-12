@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PostCardModel } from '../models/post-card.model';
+import { PostModel } from '../models/post.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ export class ViewPostCardComponent implements OnInit {
   constructor(private router: Router) { }
 
   @Input()
-  public postCardModel: PostCardModel;
+  public postCardModel: PostModel;
 
   ngOnInit(): void {
   }

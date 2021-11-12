@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { PostDetails } from '../models/post-details.model';
+import { PostModel } from '../models/post.model';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -20,7 +20,7 @@ export class ViewPostDetailsComponent implements OnInit {
     });
   }
 
-  public post: PostDetails = new PostDetails('', '', '', '');
+  public post: PostModel = new PostModel('', new Date(),'', '', '', false, '', '', '', 0, '', '');
 
   ngOnInit() {
     this.httpClient.get(`https://${environment.apiUrl}:${environment.port}/posts/${this.post.moniker}`)

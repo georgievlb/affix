@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { PostCardModel } from '../../domain/post/models/post-card.model';
+import { PostModel } from '../../domain/post/models/post.model';
 import { PostService } from '../../domain/post/services/post.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { PostService } from '../../domain/post/services/post.service';
 export class MainContentComponent implements OnInit, AfterViewInit {
 
   public readonly numberOfItemsPerPage = 5;
-  public currentSetOfPostCards$: Observable<PostCardModel[]>;
+  public currentSetOfPostCards$: Observable<PostModel[]>;
   public postsCount$: Observable<number>;
   public currentPageIndex: number;
 
