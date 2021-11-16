@@ -101,8 +101,23 @@ export class CreatePostComponent implements OnInit {
     this.router.navigate([`/post/preview/${postCardMoniker}`]);
   }
 
-  previewPostDetails(): void {
-
+  previewPostDetails(postCardMoniker: string): void {
+    this.postPreview = new PostModel(
+      this.postModel.title,
+      this.postModel.date,
+      this.postModel.moniker,
+      this.postModel.imageId,
+      this.postModel.imageAltText,
+      this.postModel.isDraft,
+      this.postModel.header,
+      this.postModel.summary,
+      this.postModel.imageSrc,
+      this.postModel.index,
+      this.postModel.content,
+      this.postModel.rawContent
+      );
+    this.postService.setPostPreview(this.postPreview);
+    this.router.navigate([`/post/preview/details/${postCardMoniker}`]);
   }
 
   saveDraft(): void {

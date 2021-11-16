@@ -2,4 +2,12 @@
   max-width: 800px;
   margin: 10px auto;
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.post-details-container-item {
+  text-align: center;
+  margin-bottom: 50px;
 }

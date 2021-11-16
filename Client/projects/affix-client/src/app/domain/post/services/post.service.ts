@@ -27,6 +27,7 @@ const PostsCards: PostModel[] = [
 export class PostService implements OnDestroy {
 
   private readonly subscription: Subscription = new Subscription();
+  private readonly post$$: BehaviorSubject<PostModel> = new BehaviorSubject<PostModel>(PostsCards[0]);
   private readonly posts$$: BehaviorSubject<PostModel[]> = new BehaviorSubject<PostModel[]>(PostsCards);
   private readonly postsCount$$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   private readonly currentPageIndex$$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -56,6 +57,16 @@ export class PostService implements OnDestroy {
       })
 
     return this.posts$$.asObservable();
+  }
+
+  getPost(moniker: string): Observable<PostModel> {
+    this.httpClient.get<PostModel>(`https://${environment.apiUrl}:${environment.port}/posts/${moniker}`)
+      .subscribe((p: PostModel) => {
+        p.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
+        this.post$$.next(p);
+      });
+
+    return this.post$$.asObservable();
   }
 
   getPostsCount() {
