@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PostModel } from '../models/post.model';
-import { environment } from '../../../../environments/environment';
+import { PostService } from '../services/post.service';
 
 @Component({
   selector: 'app-view-post-details',
@@ -13,18 +12,22 @@ export class ViewPostDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private httpClient: HttpClient
+    private postService: PostService
   ) {
     this.route.params.subscribe(params => {
       this.post.moniker = params['moniker'];
     });
   }
 
+  @Input()
   public post: PostModel = new PostModel('', new Date(),'', '', '', false, '', '', '', 0, '', '');
 
   ngOnInit() {
-    this.httpClient.get(`https://${environment.apiUrl}:${environment.port}/posts/${this.post.moniker}`)
-    .subscribe((data: any) => this.post = data);
+    if (!this.post.content) {
+     this.postService.getPost(this.post.moniker)
+      .subscribe((data: any) => this.post = data);
+      console.log(this.post);
+    }
   }
 
 }
