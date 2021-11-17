@@ -15,6 +15,7 @@ export class RequestInterceptor implements HttpInterceptor {
     constructor(private authorizeService: AuthorizeService) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (req.method !== 'GET' || req.url.indexOf('draft') > -1) {
             return this.authorizeService.getAccessToken().pipe(
                 mergeMap((token: string | null) => {
                     req = req.clone({
@@ -25,5 +26,8 @@ export class RequestInterceptor implements HttpInterceptor {
                     return next.handle(req);
                 })
             );
+        }
+
+        return next.handle(req);
     }
 }
