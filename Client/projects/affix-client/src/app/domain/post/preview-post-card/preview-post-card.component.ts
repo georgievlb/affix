@@ -27,6 +27,6 @@ export class PreviewPostCardComponent {
   }
 
   public navigateBack() {
-    this.router.navigate(['/post/create']);
+    this.router.navigate(['/admin/post/create']);
   }
 }

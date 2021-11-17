@@ -20,6 +20,8 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
 import { PreviewPostCardComponent } from './domain/post/preview-post-card/preview-post-card.component';
 import { PreviewPostDetailsComponent } from './domain/post/preview-post-details/preview-post-details.component';
+import { ListPostComponent } from './domain/post/list-post/list-post.component';
+import { RequestInterceptor } from './common/request-interceptor';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { PreviewPostDetailsComponent } from './domain/post/preview-post-details/
     ViewPostDetailsComponent,
     ViewAdminPageComponent,
     PreviewPostCardComponent,
-    PreviewPostDetailsComponent
+    PreviewPostDetailsComponent,
+    ListPostComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,6 +48,7 @@ import { PreviewPostDetailsComponent } from './domain/post/preview-post-details/
     ApiAuthorizationModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

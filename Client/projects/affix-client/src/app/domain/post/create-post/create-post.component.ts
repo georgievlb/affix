@@ -30,16 +30,9 @@ export class CreatePostComponent implements OnInit {
   public fileName = '';
 
   createPost(isDraft: boolean = false): void {
-    this.authorizeService.getAccessToken()
-      .subscribe(token => {
-        const headers = new HttpHeaders()
-          .set('Authorization', `Bearer ${token}`);
-
-        const body = this.postModel;
-
-        this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/posts`, body, { 'headers': headers })
-          .subscribe((data: any) => this.router.navigate([`/posts/${data.moniker}`]));
-      });
+    this.postModel.isDraft = isDraft;
+    this.postService.createPost(this.postModel)
+    .subscribe((data: any) => this.router.navigate([`/posts/${data.moniker}`]));
   }
 
   onValueChanged(event: any) {
@@ -60,26 +53,15 @@ export class CreatePostComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-
-    this.authorizeService.getAccessToken()
-    .subscribe(token => {
-      const headers = new HttpHeaders()
-        .set('Authorization', `Bearer ${token}`);
-        
-        const file: File = event.target.files[0];
-        
-        if (file) {
-          this.fileName = file.name;
-          const formData = new FormData();
-          formData.append("image", file);
-          const upload$ = this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/posts/image`, formData, { 'headers': headers });
-          
-          upload$.subscribe(imageId => {
-            this.postModel.imageId = imageId.toString();
-            this.postModel.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${this.postModel.imageId}`;
-          });
-        }
+    const file: File = event.target.files[0];
+    if (file) {
+      this.fileName = file.name;
+      const upload$ = this.postService.putImage(file);
+      upload$.subscribe(imageId => {
+        this.postModel.imageId = imageId.toString();
+        this.postModel.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${this.postModel.imageId}`;
       });
+    }
   }
 
   previewPostCard(postCardMoniker: string): void {
@@ -98,7 +80,7 @@ export class CreatePostComponent implements OnInit {
       this.postModel.rawContent
       );
     this.postService.setPostPreview(this.postPreview);
-    this.router.navigate([`/post/preview/${postCardMoniker}`]);
+    this.router.navigate([`/admin/post/preview/${postCardMoniker}`]);
   }
 
   previewPostDetails(postCardMoniker: string): void {
@@ -117,7 +99,7 @@ export class CreatePostComponent implements OnInit {
       this.postModel.rawContent
       );
     this.postService.setPostPreview(this.postPreview);
-    this.router.navigate([`/post/preview/details/${postCardMoniker}`]);
+    this.router.navigate([`/admin/post/preview/details/${postCardMoniker}`]);
   }
 
   saveDraft(): void {
