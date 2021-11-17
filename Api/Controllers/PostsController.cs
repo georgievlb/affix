@@ -66,7 +66,17 @@ namespace Affix.Controllers
             return Ok(result);
         }
 
-        [AllowAnonymous]
+        [Route("draft")]
+        [HttpGet]
+        public async Task<ActionResult<List<PostModel>>> GeAlltDraftPostsAsync()
+        {
+            var posts = await context.Posts
+                .Where(p => p.IsDraft == true)
+                .ToListAsync();
+
+            return Ok(posts);
+        }
+
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {

@@ -26,7 +26,6 @@ export class ViewPostDetailsComponent implements OnInit {
     if (!this.post.content) {
      this.postService.getPost(this.post.moniker)
       .subscribe((data: any) => this.post = data);
-      console.log(this.post);
     }
   }
 
