@@ -4,21 +4,8 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { PostModel } from '../models/post.model';
 import { environment } from "../../../../environments/environment";
 
-const PostsCards: PostModel[] = [
-  new PostModel(
-    '',
-    new Date(),
-    '',
-    '',
-    '',
-    false,
-    '',
-    "",
-    "",
-    0,
-    '',
-    ''
-  )
+const Posts: PostModel[] = [
+  new PostModel('', new Date(), '', '', '', false, '', "", "", 0, '', '')
 ];
 
 @Injectable({
@@ -27,12 +14,14 @@ const PostsCards: PostModel[] = [
 export class PostService implements OnDestroy {
 
   private readonly subscription: Subscription = new Subscription();
-  private readonly post$$: BehaviorSubject<PostModel> = new BehaviorSubject<PostModel>(PostsCards[0]);
-  private readonly posts$$: BehaviorSubject<PostModel[]> = new BehaviorSubject<PostModel[]>(PostsCards);
-  private readonly draftPosts$$: BehaviorSubject<PostModel[]> = new BehaviorSubject<PostModel[]>(PostsCards);
+  private readonly post$$: BehaviorSubject<PostModel> = new BehaviorSubject<PostModel>(Posts[0]);
+  private readonly posts$$: BehaviorSubject<PostModel[]> = new BehaviorSubject<PostModel[]>(Posts);
+  private readonly editPost$$: BehaviorSubject<PostModel> = new BehaviorSubject<PostModel>(Posts[0]);
+  private readonly editPosts$$: BehaviorSubject<{item1: PostModel[], item2: number}> = new BehaviorSubject<{item1: PostModel[], item2: number}>({item1: Posts, item2: 0});
+  private readonly draftPosts$$: BehaviorSubject<PostModel[]> = new BehaviorSubject<PostModel[]>(Posts);
   private readonly postsCount$$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   private readonly currentPageIndex$$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  private readonly postPreview$$: BehaviorSubject<PostModel> = new BehaviorSubject<PostModel>(PostsCards[0]);
+  private readonly postPreview$$: BehaviorSubject<PostModel> = new BehaviorSubject<PostModel>(Posts[0]);
   private readonly postsUrl = `https://${environment.apiUrl}:${environment.port}/posts`;
 
   constructor(private httpClient: HttpClient) {
@@ -67,6 +56,23 @@ export class PostService implements OnDestroy {
       });
 
     return this.post$$.asObservable();
+  }
+
+  getEditPosts(): Observable<{item1: PostModel[], item2: number}> {
+    this.httpClient.get<{item1: PostModel[], item2: number}>(`https://${environment.apiUrl}:${environment.port}/posts?take=100`)
+      .subscribe((p: {item1: PostModel[], item2: number}) => {
+        this.editPosts$$.next(p);
+      });
+
+    return this.editPosts$$.asObservable();
+  }
+
+  getEditPost(): Observable<PostModel> {
+    return this.editPost$$.asObservable();
+  }
+
+  setEditPost(post: PostModel): void {
+    this.editPost$$.next(post);
   }
 
   getPostsCount() {
@@ -112,5 +118,9 @@ export class PostService implements OnDestroy {
     formData.append("image", file);
     return this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/posts/image`, formData);
     
+  }
+
+  getEmptyPostModel(): PostModel {
+    return new PostModel('', new Date(), '', '', '', false, '', '', '', 0, '', '')
   }
 }

@@ -1,0 +1,5 @@
+<button mat-button color="accent" (click)="navigateBack()">Go Back</button>
+<mat-nav-list>
+    <h2 class="post-title">Posts:</h2>
+    <a mat-list-item *ngFor="let post of posts" (click)="editPost(post)"> {{ post.title }}</a>
+</mat-nav-list>

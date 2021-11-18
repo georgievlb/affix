@@ -105,9 +105,9 @@
                   rows="20"
                   cols="80"
                   placeholder="Enter content in markdown"
-                  (keyup)="onValueChanged($event)"
-                  [ngClass]="validateInput(postModel.rawContent) === true ? 'valid' : 'invalid'"
-                  [(ngModel)]="postModel.rawContent">
+                  (keyup)="onContentChanged($event)"
+                  [ngClass]="validateInput(postModel.content) === true ? 'valid' : 'invalid'"
+                  [(ngModel)]="postModel.content">
           </textarea>
       </div>
       <mat-divider></mat-divider>
@@ -166,13 +166,13 @@
       <!-- Parsed Markdown Preview -->
       <div class="editor-section"><strong>Parsed Markdown</strong></div>
       <mat-divider></mat-divider>
-      <div [innerHtml]="postModel.content" class="editor-field-markdown-container"></div>
+      <div [innerHtml]="postModel.parsedContent" class="editor-field-markdown-container"></div>
       <mat-divider></mat-divider>
     </div>
   </div>
 </div>
 
-<button mat-button (click)="createPost()" [disabled]="!validatePost()">Create Post</button>
+<button mat-button (click)="createPost()" [disabled]="!validatePost()">{{ getPublishButtonName() }}</button>
 <button mat-button (click)="previewPostCard(postModel.moniker)" [disabled]="!validatePost()">Preview Post Card</button>
 <button mat-button (click)="previewPostDetails(postModel.moniker)" [disabled]="!validatePost()">Preview Post Details</button>
 <button mat-button (click)="saveDraft()" [disabled]="!validatePost()">Save draft</button>
