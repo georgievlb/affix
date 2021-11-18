@@ -12,7 +12,7 @@ export class PostModel {
     public index: number;
     // details properties
     public content: string;
-    public rawContent: string;
+    public parsedContent: string;
 
 constructor(
     title: string,
@@ -26,7 +26,7 @@ constructor(
     imageSrc: string,
     index: number,
     content: string,
-    rawContent: string) {
+    parsedContent: string) {
         this.title = title;
         this.date = date;
         this.moniker = moniker;
@@ -38,6 +38,6 @@ constructor(
         this.imageSrc = imageSrc;
         this.index = index;
         this.content = content;
-        this.rawContent = rawContent;
+        this.parsedContent = parsedContent;
     }
 }

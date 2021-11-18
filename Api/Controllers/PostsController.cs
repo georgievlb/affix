@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Afix.Persistence;
 using Affix.Services;
 using System.IO;
-using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 
 namespace Affix.Controllers
@@ -72,6 +71,7 @@ namespace Affix.Controllers
         {
             var posts = await context.Posts
                 .Where(p => p.IsDraft == true)
+                .OrderByDescending(p => p.Date)
                 .ToListAsync();
 
             return Ok(posts);
@@ -80,25 +80,45 @@ namespace Affix.Controllers
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {
-            var newPost = new PostDataModel
+            var currentPost = context.Posts.FirstOrDefault(p => p.Moniker == post.Moniker);
+            if(currentPost == null)
             {
-                Title = post.Title,
-                Content = post.Content,
-                Summary = post.Summary,
-                Header = post.Header,
-                Date = DateTime.UtcNow,
-                Moniker = post.Moniker,
-                ImageId = post.ImageId,
-                ImageAltText = post.ImageAltText,
-                IsDraft = post.IsDraft,
-                Score = new ScoreDataModel()
-            };
+                var newPost = new PostDataModel
+                {
+                    Title = post.Title,
+                    Content = post.Content,
+                    Summary = post.Summary,
+                    Header = post.Header,
+                    Date = DateTime.UtcNow,
+                    Moniker = post.Moniker,
+                    ImageId = post.ImageId,
+                    ImageAltText = post.ImageAltText,
+                    IsDraft = post.IsDraft,
+                    Score = new ScoreDataModel()
+                };
 
-            await context.Posts.AddAsync(newPost);
-            await context.SaveChangesAsync();
+                await context.Posts.AddAsync(newPost);
+                await context.SaveChangesAsync();
 
-            return Created($"posts/{newPost.Moniker}", newPost);
+                return Created($"posts/{newPost.Moniker}", newPost);
+            }
+            
+            else
+            {
+                currentPost.Title = post.Title;
+                currentPost.Content = post.Content;
+                currentPost.Summary = post.Summary;
+                currentPost.Header = post.Header;
+                currentPost.Date = currentPost.IsDraft ? DateTime.UtcNow : currentPost.Date;
+                currentPost.ImageId = post.ImageId;
+                currentPost.ImageAltText = post.ImageAltText;
+                currentPost.IsDraft = post.IsDraft;
+                currentPost.Moniker = post.Moniker;
+                context.Posts.Update(currentPost);
+                await context.SaveChangesAsync();
 
+                return Ok(currentPost);
+            }
         }
 
         [Route("image")]

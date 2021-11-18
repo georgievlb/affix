@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { PostModel } from '../models/post.model';
-import { PostService } from '../services/post.service';
+import { PostModel } from '../../models/post.model';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-preview-post-card',

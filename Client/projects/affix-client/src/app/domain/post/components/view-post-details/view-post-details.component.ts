@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { PostModel } from '../models/post.model';
-import { PostService } from '../services/post.service';
+import { ActivatedRoute } from '@angular/router';
+import { PostModel } from '../../models/post.model';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-view-post-details',

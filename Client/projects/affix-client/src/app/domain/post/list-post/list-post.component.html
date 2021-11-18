@@ -1,6 +1,0 @@
-<button mat-button color="accent" (click)="navigateBack()">Go Back</button>
-
-<mat-nav-list>
-    <h2 class="draft-post-title">Draft Posts:</h2>
-    <a mat-list-item [href]="getHrefLink(post.moniker)" *ngFor="let post of posts"> {{ post.title }} </a>
-</mat-nav-list>

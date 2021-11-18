@@ -7,21 +7,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './modules/material.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { RenderHtmlPipe } from './pipes/render-html.pipe';
+import { RenderHtmlPipe } from './domain/post/pipes/render-html.pipe';
 import { NavMenuComponent } from './layout/nav-menu/nav-menu.component';
 import { MainContentComponent } from './layout/main-content/main-content.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { ViewPostCardComponent } from './domain/post/view-post-card/view-post-card.component';
-import { CreatePostComponent } from './domain/post/create-post/create-post.component';
-import { ViewPostDetailsComponent } from './domain/post/view-post-details/view-post-details.component';
+import { ViewPostCardComponent } from './domain/post/components/view-post-card/view-post-card.component';
+import { CreatePostComponent } from './domain/post/components/create-post/create-post.component';
+import { ViewPostDetailsComponent } from './domain/post/components/view-post-details/view-post-details.component';
 
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
-import { PreviewPostCardComponent } from './domain/post/preview-post-card/preview-post-card.component';
-import { PreviewPostDetailsComponent } from './domain/post/preview-post-details/preview-post-details.component';
-import { ListPostComponent } from './domain/post/list-post/list-post.component';
+import { PreviewPostCardComponent } from './domain/post/components/preview-post-card/preview-post-card.component';
+import { PreviewPostDetailsComponent } from './domain/post/components/preview-post-details/preview-post-details.component';
 import { RequestInterceptor } from './common/request-interceptor';
+import { UpdatePostComponent } from './domain/post/components/update-post/update-post.component';
+import { RenderMarkdownPipe } from './domain/post/pipes/render-markdown.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { RequestInterceptor } from './common/request-interceptor';
     ViewAdminPageComponent,
     PreviewPostCardComponent,
     PreviewPostDetailsComponent,
-    ListPostComponent
+    UpdatePostComponent,
+    RenderMarkdownPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
