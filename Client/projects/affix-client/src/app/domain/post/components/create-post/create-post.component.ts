@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import * as marked from 'marked';
-import { environment } from "../../../../environments/environment";
-import { PostService } from '../services/post.service';
+import { environment } from "../../../../../environments/environment";
+import { PostService } from '../../services/post.service';
 import { Subscription } from 'rxjs';
-import { PostModel } from '../models/post.model';
+import { PostModel } from '../../models/post.model';
 
 @Component({
   selector: 'app-create-post',
@@ -108,8 +108,8 @@ export class CreatePostComponent implements OnInit {
 
   cancel(): void {
     this.postModel = this.postService.getEmptyPostModel();
-    this.postPreview = this.postService.getEmptyPostModel();
-    this.editPost = this.postService.getEmptyPostModel();
+    this.postService.setPostPreview(this.postModel);
+    this.postService.setEditPost(this.postModel);
     this.router.navigate(['/admin']);
   }
 

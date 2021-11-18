@@ -11,17 +11,17 @@ import { RenderHtmlPipe } from './domain/post/pipes/render-html.pipe';
 import { NavMenuComponent } from './layout/nav-menu/nav-menu.component';
 import { MainContentComponent } from './layout/main-content/main-content.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { ViewPostCardComponent } from './domain/post/view-post-card/view-post-card.component';
-import { CreatePostComponent } from './domain/post/create-post/create-post.component';
-import { ViewPostDetailsComponent } from './domain/post/view-post-details/view-post-details.component';
+import { ViewPostCardComponent } from './domain/post/components/view-post-card/view-post-card.component';
+import { CreatePostComponent } from './domain/post/components/create-post/create-post.component';
+import { ViewPostDetailsComponent } from './domain/post/components/view-post-details/view-post-details.component';
 
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
-import { PreviewPostCardComponent } from './domain/post/preview-post-card/preview-post-card.component';
-import { PreviewPostDetailsComponent } from './domain/post/preview-post-details/preview-post-details.component';
+import { PreviewPostCardComponent } from './domain/post/components/preview-post-card/preview-post-card.component';
+import { PreviewPostDetailsComponent } from './domain/post/components/preview-post-details/preview-post-details.component';
 import { RequestInterceptor } from './common/request-interceptor';
-import { UpdatePostComponent } from './domain/post/update-post/update-post.component';
+import { UpdatePostComponent } from './domain/post/components/update-post/update-post.component';
 import { RenderMarkdownPipe } from './domain/post/pipes/render-markdown.pipe';
 
 @NgModule({
