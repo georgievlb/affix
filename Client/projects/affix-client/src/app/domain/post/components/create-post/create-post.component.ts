@@ -125,7 +125,6 @@ export class CreatePostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Initialized Create Post');
     if(this.router.url.includes('edit')) {
       this.postModel = new PostModel(
         this.editPost.title,

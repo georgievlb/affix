@@ -57,7 +57,7 @@ namespace Affix
                           "http://localhost",
                           "http://localhost:80"
                           )
-                      .WithMethods("PUT", "GET")
+                      .WithMethods("PUT", "GET", "DELETE")
                       .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
                   });
             });

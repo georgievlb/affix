@@ -58,7 +58,7 @@ namespace Affix.Controllers
                 .Where(p => p.IsDraft == false)
                 .OrderByDescending(p => p.Date)
                 .Skip(skip)
-                .Take(take)
+                .Take(take > 0 ? take : context.Posts.Count())
                 .ToListAsync();
             var result = new Tuple<List<PostDataModel>, int>(posts, context.Posts.Count());
 
@@ -80,7 +80,7 @@ namespace Affix.Controllers
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {
-            var currentPost = context.Posts.FirstOrDefault(p => p.Moniker == post.Moniker);
+            var currentPost = await context.Posts.FirstOrDefaultAsync(p => p.Moniker == post.Moniker);
             if(currentPost == null)
             {
                 var newPost = new PostDataModel
@@ -139,6 +139,23 @@ namespace Affix.Controllers
             }
 
             return Created($"posts/image/{imageId}", System.Text.Json.JsonSerializer.Serialize(imageId));
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeletePostAsync(string moniker)
+        {
+            var postToDelete = await context.Posts.FirstOrDefaultAsync(p => p.Moniker == moniker);
+            if (postToDelete == null)
+            {
+                return NotFound($"No post found with moniker: \"{moniker}\"");
+            }
+            else
+            {
+                context.Posts.Remove(postToDelete);
+                await context.SaveChangesAsync();
+
+                return Ok();
+            }
         }
     }
 }

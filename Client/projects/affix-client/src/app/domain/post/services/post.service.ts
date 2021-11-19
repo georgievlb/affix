@@ -60,7 +60,7 @@ export class PostService implements OnDestroy {
 
   getEditPosts(): Observable<{item1: PostModel[], item2: number}> {
     // TODO: Add pagination on edit post page as well as a way to get all posts withouthardcoding the take value. 
-    this.httpClient.get<{item1: PostModel[], item2: number}>(`https://${environment.apiUrl}:${environment.port}/posts?take=100`)
+    this.httpClient.get<{item1: PostModel[], item2: number}>(this.postsUrl)
       .subscribe((p: {item1: PostModel[], item2: number}) => {
         this.editPosts$$.next(p);
       });
@@ -112,6 +112,11 @@ export class PostService implements OnDestroy {
 
   createPost(body: PostModel): Observable<PostModel> {
     return this.httpClient.put<PostModel>(`https://${environment.apiUrl}:${environment.port}/posts`, body);
+  }
+
+  deletePost(moniker: string): void {
+    this.httpClient.delete<string>(`https://${environment.apiUrl}:${environment.port}/posts?moniker=${moniker}`)
+    .subscribe((result: string) => console.log(result))
   }
 
   putImage(file: File) {
