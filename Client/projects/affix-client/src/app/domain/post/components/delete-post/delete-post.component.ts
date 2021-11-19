@@ -13,7 +13,7 @@ export class DeletePostComponent {
 
   constructor (private router: Router, private postService: PostService,
     public dialog: MatDialog) {
-    this.postService.getEditPosts()
+    this.postService.getAllPosts()
     .subscribe((p : { item1: PostModel[], item2: number }) => {
       this.posts = [...p.item1];
     });

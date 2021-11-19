@@ -32,7 +32,7 @@ export class CreatePostComponent implements OnInit {
   // TODO: Add a check if moniker is unique.
   createPost(isDraft: boolean = false): void {
     this.postModel.isDraft = isDraft;
-    this.postService.createPost(this.postModel)
+    this.postService.putPost(this.postModel)
     .subscribe((data: PostModel) => {
       this.postModel = this.postService.getEmptyPostModel();
       this.router.navigate([`/posts/${data.moniker}`])
