@@ -60,7 +60,7 @@ namespace Affix.Controllers
                 .Skip(skip)
                 .Take(take > 0 ? take : context.Posts.Count())
                 .ToListAsync();
-            var result = new Tuple<List<PostDataModel>, int>(posts, context.Posts.Count());
+            var result = new Tuple<List<PostDataModel>, int>(posts, context.Posts.Where(x => x.IsDraft == false).Count());
 
             return Ok(result);
         }

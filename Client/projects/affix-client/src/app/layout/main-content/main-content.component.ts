@@ -36,12 +36,15 @@ export class MainContentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.paginator.pageIndex = this.currentPageIndex,
+    if(!isNaN(this.currentPageIndex)) {
+
+      this.paginator.pageIndex = this.currentPageIndex,
       this.paginator.page.next({
         pageIndex: this.currentPageIndex,
         pageSize: this.paginator.pageSize,
         length: this.paginator.length
       });
+    }
   }
 
 

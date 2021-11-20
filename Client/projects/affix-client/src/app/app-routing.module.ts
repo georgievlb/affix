@@ -11,16 +11,16 @@ import { UpdatePostComponent } from './domain/post/components/update-post/update
 import { DeletePostComponent } from './domain/post/components/delete-post/delete-post.component';
 
 const routes: Routes = [
+  { path: 'admin', component: ViewAdminPageComponent, canActivate: [AuthorizeGuard] },
   { path: 'admin/post/create', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
+  { path: 'admin/post/draft', component: UpdatePostComponent, canActivate: [AuthorizeGuard] },
+  { path: 'admin/post/preview/:moniker', component: PreviewPostCardComponent, canActivate: [AuthorizeGuard] },
+  { path: 'admin/post/preview/details/:moniker', component: PreviewPostDetailsComponent, canActivate: [AuthorizeGuard] },
   { path: 'admin/post/edit', component: UpdatePostComponent, canActivate: [AuthorizeGuard] },
   { path: 'admin/post/edit/:moniker', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
   { path: 'admin/post/delete', component: DeletePostComponent, canActivate: [AuthorizeGuard] },
   { path: 'posts/:moniker', component: ViewPostDetailsComponent },
-  { path: 'admin/post/preview/:moniker', component: PreviewPostCardComponent, canActivate: [AuthorizeGuard] },
-  { path: 'admin/post/preview/details/:moniker', component: PreviewPostDetailsComponent, canActivate: [AuthorizeGuard] },
   { path: 'page/:number', component: MainContentComponent },
-  { path: 'admin', component: ViewAdminPageComponent, canActivate: [AuthorizeGuard] },
-  { path: 'admin/post/draft', component: UpdatePostComponent, canActivate: [AuthorizeGuard] },
   { path: '', component: MainContentComponent, pathMatch: 'full' }
 ];
 

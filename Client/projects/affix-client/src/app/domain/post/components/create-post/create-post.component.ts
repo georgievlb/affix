@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import * as marked from 'marked';
 import { environment } from "../../../../../environments/environment";
@@ -11,7 +11,7 @@ import { PostModel } from '../../models/post.model';
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, OnDestroy {
 
   private readonly subscription: Subscription = new Subscription();
 
@@ -156,5 +156,9 @@ export class CreatePostComponent implements OnInit {
         this.compileMarkdown(this.postPreview.content)
         );
     } 
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
