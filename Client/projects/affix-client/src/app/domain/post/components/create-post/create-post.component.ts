@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import * as marked from 'marked';
 import { environment } from "../../../../../environments/environment";
@@ -11,7 +11,7 @@ import { PostModel } from '../../models/post.model';
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, OnDestroy {
 
   private readonly subscription: Subscription = new Subscription();
 
@@ -32,7 +32,7 @@ export class CreatePostComponent implements OnInit {
   // TODO: Add a check if moniker is unique.
   createPost(isDraft: boolean = false): void {
     this.postModel.isDraft = isDraft;
-    this.postService.createPost(this.postModel)
+    this.postService.putPost(this.postModel)
     .subscribe((data: PostModel) => {
       this.postModel = this.postService.getEmptyPostModel();
       this.router.navigate([`/posts/${data.moniker}`])
@@ -125,7 +125,6 @@ export class CreatePostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Initialized Create Post');
     if(this.router.url.includes('edit')) {
       this.postModel = new PostModel(
         this.editPost.title,
@@ -157,5 +156,9 @@ export class CreatePostComponent implements OnInit {
         this.compileMarkdown(this.postPreview.content)
         );
     } 
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

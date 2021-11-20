@@ -23,6 +23,8 @@ import { PreviewPostDetailsComponent } from './domain/post/components/preview-po
 import { RequestInterceptor } from './common/request-interceptor';
 import { UpdatePostComponent } from './domain/post/components/update-post/update-post.component';
 import { RenderMarkdownPipe } from './domain/post/pipes/render-markdown.pipe';
+import { DeletePostComponent } from './domain/post/components/delete-post/delete-post.component';
+import { DeletePostConfirmationComponent } from './domain/post/components/delete-post/delete-post-confirmation/delete-post-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { RenderMarkdownPipe } from './domain/post/pipes/render-markdown.pipe';
     PreviewPostCardComponent,
     PreviewPostDetailsComponent,
     UpdatePostComponent,
-    RenderMarkdownPipe
+    RenderMarkdownPipe,
+    DeletePostComponent,
+    DeletePostConfirmationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -34,6 +34,28 @@ export class PostService implements OnDestroy {
     )
   }
 
+
+  //#region CRUD methods
+
+  getPost(moniker: string): Observable<PostModel> {
+    this.httpClient.get<PostModel>(`https://${environment.apiUrl}:${environment.port}/posts/${moniker}`)
+      .subscribe((p: PostModel) => {
+        p.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
+        this.post$$.next(p);
+      });
+
+    return this.post$$.asObservable();
+  }
+
+  getAllPosts(): Observable<{item1: PostModel[], item2: number}> {
+    this.httpClient.get<{item1: PostModel[], item2: number}>(this.postsUrl)
+      .subscribe((p: {item1: PostModel[], item2: number}) => {
+        this.editPosts$$.next(p);
+      });
+
+    return this.editPosts$$.asObservable();
+  }
+
   getNextPostCardsPage(skip: number = 0, take: number = 5): Observable<PostModel[]>{
     this.httpClient.get(`${this.postsUrl}?skip=${skip}&take=${take}`)
       .subscribe((postCards: any) => {
@@ -48,40 +70,38 @@ export class PostService implements OnDestroy {
     return this.posts$$.asObservable();
   }
 
-  getPost(moniker: string): Observable<PostModel> {
-    this.httpClient.get<PostModel>(`https://${environment.apiUrl}:${environment.port}/posts/${moniker}`)
-      .subscribe((p: PostModel) => {
-        p.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
-        this.post$$.next(p);
+  getDraftPosts(): Observable<PostModel[]> {
+    this.httpClient.get<PostModel[]>(`${this.postsUrl}/draft`)
+      .subscribe((posts: PostModel[]) => {
+        this.draftPosts$$.next(posts);
       });
 
-    return this.post$$.asObservable();
+      return this.draftPosts$$.asObservable();
   }
 
-  getEditPosts(): Observable<{item1: PostModel[], item2: number}> {
-    // TODO: Add pagination on edit post page as well as a way to get all posts withouthardcoding the take value. 
-    this.httpClient.get<{item1: PostModel[], item2: number}>(`https://${environment.apiUrl}:${environment.port}/posts?take=100`)
-      .subscribe((p: {item1: PostModel[], item2: number}) => {
-        this.editPosts$$.next(p);
-      });
+  putImage(file: File) {
+    const formData = new FormData();
+    formData.append("image", file);
 
-    return this.editPosts$$.asObservable();
+    return this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/posts/image`, formData);
   }
+
+  putPost(body: PostModel): Observable<PostModel> {
+    return this.httpClient.put<PostModel>(`https://${environment.apiUrl}:${environment.port}/posts`, body);
+  }
+
+  deletePost(moniker: string): void {
+    this.httpClient.delete<string>(`https://${environment.apiUrl}:${environment.port}/posts?moniker=${moniker}`)
+    .subscribe((result: string) => console.log(result))
+  }
+
+  //#endregion
+
+
+  //#region Observables
 
   getEditPost(): Observable<PostModel> {
     return this.editPost$$.asObservable();
-  }
-
-  setEditPost(post: PostModel): void {
-    this.editPost$$.next(post);
-  }
-
-  getPostsCount() {
-    return this.postsCount$$.asObservable();
-  }
-
-  setCurrentPageIndex(pageIndex: number): void {
-    this.currentPageIndex$$.next(pageIndex);
   }
 
   getCurrentPageIndex(): Observable<number> {
@@ -92,36 +112,39 @@ export class PostService implements OnDestroy {
     return this.postPreview$$.asObservable();
   }
 
-  setPostPreview(postCard: PostModel): void {
-    this.postPreview$$.next(postCard);
-  }
-
-  getDraftPosts(): Observable<PostModel[]> {
-    this.httpClient.get<PostModel[]>(`${this.postsUrl}/draft`)
-      .subscribe((posts: PostModel[]) => {
-        this.draftPosts$$.next(posts);
-      });
-
-      return this.draftPosts$$.asObservable();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.posts$$.unsubscribe();
-  }
-
-  createPost(body: PostModel): Observable<PostModel> {
-    return this.httpClient.put<PostModel>(`https://${environment.apiUrl}:${environment.port}/posts`, body);
-  }
-
-  putImage(file: File) {
-    const formData = new FormData();
-    formData.append("image", file);
-    return this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/posts/image`, formData);
-    
+  getPostsCount() {
+    return this.postsCount$$.asObservable();
   }
 
   getEmptyPostModel(): PostModel {
     return new PostModel('', new Date(), '', '', '', false, '', '', '', 0, '', '')
   }
+
+  //#endregion
+
+  //#region Behaviour Subjects
+
+  setEditPost(post: PostModel): void {
+    this.editPost$$.next(post);
+  }
+
+  setCurrentPageIndex(pageIndex: number): void {
+    this.currentPageIndex$$.next(pageIndex);
+  }
+
+  setPostPreview(postCard: PostModel): void {
+    this.postPreview$$.next(postCard);
+  }
+
+  //#endregion
+
+  //#region Lifecycle hooks
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.posts$$.unsubscribe();
+    this.postsCount$$.unsubscribe();
+  }
+
+  //#endregion
 }

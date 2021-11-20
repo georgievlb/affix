@@ -14,7 +14,7 @@ export class UpdatePostComponent {
   constructor (private router: Router, private postService: PostService) {
     // Determine if the user is editing an existing or a draft post depending on the URL.
     if(this.router.url.includes('edit')) {
-      this.postService.getEditPosts()
+      this.postService.getAllPosts()
       .subscribe((p : { item1: PostModel[], item2: number }) => {
         this.posts = [...p.item1];
       });
