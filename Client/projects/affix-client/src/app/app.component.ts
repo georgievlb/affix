@@ -1,6 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { IDTokenClaims, User } from 'oidc-client';
 import { Subscription } from 'rxjs';
-import { AuthorizeService } from '../api-authorization/authorize.service';
+import { AuthorizeService, IUser } from '../api-authorization/authorize.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent implements AfterViewInit {
   private readonly subscription: Subscription = new Subscription();
   public isUserLoggedIn = false;
   public userName: string | undefined;
+  public userRole: string | null;
 
   constructor(private authService: AuthorizeService) {
     this.subscription.add(this.authService
@@ -27,6 +29,13 @@ export class AppComponent implements AfterViewInit {
       .getUser()
       .subscribe(user => {
         this.userName = user?.name;
+      }));
+
+    this.subscription.add(this.authService
+      .getUserClaims()
+      .subscribe((claims: IDTokenClaims | null) => {
+        this.userRole = claims ? claims['role'] : '';
+        console.log('role is: ', this.userRole);
       }));
   };
 
