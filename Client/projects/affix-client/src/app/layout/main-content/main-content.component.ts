@@ -36,15 +36,12 @@ export class MainContentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // If the user is not on the home page, change route to /page/{this.currentPageIndex}
-    if(this.currentPageIndex > 0) {
       this.paginator.pageIndex = this.currentPageIndex,
       this.paginator.page.next({
         pageIndex: this.currentPageIndex,
         pageSize: this.paginator.pageSize,
         length: this.paginator.length
       });
-    }
   }
 
 
