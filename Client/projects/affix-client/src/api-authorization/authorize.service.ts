@@ -127,9 +127,11 @@ export class AuthorizeService {
       const user = await this.userManager!.signinCallback(url);
       this.userSubject.next(user && user.profile);
 
-      const claims: IDTokenClaims = user.profile;
-      this.userClaims$$.next(claims);
-      console.log('claims', claims);
+      if(user && user.profile){
+        const claims: IDTokenClaims = user.profile;
+        this.userClaims$$.next(claims);
+        console.log('claims', claims);
+      }
 
       return this.success(user && user.state);
     } catch (error) {

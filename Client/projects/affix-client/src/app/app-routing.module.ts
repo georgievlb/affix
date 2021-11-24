@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: 'posts/:moniker', component: ViewPostDetailsComponent },
   { path: 'page/:number', component: MainContentComponent },
   { path: '', component: MainContentComponent, pathMatch: 'full' },
+  { path: 'home', component: MainContentComponent, pathMatch: 'full' },
   { path: '**', component: MainContentComponent, pathMatch: 'full' }
 ];
 

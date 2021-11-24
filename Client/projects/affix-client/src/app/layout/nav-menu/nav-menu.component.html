@@ -24,8 +24,7 @@
         <button id="admin-button" mat-button color="primary" routerLink="/admin">Admin Area</button>
       </li>
     </ul>
-    <span id="brand-name2" class="flex-item header-item logo" *ngIf="!isScreenSmall">Welcome to Affix<a id="profile-page" *ngIf="this.isUserLoggedIn && (this.userRole === 'contributor' || this.userRole === 'admin')" href="/Identity/Account/Manage">, {{ this.userName }}</a>!
-    </span>
+    <app-login-menu id="brand-name2" class="flex-item header-item logo" *ngIf="!isScreenSmall"></app-login-menu>
   </section>
   <ul id="main-nav-small" *ngIf="isScreenSmall" [ngClass]="isCollapsed ? 'hidden' : 'visible'">
     <li class="flex-item">
