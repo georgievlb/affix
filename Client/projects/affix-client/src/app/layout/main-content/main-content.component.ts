@@ -27,7 +27,7 @@ export class MainContentComponent implements OnInit, AfterViewInit {
     this.currentSetOfPostCards$ = this.postService.getNextPostCardsPage();
     this.postsCount$ = this.postService.getPostsCount();
     const routeParam: any = this.route.snapshot.paramMap.get('number');
-    this.currentPageIndex = Number.parseInt(routeParam);
+    this.currentPageIndex = Number.parseInt(routeParam) ? Number.parseInt(routeParam) : 0;
 
     if (this.currentPageIndex > 0) {
       this.navigateToPage();
@@ -36,22 +36,17 @@ export class MainContentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if(!isNaN(this.currentPageIndex)) {
-
       this.paginator.pageIndex = this.currentPageIndex,
       this.paginator.page.next({
         pageIndex: this.currentPageIndex,
         pageSize: this.paginator.pageSize,
         length: this.paginator.length
       });
-    }
   }
 
 
   // TODO: fix the following issues
   // 1. Navigate pages using 1-based index
-  // 2. When navigating on home page, don't route /page/NaN
-  // 3. When navigating from /page/2 to /page/1 no content is loaded
   onPageChanged(event: any) {
     this.currentPageIndex = event.pageIndex;
     this.navigateToPage();

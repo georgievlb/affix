@@ -21,6 +21,9 @@ export class NavMenuComponent implements OnInit {
   @Input()
   public userName: string | undefined;
 
+  @Input()
+  public userRole: string | undefined | null;
+
   ngOnInit(): void {
     this.breakpointObserver
       .observe([`(max-width: ${SMALL_WIDTH_BREAKPOINT}em)`])
