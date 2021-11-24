@@ -21,8 +21,6 @@ using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
 using Affix.Services;
 using System.Text.Json.Serialization;
-using Affix.Areas.Identity.Services;
-using Duende.IdentityServer.Services;
 
 namespace Affix
 {
@@ -72,11 +70,7 @@ namespace Affix
             services.AddDatabaseDeveloperPageExceptionFilter();
             // TODO: Add a signing credential for Identity Server
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, AffixIdentityContext>()
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients);
-
-            services.AddTransient<IProfileService, ProfileService>();
+                .AddApiAuthorization<ApplicationUser, AffixIdentityContext>();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

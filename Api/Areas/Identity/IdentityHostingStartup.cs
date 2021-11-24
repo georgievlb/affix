@@ -1,8 +1,6 @@
 ﻿using System;
-using Affix.Areas.Identity.Services;
 using Affix.Models;
 using Auth.Areas.Identity.Data;
-using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -24,7 +22,6 @@ namespace Affix.Areas.Identity
                         context.Configuration.GetConnectionString("AffixIdentityDb")));
 
                 services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AffixIdentityContext>();
             });
         }

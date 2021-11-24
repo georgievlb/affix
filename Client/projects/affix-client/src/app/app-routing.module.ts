@@ -21,7 +21,6 @@ const routes: Routes = [
   { path: 'admin/post/delete', component: DeletePostComponent, canActivate: [AuthorizeGuard] },
   { path: 'posts/:moniker', component: ViewPostDetailsComponent },
   { path: 'page/:number', component: MainContentComponent },
-  { path: 'home', component: MainContentComponent, pathMatch: 'full' },
   { path: '', component: MainContentComponent, pathMatch: 'full' }
 ];
 

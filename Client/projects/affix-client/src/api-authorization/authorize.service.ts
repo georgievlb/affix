@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User, UserManager, IDTokenClaims } from 'oidc-client';
+import { User, UserManager } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
@@ -31,7 +31,6 @@ export enum AuthenticationResultStatus {
 
 export interface IUser {
   name?: string;
-  role?: string;
 }
 
 @Injectable({
@@ -44,15 +43,9 @@ export class AuthorizeService {
   private popUpDisabled = true;
   private userManager?: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
-  private userClaims$$: BehaviorSubject<IDTokenClaims | null> = new BehaviorSubject<IDTokenClaims | null>(null);
 
   public isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));
-  }
-
-  public IsAdmin(): Observable<boolean> {
-    return this.getUserClaims()
-      .pipe(map(claims => claims ? claims.role === 'admin': false));
   }
 
   public getUser(): Observable<IUser | null> {
@@ -60,10 +53,6 @@ export class AuthorizeService {
       this.userSubject.pipe(take(1), filter(u => !!u)),
       this.getUserFromStorage().pipe(filter(u => !!u), tap(u => this.userSubject.next(u))),
       this.userSubject.asObservable());
-  }
-
-  public getUserClaims(): Observable<IDTokenClaims | null> {
-    return this.userClaims$$.asObservable();
   }
 
   public getAccessToken(): Observable<string | null> {
@@ -93,7 +82,6 @@ export class AuthorizeService {
 
       try {
         if (this.popUpDisabled) {
-          console.log('Popup disabled. Change \'authorize.service.ts:AuthorizeService.popupDisabled\' to false to enable it.');
           throw new Error('Popup disabled. Change \'authorize.service.ts:AuthorizeService.popupDisabled\' to false to enable it.');
         }
         user = await this.userManager!.signinPopup(this.createArguments());
@@ -101,7 +89,6 @@ export class AuthorizeService {
         return this.success(state);
       } catch (popupError) {
         if (popupError.message === 'Popup window closed') {
-          console.log('The user explicitly cancelled the login action by closing an opened popup.');
           // The user explicitly cancelled the login action by closing an opened popup.
           return this.error('The user closed the window.');
         } else if (!this.popUpDisabled) {
@@ -110,7 +97,6 @@ export class AuthorizeService {
 
         // PopUps might be blocked by the user, fallback to redirect
         try {
-          console.log('successfully redirected');
           await this.userManager!.signinRedirect(this.createArguments(state));
           return this.redirect();
         } catch (redirectError) {
@@ -126,13 +112,6 @@ export class AuthorizeService {
       await this.ensureUserManagerInitialized();
       const user = await this.userManager!.signinCallback(url);
       this.userSubject.next(user && user.profile);
-
-      if(user && user.profile){
-        const claims: IDTokenClaims = user.profile;
-        this.userClaims$$.next(claims);
-        console.log('claims', claims);
-      }
-
       return this.success(user && user.state);
     } catch (error) {
       console.log('There was an error signing in: ', error);
