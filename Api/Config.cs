@@ -1,5 +1,6 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 
 namespace Affix
@@ -12,8 +13,9 @@ namespace Affix
                     new ApiScope("AffixAPI")
             };
 
-        public static IEnumerable<Client> Clients =>
-            new List<Client>
+        public static IEnumerable<Client> Clients(IConfiguration Configuration)
+        {
+            return new List<Client>
             {
                 new Client
                 {
@@ -39,9 +41,9 @@ namespace Affix
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
 
-                    RedirectUris = { "https://localhost:5002/authentication/login-callback" },
-                    PostLogoutRedirectUris = { "https://localhost:5002/authentication/logout-callback" },
-                    AllowedCorsOrigins = { "https://localhost:5002" },
+                    RedirectUris = { Configuration.GetSection("IdentityServer").GetValue<string>("RedirectUri") },
+                    PostLogoutRedirectUris = { Configuration.GetSection("IdentityServer").GetValue<string>("PostLogoutRedirectUris") },
+                    AllowedCorsOrigins = { Configuration.GetSection("IdentityServer").GetValue<string>("AllowedCorsOrigins") },
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AlwaysSendClientClaims = true,
 
@@ -54,5 +56,6 @@ namespace Affix
 
                 }
             };
+        }
     }
 }

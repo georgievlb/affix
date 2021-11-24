@@ -74,7 +74,7 @@ namespace Affix
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, AffixIdentityContext>()
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients);
+                .AddInMemoryClients(Config.Clients(Configuration));
 
             services.AddTransient<IProfileService, ProfileService>();
 
