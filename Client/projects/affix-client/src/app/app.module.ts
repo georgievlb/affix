@@ -25,6 +25,7 @@ import { UpdatePostComponent } from './domain/post/components/update-post/update
 import { RenderMarkdownPipe } from './domain/post/pipes/render-markdown.pipe';
 import { DeletePostComponent } from './domain/post/components/delete-post/delete-post.component';
 import { DeletePostConfirmationComponent } from './domain/post/components/delete-post/delete-post-confirmation/delete-post-confirmation.component';
+import { DisqusModule } from 'ngx-disqus';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { DeletePostConfirmationComponent } from './domain/post/components/delete
     MaterialModule,
     FormsModule,
     HttpClientModule,
-    ApiAuthorizationModule
+    ApiAuthorizationModule,
+    DisqusModule.forRoot('affix-1')
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },

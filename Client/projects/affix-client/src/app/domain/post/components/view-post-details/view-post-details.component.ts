@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PostModel } from '../../models/post.model';
-import { PostService } from '../../services/post.service';
+import { PostService } from '../../services/post.service'
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-view-post-details',
@@ -10,6 +11,8 @@ import { PostService } from '../../services/post.service';
 })
 export class ViewPostDetailsComponent implements OnInit {
 
+  public postUrl = '';
+
   constructor(
     private route: ActivatedRoute,
     private postService: PostService
@@ -17,6 +20,7 @@ export class ViewPostDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.post.moniker = params['moniker'];
     });
+    this.postUrl = `https://${environment.apiUrl}:${environment.port}/posts?moniker=${this.post.moniker}`;
   }
 
   @Input()
