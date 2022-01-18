@@ -9,6 +9,8 @@ namespace Afix.Persistence
 
         public DbSet<ScoreDataModel> Scores { get; set; }
 
+        public DbSet<SubscriptionDataModel> Subscriptions { get; set; }
+
         public AffixContext(DbContextOptions<AffixContext> options)
             : base(options)
         { }
@@ -81,6 +83,14 @@ namespace Afix.Persistence
 
             modelBuilder.Entity<ScoreDataModel>()
                 .Property(x => x.Shares);
+
+            modelBuilder.Entity<SubscriptionDataModel>()
+                .Property(x => x.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<SubscriptionDataModel>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
         }
     }
 }

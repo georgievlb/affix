@@ -6,7 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './modules/material.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RenderHtmlPipe } from './domain/post/pipes/render-html.pipe';
 import { NavMenuComponent } from './layout/nav-menu/nav-menu.component';
 import { MainContentComponent } from './layout/main-content/main-content.component';
@@ -26,6 +26,9 @@ import { RenderMarkdownPipe } from './domain/post/pipes/render-markdown.pipe';
 import { DeletePostComponent } from './domain/post/components/delete-post/delete-post.component';
 import { DeletePostConfirmationComponent } from './domain/post/components/delete-post/delete-post-confirmation/delete-post-confirmation.component';
 import { DisqusModule } from 'ngx-disqus';
+import { SubscriptionComponent } from './domain/subscription/components/subscription/subscription.component';
+import { SubscriptionDialogComponent } from './domain/subscription/components/subscription.dialog/subscription.dialog.component';
+import { SubscriptionThankyouDialogComponent } from './domain/subscription/components/subscription.thankyou.dialog/subscription.thankyou.dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import { DisqusModule } from 'ngx-disqus';
     UpdatePostComponent,
     RenderMarkdownPipe,
     DeletePostComponent,
-    DeletePostConfirmationComponent
+    DeletePostConfirmationComponent,
+    SubscriptionComponent,
+    SubscriptionDialogComponent,
+    SubscriptionThankyouDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,7 +59,8 @@ import { DisqusModule } from 'ngx-disqus';
     FormsModule,
     HttpClientModule,
     ApiAuthorizationModule,
-    DisqusModule.forRoot('affix-1')
+    DisqusModule.forRoot('affix-1'),
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
