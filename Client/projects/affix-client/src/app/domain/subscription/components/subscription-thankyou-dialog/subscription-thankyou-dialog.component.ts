@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-subscription-thankyou-dialog',
-  templateUrl: './subscription.thankyou.dialog.component.html'
+  templateUrl: './subscription-thankyou-dialog.component.html'
 })
 export class SubscriptionThankyouDialogComponent {
 

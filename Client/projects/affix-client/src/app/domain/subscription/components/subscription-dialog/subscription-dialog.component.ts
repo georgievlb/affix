@@ -4,8 +4,8 @@ import { SubscriptionService } from '../../services/subscription.service';
 
 @Component({
   selector: 'app-subscription.dialog',
-  templateUrl: './subscription.dialog.component.html',
-  styleUrls: ['./subscription.dialog.component.scss']
+  templateUrl: './subscription-dialog.component.html',
+  styleUrls: ['./subscription-dialog.component.scss']
 })
 export class SubscriptionDialogComponent {
 
