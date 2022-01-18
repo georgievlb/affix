@@ -1,7 +1,7 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { IDTokenClaims, User } from 'oidc-client';
+import { Component } from '@angular/core';
+import { IDTokenClaims } from 'oidc-client';
 import { Subscription } from 'rxjs';
-import { AuthorizeService, IUser } from '../api-authorization/authorize.service';
+import { AuthorizeService } from '../api-authorization/authorize.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { AuthorizeService, IUser } from '../api-authorization/authorize.service'
     'header { background-color: white; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .2) }'
   ]
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent {
 
   private readonly subscription: Subscription = new Subscription();
   public isUserLoggedIn = false;
@@ -35,12 +35,7 @@ export class AppComponent implements AfterViewInit {
       .getUserClaims()
       .subscribe((claims: IDTokenClaims | null) => {
         this.userRole = claims ? claims['role'] : '';
-        console.log('role is: ', this.userRole);
       }));
-  };
-
-  ngAfterViewInit(): void {
- 
   };
 
 }

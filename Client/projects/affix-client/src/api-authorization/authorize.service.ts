@@ -130,7 +130,6 @@ export class AuthorizeService {
       if(user && user.profile){
         const claims: IDTokenClaims = user.profile;
         this.userClaims$$.next(claims);
-        console.log('claims', claims);
       }
 
       return this.success(user && user.state);

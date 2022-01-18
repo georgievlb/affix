@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>Subscribe to my Newsletter</h2>
+<mat-dialog-content class="mat-typography">
+    <h3>Get notified about my latest posts!</h3>
+    <form class="subscription-form">
+        <mat-form-field class="subscription-form-full-width" appearance="fill">
+            <mat-label>Email</mat-label>
+            <input
+                type="email"
+                matInput
+                [formControl]="emailFormControl"
+                placeholder="Ex. pat@example.com"
+                (input)="onInputChanged($event)"
+            />
+            <mat-error
+                *ngIf="
+                    emailFormControl.hasError('email') &&
+                    !emailFormControl.hasError('required')
+                "
+            >
+                Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.hasError('required')">
+                Email is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button color="secondary" mat-dialog-close>Cancel</button>
+    <button
+        (click)="createSubscription()"
+        mat-button
+        color="primary"
+        [mat-dialog-close]="true"
+        [disabled]="emailFormControl.invalid"
+    >Subscribe
+    </button>
+</mat-dialog-actions>
