@@ -4,19 +4,12 @@
     <form class="subscription-form">
         <mat-form-field class="subscription-form-full-width" appearance="fill">
             <mat-label>Email</mat-label>
-            <input
-                type="email"
-                matInput
-                [formControl]="emailFormControl"
-                placeholder="Ex. pat@example.com"
-                (input)="onInputChanged($event)"
-            />
-            <mat-error
-                *ngIf="
+            <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com"
+                (input)="onInputChanged($event)" />
+            <mat-error *ngIf="
                     emailFormControl.hasError('email') &&
                     !emailFormControl.hasError('required')
-                "
-            >
+                ">
                 Please enter a valid email address
             </mat-error>
             <mat-error *ngIf="emailFormControl.hasError('required')">
@@ -27,12 +20,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button color="secondary" mat-dialog-close>Cancel</button>
-    <button
-        (click)="createSubscription()"
-        mat-button
-        color="primary"
-        [mat-dialog-close]="true"
-        [disabled]="emailFormControl.invalid"
-    >Subscribe
+    <button (click)="createSubscription()" mat-button color="primary" [mat-dialog-close]="true"
+        [disabled]="emailFormControl.invalid">Subscribe
     </button>
 </mat-dialog-actions>

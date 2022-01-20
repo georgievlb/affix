@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PostModel } from '../../models/post.model';
 import { PostService } from '../../services/post.service'
 import { environment } from "../../../../../environments/environment";
+import * as marked from 'marked';
 
 @Component({
   selector: 'app-view-post-details',
@@ -29,7 +30,10 @@ export class ViewPostDetailsComponent implements OnInit {
   ngOnInit() {
     if (!this.post.content) {
      this.postService.getPost(this.post.moniker)
-      .subscribe((data: any) => this.post = data);
+      .subscribe((data: any) => {
+        this.post = data;
+        this.post.parsedContent = marked.parser(marked.lexer(this.post.content));
+      });
     }
   }
 

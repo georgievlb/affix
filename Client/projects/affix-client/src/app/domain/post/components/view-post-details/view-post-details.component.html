@@ -1,6 +1,6 @@
 <section class="post-details-container">
   <h1 class="post-details-container-item">{{ post.title }}</h1>
   <img class="post-details-container-item" [src]="post.imageSrc" [alt]="post.imageAltText" />
-  <div [innerHtml]="post.content | renderHtml"></div>
+  <div [innerHtml]="post.parsedContent | renderHtml"></div>
   <disqus class="comment-section" [identifier]="post.moniker" [url]="postUrl" [title]="post.title"></disqus>
 </section>

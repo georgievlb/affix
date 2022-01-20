@@ -25,5 +25,17 @@ namespace Affix.Models
         public string ImageAltText { get; set; }
 
         public bool IsDraft { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as PostModel;
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            return Moniker.ToLowerInvariant() == other.Moniker.ToLowerInvariant();
+        }
     }
 }
