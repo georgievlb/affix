@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SubscriptionDialogComponent } from '../subscription.dialog/subscription.dialog.component';
-import { SubscriptionThankyouDialogComponent } from '../subscription.thankyou.dialog/subscription.thankyou.dialog.component';
+import { SubscriptionDialogComponent } from '../subscription-dialog/subscription-dialog.component';
+import { SubscriptionThankyouDialogComponent } from '../subscription-thankyou-dialog/subscription-thankyou-dialog.component';
 
 @Component({
     selector: 'app-subscription',
@@ -14,8 +14,10 @@ export class SubscriptionComponent implements OnDestroy {
         this.dialog
             .open(SubscriptionDialogComponent)
             .afterClosed()
-            .subscribe(() => {
-                this.dialog.open(SubscriptionThankyouDialogComponent);
+            .subscribe((isSubscribeClicked: boolean) => {
+                if(isSubscribeClicked) {
+                    this.dialog.open(SubscriptionThankyouDialogComponent);
+                }
             });
     }
 

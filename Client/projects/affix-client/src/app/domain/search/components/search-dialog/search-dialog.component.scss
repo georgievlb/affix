@@ -1,0 +1,33 @@
+@import "../../../../../variables.scss";
+
+.search-content {
+    max-height: inherit;
+}
+
+.example-form {
+    width: 100%;
+}
+
+.search-form-field {
+    width: 100%;
+}
+
+.search-result {
+    box-shadow: 1px 2px 2px 1px $softgray, 2px 2px 2px 1px $softgray,
+    2px 2px 3px 1px $softgray;
+    margin-bottom: 10px;
+
+    cursor: pointer;
+    & > h3, h5 {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+}
+
+.search-result:hover {
+    background-color: $softgray;
+    box-shadow: 1px 1px 1px -1px $orange, 1px 2px 2px 0 $orange,
+    1px 2px 3px 0 $orange;
+    padding-left: 5px;
+    transition: all 0.3s ease-in-out;
+}

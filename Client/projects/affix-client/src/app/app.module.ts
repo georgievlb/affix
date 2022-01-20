@@ -27,8 +27,10 @@ import { DeletePostComponent } from './domain/post/components/delete-post/delete
 import { DeletePostConfirmationComponent } from './domain/post/components/delete-post/delete-post-confirmation/delete-post-confirmation.component';
 import { DisqusModule } from 'ngx-disqus';
 import { SubscriptionComponent } from './domain/subscription/components/subscription/subscription.component';
-import { SubscriptionDialogComponent } from './domain/subscription/components/subscription.dialog/subscription.dialog.component';
-import { SubscriptionThankyouDialogComponent } from './domain/subscription/components/subscription.thankyou.dialog/subscription.thankyou.dialog.component';
+import { SubscriptionDialogComponent } from './domain/subscription/components/subscription-dialog/subscription-dialog.component';
+import { SubscriptionThankyouDialogComponent } from './domain/subscription/components/subscription-thankyou-dialog/subscription-thankyou-dialog.component';
+import { SearchContainerComponent } from './domain/search/components/search-container/search-container.component';
+import { SearchDialogComponent } from './domain/search/components/search-dialog/search-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { SubscriptionThankyouDialogComponent } from './domain/subscription/compo
     DeletePostConfirmationComponent,
     SubscriptionComponent,
     SubscriptionDialogComponent,
-    SubscriptionThankyouDialogComponent
+    SubscriptionThankyouDialogComponent,
+    SearchContainerComponent,
+    SearchDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace Affix.Controllers
 {
-    [RestrictHost("localhost")]
+#if !LOCAL
+    [RestrictHost("54.210.9.224")]
+#endif    
     [Authorize]
     [ApiController]
     [Route("[controller]")]

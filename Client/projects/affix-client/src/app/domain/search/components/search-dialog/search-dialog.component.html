@@ -1,0 +1,18 @@
+<div class="search-container">
+    <h1 mat-dialog-title maxWidth="100%">Start typing to search</h1>
+    <form class="example-form">
+        <mat-form-field class="search-form-field" appearance="fill">
+            <input matInput #message maxlength="256" placeholder="Eg. asynchronous programming" (input)="onSearchPost($event)">
+        </mat-form-field>
+    </form>
+
+    <mat-dialog-content class="mat-typography search-content">
+        <div *ngFor="let post of posts" (click)="onPostClicked(post.moniker)" class="search-result" [mat-dialog-close]="true">
+            <h3>{{ post.title }}</h3>
+            <h5 *ngIf="post.title !== ''">{{ post.date | date: 'longDate'}}</h5>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center">
+        <button mat-button color="primary" mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+</div>
