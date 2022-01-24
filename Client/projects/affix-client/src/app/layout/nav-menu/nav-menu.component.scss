@@ -17,10 +17,21 @@ mat-icon {
 }
 
 .main-nav {
+    padding: 15px 0;
+    // box-shadow: 1px 2px 2px 1px $softgray, 2px 2px 2px 1px $softgray;
+    background-color: $softgray;
+    padding-bottom: 0;
+    margin-bottom: -20px;
+    position: relative;
+    z-index: 1;
 
   .main-nav-section {
     display: flex;
     align-items: center;
+
+    svg:hover > path {
+      fill: $orange;
+    }
   }
 
   .main-nav-list {
@@ -35,6 +46,37 @@ mat-icon {
     }
   }
 
+  .brand-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    
+    
+  }
+  .brand-mini-container {
+    display: flex;
+  
+  }
+  .brand-photo{
+    border-radius: 50%;
+  }
+  .brand-text {
+    align-self: center;
+    padding-left: 10px;
+    border-bottom: 1px $orange ;
+    border-bottom-style: inset;
+    border-bottom-width: 1px;
+    color: $gray;
+  }
+  .placeholder-1 {
+    flex-grow: 1;
+  }
+  .placeholder-2 {
+    flex-grow: 3;
+  }
+
   #admin-button {
     color: $lightblue;
     font-weight: bold;
@@ -44,13 +86,22 @@ mat-icon {
     font-weight: bold;
     flex: 1;
     padding-left: 20px;
+    font-family: 'Architects Daughter', cursive;
+    color: $gray;
   }
 
   #brand-name2 {
-    font-weight: bold;
     flex: 1;
     text-align: right;
     padding-right: 20px;
+    color: $gray;
+    font-size: 1.3em;
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    .brand-item {
+      margin: 0 5px;
+    }
   }
 
   #profile-page {
