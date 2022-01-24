@@ -1,5 +1,3 @@
-<header class="main-content-header">
-</header>
 <section class="main-content-section">
   <app-view-post-card *ngFor="let card of currentSetOfPostCards$ | async; let i = index" [postCardModel]="card" class="flex-item"></app-view-post-card>
 </section>

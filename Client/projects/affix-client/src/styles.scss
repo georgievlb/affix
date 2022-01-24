@@ -1,7 +1,7 @@
 @import "./variables.scss";
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html,
@@ -12,22 +12,25 @@ body {
 
 body {
   margin: 0;
+  header.app-header {
+    width: 100%;
+    height: $app-header-height;
+    background-color: $softgray;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 41%, 53% 49%, 18% 86%, 0 38%, 0 0);
+  }
   /*border: 2px solid $black;*/
 }
 main {
-    /*margin: 0 40px;*/
-    /*border: solid 2px $blue;*/
+                // padding-top: $app-header-height;
 }
-
-/*.flex-container {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;*/
-  /*align-content: stretch;*/
-/*}*/
 
 .flex-item {
   /*list-style: none;*/
+  font-size: 1.2em;
+  & button {
+    font-size: 1.2em;
+    font-weight: normal;
+  }
 }
 
 mat-icon {
