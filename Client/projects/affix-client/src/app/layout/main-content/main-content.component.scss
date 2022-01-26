@@ -9,8 +9,6 @@
     .flex-item {
         display: flex;
         justify-content: center;
-        /*border: solid 2px #ae3131;*/
-        /*flex: 1 1 30rem;*/
         flex-grow: 1;
         flex-shrink: 1;
         flex-basis: 30rem;
@@ -32,18 +30,9 @@
   @media screen and (min-width: 980px){
     max-width: 83%;
     max-height: 100%;
-    // min-width: 676px;
     min-width: 83%;
   }
-  // max-width: 80%;
-  // max-height: 100%;
 }
-
-/*::ng-deep .mat-paginator-page-size,
-::ng-deep .mat-paginator-page-size-label,
-::ng-deep .mat-paginator-page-size-value {
-  display: none;
-}*/
 
 ::ng-deep .mat-paginator-range-label {
   order: 3;

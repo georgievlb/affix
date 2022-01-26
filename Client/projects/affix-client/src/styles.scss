@@ -18,14 +18,9 @@ body {
     background-color: $softgray;
     clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 41%, 53% 49%, 18% 86%, 0 38%, 0 0);
   }
-  /*border: 2px solid $black;*/
-}
-main {
-                // padding-top: $app-header-height;
 }
 
 .flex-item {
-  /*list-style: none;*/
   font-size: 1.2em;
   & button {
     font-size: 1.2em;
