@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Affix.Controllers
 {
-#if !LOCAL
+#if DEBUG || RELEASE
     [RestrictHost("54.210.9.224")]
 #endif
     [Route("[controller]")]

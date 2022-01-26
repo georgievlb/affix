@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Affix.Controllers
 {
-#if !LOCAL
+#if DEBUG || RELEASE
     [RestrictHost("54.210.9.224")]
 #endif    
     [Authorize]
