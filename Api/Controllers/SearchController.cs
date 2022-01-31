@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace Affix.Controllers
 {
-#if !LOCAL
+#if DEBUG || RELEASE
     [RestrictHost("54.210.9.224")]
 #endif
     [Route("[controller]")]
@@ -26,7 +26,7 @@ namespace Affix.Controllers
         [HttpGet]
         public async Task<ActionResult> GetSearchResults([FromQuery] List<string> keywords)
         {
-            var result = context.Posts
+            var result = context.Post
                 .Select(p => new PostModel
                 {
                     Title = p.Title,

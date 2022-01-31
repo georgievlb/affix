@@ -20,12 +20,12 @@ namespace Affix.Persistence.DataModels
 
         public ScoreDataModel Score { get; set; }
 
-        public Guid ScoreId { get; set; }
-
         public Guid ImageId { get; set; }
 
         public string ImageAltText { get; set; }
 
         public bool IsDraft { get; set; }
+
+        public CategoryDataModel Category { get; set; }
     }
 }

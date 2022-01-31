@@ -11,7 +11,7 @@ import { SearchService } from '../../services/search.service';
 export class SearchDialogComponent implements OnInit {
 
   public posts: PostModel[] = [
-    new PostModel('', new Date(), '', '', '', false, '', "", "", 0, '', '')
+    new PostModel('', new Date(), '', '', '', false, '', "", "", 0, '', '', '', '')
   ];
   constructor(private searchService: SearchService, private router: Router) { }
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location} from '@angular/common';
 import { PostModel } from '../../models/post.model';
 import { PostService } from '../../services/post.service'
 import { environment } from "../../../../../environments/environment";
@@ -13,10 +14,12 @@ import * as marked from 'marked';
 export class ViewPostDetailsComponent implements OnInit {
 
   public postUrl = '';
+  public tags: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private postService: PostService
+    private postService: PostService,
+    private location: Location
   ) {
     this.route.params.subscribe(params => {
       this.post.moniker = params['moniker'];
@@ -25,7 +28,15 @@ export class ViewPostDetailsComponent implements OnInit {
   }
 
   @Input()
-  public post: PostModel = new PostModel('', new Date(),'', '', '', false, '', '', '', 0, '', '');
+  public post: PostModel = new PostModel('', new Date(),'', '', '', false, '', '', '', 0, '', '', '', '');
+
+  public goToTop (): void {
+    window.scrollTo(0, 0);
+  }
+
+  public navigateBack() {
+    this.location.back();
+  }
 
   ngOnInit() {
     if (!this.post.content) {
@@ -33,8 +44,10 @@ export class ViewPostDetailsComponent implements OnInit {
       .subscribe((data: any) => {
         this.post = data;
         this.post.parsedContent = marked.parser(marked.lexer(this.post.content));
+        this.tags = data.category.tags;
       });
     }
+
   }
 
 }

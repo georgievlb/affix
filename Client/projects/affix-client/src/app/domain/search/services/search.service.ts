@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { PostModel } from '../../post/models/post.model';
 
 const Posts: PostModel[] = [
-  new PostModel('', new Date(), '', '', '', false, '', "", "", 0, '', '')
+  new PostModel('', new Date(), '', '', '', false, '', "", "", 0, '', '', '', '')
 ];
 
 @Injectable({

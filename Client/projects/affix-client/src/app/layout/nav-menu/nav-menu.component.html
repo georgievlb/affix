@@ -1,6 +1,6 @@
 <nav class="main-nav">
   <section class="main-nav-section">
-    <a id="brand-name" class="flex-item">Lachezar Georgiev</a>
+    <a id="brand-name" class="flex-item" [href]="homeUrl">Lachezar Georgiev</a>
     <mat-icon *ngIf="isScreenSmall" (click)="toggle()" [ngClass]="isCollapsed ? 'visible': 'hidden'">menu</mat-icon>
     <mat-icon *ngIf="isScreenSmall" (click)="toggle()" [ngClass]="isCollapsed ? 'hidden': 'visible'">menu_open</mat-icon>
 

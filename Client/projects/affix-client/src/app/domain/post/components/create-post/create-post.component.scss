@@ -25,6 +25,46 @@
   margin: 10px;
 }
 
+.card-icon-container {
+  height: 180px;
+}
+
+.header-icon {
+  background-size: cover;
+  border-radius: unset;
+  width: 40px;
+  height: 40px;
+}
+.csharp {
+  background-image: url("../../../../../assets/c-sharp.png");
+}
+
+.database {
+  background-image: url("../../../../../assets/database.png");
+}
+
+.cloud {
+  background-image: url("../../../../../assets/cloud.png");
+}
+
+.productivity {
+  background-image: url("../../../../../assets/productivity.png");
+}
+.git {
+  background-image: url("../../../../../assets/git.png");
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
 .image-upload {
   height: 200px;
 }

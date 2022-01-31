@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
+import { environment } from 'src/environments/environment';
 
 const SMALL_WIDTH_BREAKPOINT = 44;
 
@@ -12,6 +13,7 @@ export class NavMenuComponent implements OnInit {
 
   public isScreenSmall: boolean;
   public isCollapsed = true;
+  public homeUrl = `https://${environment.apiUrl}:${environment.port}/`;
 
   constructor(private breakpointObserver: BreakpointObserver) { }
 
