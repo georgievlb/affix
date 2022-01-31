@@ -63,6 +63,37 @@
         </textarea>
       </div>
       <mat-divider></mat-divider>
+      <!-- Card Category -->
+      <div class="editor-section">
+        <strong>Category:</strong>
+      </div>
+      <div class="editor-section card-icon-container">
+        <label id="example-radio-group-label">Choose card icon</label>
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          [(ngModel)]="postModel.category">
+          <mat-radio-button class="example-radio-button" *ngFor="let icon of icons" [value]="icon">
+            {{ icon }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <mat-divider></mat-divider>
+      <!-- Tags -->
+      <div class="editor-section">
+        <strong>Tags:</strong>
+      </div>
+      <div class="editor-section">
+        <textarea matInput
+                  cdkTextareaAutosize
+                  rows="3"
+                  cols="80"
+                  placeholder="Enter summary in plain text"
+                  [(ngModel)]="postModel.tags"
+                  [ngClass]="validateInput(postModel.tags[0]) === true ? 'valid' : 'invalid'">
+        </textarea>
+      </div>
+      <mat-divider></mat-divider>
       <!-- Image -->
       <div class="editor-section">
         <strong>Image:</strong>
@@ -145,6 +176,22 @@
       </div>
       <div class="editor-field-container">
         {{ postModel.summary }}
+      </div>
+      <mat-divider></mat-divider>
+      <!-- Card Icon Preview -->
+      <div class="editor-section">
+        <strong>Category:</strong>
+      </div>
+      <div class="editor-field-container card-icon-container">
+        <div class="header-icon" [ngClass]="postModel.category"></div>
+      </div>
+      <mat-divider></mat-divider>
+      <!-- Tags Preview -->
+      <div class="editor-section">
+        <strong>Tags:</strong>
+      </div>
+      <div class="editor-field-container">
+        {{ postModel.tags }}
       </div>
       <mat-divider></mat-divider>
       <!-- Image Preview -->

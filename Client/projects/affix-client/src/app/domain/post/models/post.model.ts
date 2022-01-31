@@ -13,6 +13,8 @@ export class PostModel {
     // details properties
     public content: string;
     public parsedContent: string;
+    public category: string;
+    public tags: string;
 
 constructor(
     title: string,
@@ -26,7 +28,9 @@ constructor(
     imageSrc: string,
     index: number,
     content: string,
-    parsedContent: string) {
+    parsedContent: string,
+    category: string,
+    tags: string) {
         this.title = title;
         this.date = date;
         this.moniker = moniker;
@@ -39,5 +43,7 @@ constructor(
         this.index = index;
         this.content = content;
         this.parsedContent = parsedContent;
+        this.category = category;
+        this.tags = tags;
     }
 }

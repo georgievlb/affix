@@ -13,7 +13,23 @@
   cursor: pointer;
 }
 
-.example-header-image {
-  background-image: url("../../../../../assets/c-sharp.png");
+.header-icon {
   background-size: cover;
+  border-radius: unset;
+}
+
+.csharp {
+  background-image: url("../../../../../assets/c-sharp.png");
+}
+.database {
+  background-image: url("../../../../../assets/database.png");
+}
+.cloud {
+  background-image: url("../../../../../assets/cloud.png");
+}
+.productivity {
+  background-image: url("../../../../../assets/productivity.png");
+}
+.git {
+  background-image: url("../../../../../assets/git.png");
 }

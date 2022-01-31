@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Affix.Models
 {
@@ -25,6 +26,10 @@ namespace Affix.Models
         public string ImageAltText { get; set; }
 
         public bool IsDraft { get; set; }
+
+        public string Category { get; set; }
+
+        public string Tags { get; set; }
 
         public override bool Equals(object obj)
         {

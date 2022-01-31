@@ -79,7 +79,6 @@ mat-icon {
 
   #admin-button {
     color: $lightblue;
-    font-weight: bold;
   }
 
   #brand-name {
@@ -88,6 +87,7 @@ mat-icon {
     padding-left: 20px;
     font-family: 'Architects Daughter', cursive;
     color: $gray;
+    text-decoration: none;
   }
 
   #brand-name2 {

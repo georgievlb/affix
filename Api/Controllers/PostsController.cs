@@ -36,9 +36,8 @@ namespace Affix.Controllers
         [HttpGet]
         public async Task<ActionResult<PostModel>> GetByIdAsync(string moniker)
         {
-            var result = await context.Posts
-                .Where(p => p.Moniker == moniker)
-                .FirstOrDefaultAsync();
+            var result = await context.Post.Include(p => p.Category)
+                .Where(p => p.Moniker == moniker).FirstOrDefaultAsync();
 
             if (result == null)
             {
@@ -54,13 +53,27 @@ namespace Affix.Controllers
         [HttpGet]
         public async Task<ActionResult<Tuple<IEnumerable<PostModel>, int>>> GetAllAsync(int skip = 0, int take = 0)
         {
-            var posts = await context.Posts
+            var posts = await context.Post
                 .Where(p => p.IsDraft == false)
                 .OrderByDescending(p => p.Date)
                 .Skip(skip)
-                .Take(take > 0 ? take : context.Posts.Count())
+                .Take(take > 0 ? take : context.Post.Count())
+                .Select(p => new PostModel
+                    {
+                        Title = p.Title,
+                        Content = p.Content,
+                        Summary = p.Summary,
+                        Header = p.Header,
+                        Date = p.Date,
+                        ImageId = p.ImageId,
+                        ImageAltText = p.ImageAltText,
+                        Moniker = p.Moniker,
+                        Category = p.Category.Name,
+                        Tags = string.Join(',', p.Category.Tags)
+                    })
                 .ToListAsync();
-            var result = new Tuple<List<PostDataModel>, int>(posts, context.Posts.Where(x => x.IsDraft == false).Count());
+
+            var result = new Tuple<List<PostModel>, int>(posts, context.Post.Where(x => x.IsDraft == false).Count());
 
             return Ok(result);
         }
@@ -69,7 +82,7 @@ namespace Affix.Controllers
         [HttpGet]
         public async Task<ActionResult<List<PostModel>>> GeAlltDraftPostsAsync()
         {
-            var posts = await context.Posts
+            var posts = await context.Post
                 .Where(p => p.IsDraft == true)
                 .OrderByDescending(p => p.Date)
                 .ToListAsync();
@@ -80,7 +93,7 @@ namespace Affix.Controllers
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {
-            var currentPost = await context.Posts.FirstOrDefaultAsync(p => p.Moniker == post.Moniker);
+            var currentPost = await context.Post.FirstOrDefaultAsync(p => p.Moniker == post.Moniker);
             if(currentPost == null)
             {
                 var newPost = new PostDataModel
@@ -90,14 +103,23 @@ namespace Affix.Controllers
                     Summary = post.Summary,
                     Header = post.Header,
                     Date = DateTime.UtcNow,
-                    Moniker = post.Moniker,
                     ImageId = post.ImageId,
+                    Score = new ScoreDataModel
+                        {
+                            Likes = 0,
+                            Shares = 0
+                        },
                     ImageAltText = post.ImageAltText,
+                    Moniker = post.Moniker,
                     IsDraft = post.IsDraft,
-                    Score = new ScoreDataModel()
+                    Category = new CategoryDataModel
+                    {
+                        Name = post.Category,
+                        Tags = post.Tags.Split(',')
+                    }
                 };
 
-                await context.Posts.AddAsync(newPost);
+                await context.Post.AddAsync(newPost);
                 await context.SaveChangesAsync();
 
                 return Created($"posts/{newPost.Moniker}", newPost);
@@ -105,16 +127,20 @@ namespace Affix.Controllers
             
             else
             {
-                currentPost.Title = post.Title;
-                currentPost.Content = post.Content;
-                currentPost.Summary = post.Summary;
-                currentPost.Header = post.Header;
-                currentPost.Date = currentPost.IsDraft ? DateTime.UtcNow : currentPost.Date;
-                currentPost.ImageId = post.ImageId;
-                currentPost.ImageAltText = post.ImageAltText;
-                currentPost.IsDraft = post.IsDraft;
-                currentPost.Moniker = post.Moniker;
-                context.Posts.Update(currentPost);
+                var updatedPost = context.Post.Include(p => p.Category).Where(p => p.Moniker == post.Moniker).First();
+                updatedPost.Title = post.Title;
+                updatedPost.Content = post.Content;
+                updatedPost.Summary = post.Summary;
+                updatedPost.Header = post.Header;
+                updatedPost.Date = currentPost.IsDraft ? DateTime.UtcNow : currentPost.Date;
+                updatedPost.ImageId = post.ImageId;
+                updatedPost.ImageAltText = post.ImageAltText;
+                updatedPost.Moniker = post.Moniker;
+                updatedPost.IsDraft = post.IsDraft;
+                updatedPost.Category.Name = post.Category;
+                updatedPost.Category.Tags = post.Tags.Split(',');
+
+                context.Post.Update(updatedPost);
                 await context.SaveChangesAsync();
 
                 return Ok(currentPost);
@@ -144,14 +170,14 @@ namespace Affix.Controllers
         [HttpDelete]
         public async Task<ActionResult> DeletePostAsync(string moniker)
         {
-            var postToDelete = await context.Posts.FirstOrDefaultAsync(p => p.Moniker == moniker);
+            var postToDelete = await context.Post.Include(p => p.Category).Where(p => p.Moniker == moniker).FirstOrDefaultAsync();
             if (postToDelete == null)
             {
                 return NotFound($"No post found with moniker: \"{moniker}\"");
             }
             else
             {
-                context.Posts.Remove(postToDelete);
+                context.Post.Remove(postToDelete);
                 await context.SaveChangesAsync();
 
                 return Ok();

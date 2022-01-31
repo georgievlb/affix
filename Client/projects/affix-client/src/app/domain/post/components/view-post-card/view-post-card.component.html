@@ -1,7 +1,7 @@
 <mat-card class="post-card" [ngClass]="postCardModel.index === 0 ? 'first-post-card' : 'not-first-post-card'">
   <mat-card-header (click)="openPostDetails()">
     {{ postCardModel.header }}
-    <div mat-card-avatar class="example-header-image"></div>
+    <div mat-card-avatar class="header-icon" [ngClass]="postCardModel.category"></div>
     <mat-card-title>{{ postCardModel.title }}</mat-card-title>
     <mat-card-subtitle>{{ postCardModel.date | date: 'longDate' }}</mat-card-subtitle>
   </mat-card-header>
@@ -11,9 +11,9 @@
       {{ postCardModel.summary }}
     </p>
   </mat-card-content>
-  <mat-card-actions>
+  <!-- <mat-card-actions>
     <button mat-button>LIKE</button>
     <button mat-button>PIN</button>
     <button mat-button>SHARE</button>
-  </mat-card-actions>
+  </mat-card-actions> -->
 </mat-card>

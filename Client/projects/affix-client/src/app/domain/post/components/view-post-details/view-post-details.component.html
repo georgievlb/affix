@@ -1,6 +1,12 @@
 <section class="post-details-container">
+  <button mat-button color="accent" (click)="navigateBack()">Go Back</button>
   <h1 class="post-details-container-item">{{ post.title }}</h1>
   <img class="post-details-container-item" [src]="post.imageSrc" [alt]="post.imageAltText" />
   <div [innerHtml]="post.parsedContent | renderHtml"></div>
+  <mat-icon aria-hidden="false" aria-label="Go to top icon"(click)="goToTop()" title="Go to top" class="go-to-top-icon">keyboard_arrow_up</mat-icon>
+  <h3 *ngIf="tags">Tags:</h3>
+  <mat-chip-list>
+    <mat-chip *ngFor="let tag of tags" color="accent">{{ tag }}</mat-chip>
+  </mat-chip-list>  
   <disqus class="comment-section" [identifier]="post.moniker" [url]="postUrl" [title]="post.title"></disqus>
 </section>

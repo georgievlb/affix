@@ -27,7 +27,7 @@ namespace Affix.Controllers
         [HttpPut]
         public async Task <ActionResult> PutSubscription(SubscriptionModel subscriptionModel)
         {
-            if (context.Subscriptions.FirstOrDefault(s => s.Email == subscriptionModel.Email) == null)
+            if (context.Subscription.FirstOrDefault(s => s.Email == subscriptionModel.Email) == null)
             {
                 await context.AddAsync(new SubscriptionDataModel { Email = subscriptionModel.Email });
                 await context.SaveChangesAsync();

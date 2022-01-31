@@ -28,6 +28,8 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   public postPreview: PostModel;
   public editPost: PostModel;
   public fileName = '';
+  public icons: string[] = ['csharp', 'cloud', 'database', 'productivity', 'git'];
+
 
   // TODO: Add a check if moniker is unique.
   createPost(isDraft: boolean = false): void {
@@ -48,7 +50,16 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   }
 
   validatePost(): boolean {
-    const postFields = [this.postModel.title, , this.postModel.moniker, this.postModel.header, this.postModel.summary, this.postModel.imageId, this.postModel.imageAltText, this.postModel.content];
+    const postFields = [
+      this.postModel.title,
+      this.postModel.moniker,
+      this.postModel.header,
+      this.postModel.summary,
+      this.postModel.imageId,
+      this.postModel.imageAltText,
+      this.postModel.content,
+      this.postModel.category,
+      this.postModel.tags];
     return postFields.every(p => !!p);
   }
 
@@ -77,7 +88,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       this.postModel.imageSrc,
       this.postModel.index,
       this.postModel.content,
-      this.postModel.parsedContent
+      this.postModel.parsedContent,
+      this.postModel.category,
+      this.postModel.tags
       );
     this.postService.setPostPreview(this.postPreview);
     this.router.navigate([`/admin/post/preview/${postMoniker}`]);
@@ -96,7 +109,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       this.postModel.imageSrc,
       this.postModel.index,
       this.postModel.content,
-      this.postModel.parsedContent
+      this.postModel.parsedContent,
+      this.postModel.category,
+      this.postModel.tags
       );
     this.postService.setPostPreview(this.postPreview);
     this.router.navigate([`/admin/post/preview/details/${postMoniker}`]);
@@ -138,7 +153,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         this.editPost.imageSrc,
         this.editPost.index,
         this.editPost.content,
-        this.compileMarkdown(this.editPost.content)
+        this.compileMarkdown(this.editPost.content),
+        this.postModel.category,
+        this.editPost.tags
         );
     } else {
       this.postModel = new PostModel(
@@ -153,7 +170,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         this.postPreview.imageSrc,
         this.postPreview.index,
         this.postPreview.content,
-        this.compileMarkdown(this.postPreview.content)
+        this.compileMarkdown(this.postPreview.content),
+        this.postModel.category,
+        this.postModel.tags
         );
     } 
   }

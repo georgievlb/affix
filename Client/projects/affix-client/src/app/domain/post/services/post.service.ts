@@ -5,7 +5,7 @@ import { PostModel } from '../models/post.model';
 import { environment } from "../../../../environments/environment";
 
 const Posts: PostModel[] = [
-  new PostModel('', new Date(), '', '', '', false, '', "", "", 0, '', '')
+  new PostModel('', new Date(), '', '', '', false, '', "", "", 0, '', '', '', '')
 ];
 
 @Injectable({
@@ -117,7 +117,7 @@ export class PostService implements OnDestroy {
   }
 
   getEmptyPostModel(): PostModel {
-    return new PostModel('', new Date(), '', '', '', false, '', '', '', 0, '', '')
+    return new PostModel('', new Date(), '', '', '', false, '', '', '', 0, '', '', '', '')
   }
 
   //#endregion
