@@ -48,20 +48,13 @@ namespace Affix
             services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
             services.AddCors(options =>
             {
-                options.AddPolicy("localhost",
-                  builder =>
-                  {
-                      builder.WithOrigins(
-                          "https://localhost:5002",
-                          // TODO: Verify if this ClientPort is necessary
-                          $"https://localhost:{Configuration["ClientPort"]}",
-                          "http://54.210.9.224:80",
-                          "http://localhost",
-                          "http://localhost:80"
-                          )
-                      .WithMethods("PUT", "GET", "DELETE")
-                      .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
-                  });
+                options.AddPolicy("localhost", builder =>
+                {
+                    builder
+                    .WithOrigins(Configuration.GetValue<string>("Hostname"))
+                    .WithMethods("PUT", "GET", "DELETE")
+                    .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
+                });
             });
 
             services.AddSwaggerGen(c =>
