@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace Affix.Controllers
 {
 #if DEBUG || RELEASE
-    [RestrictHost("54.210.9.224")]
+    [RestrictHost("dev.lachezargeorgiev.com")]
 #endif
     [Route("[controller]")]
     [ApiController]

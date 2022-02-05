@@ -38,13 +38,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include=".platform\hooks\postdeploy\" />
     <Folder Include="Areas\Identity\Persistence\Migrations\" />
     <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include=".ebextensions\https-instance-single.config" />
-    <None Include=".ebextensions\https-instance.config" />
   </ItemGroup>
 
   <ItemGroup>
