@@ -83,8 +83,23 @@ namespace Affix.Controllers
         public async Task<ActionResult<List<PostModel>>> GeAlltDraftPostsAsync()
         {
             var posts = await context.Post
-                .Where(p => p.IsDraft == true)
-                .OrderByDescending(p => p.Date)
+                .Include(post => post.Category)
+                .Where(post => post.IsDraft == true)
+                .OrderByDescending(post => post.Date)
+                .Select(post => new PostModel
+                {
+                    Title = post.Title,
+                    Content = post.Content,
+                    Summary = post.Summary,
+                    Header = post.Header,
+                    Date = DateTime.UtcNow,
+                    ImageId = post.ImageId,
+                    ImageAltText = post.ImageAltText,
+                    Moniker = post.Moniker,
+                    IsDraft = post.IsDraft,
+                    Category = post.Category.Name,
+                    Tags = string.Join(",", post.Category.Tags)
+                })
                 .ToListAsync();
 
             return Ok(posts);

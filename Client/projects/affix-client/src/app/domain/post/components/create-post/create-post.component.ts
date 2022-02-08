@@ -154,7 +154,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         this.editPost.index,
         this.editPost.content,
         this.compileMarkdown(this.editPost.content),
-        this.postModel.category,
+        this.editPost.category,
         this.editPost.tags
         );
     } else {

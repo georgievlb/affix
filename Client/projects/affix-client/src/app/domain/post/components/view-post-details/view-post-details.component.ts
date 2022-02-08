@@ -47,6 +47,9 @@ export class ViewPostDetailsComponent implements OnInit {
         this.tags = data.category.tags;
       });
     }
+    else {
+      this.tags = this.post.tags.split(',');
+    }
 
   }
 

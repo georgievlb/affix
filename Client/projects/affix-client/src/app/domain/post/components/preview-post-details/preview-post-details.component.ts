@@ -25,8 +25,4 @@ export class PreviewPostDetailsComponent {
 
   }
 
-  public navigateBack() {
-    this.router.navigate(['/admin/post/create']);
-  }
-
 }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { PostModel } from '../../models/post.model';
 import { PostService } from '../../services/post.service';
 
@@ -14,7 +14,7 @@ export class PreviewPostCardComponent {
   @Input()
   public postCardPreview: PostModel;
 
-  constructor(private postService: PostService, private router: Router) {
+  constructor(private postService: PostService, private location: Location) {
     this.postService.getPostPreview().subscribe(
       (data) => {
         this.postCardPreview = data;
@@ -27,6 +27,6 @@ export class PreviewPostCardComponent {
   }
 
   public navigateBack() {
-    this.router.navigate(['/admin/post/create']);
+    this.location.back();
   }
 }
