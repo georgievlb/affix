@@ -29,19 +29,21 @@ export class MainContentComponent implements OnInit, AfterViewInit {
     const routeParam: any = this.route.snapshot.paramMap.get('number');
     this.currentPageIndex = Number.parseInt(routeParam) ? Number.parseInt(routeParam) : 0;
 
-    if (this.currentPageIndex > 0) {
+    if (this.currentPageIndex !== 0) {
       this.navigateToPage();
       this.router.navigate(['/page/' + this.currentPageIndex]);
     }
   }
 
   ngAfterViewInit() {
-      this.paginator.pageIndex = this.currentPageIndex,
-      this.paginator.page.next({
-        pageIndex: this.currentPageIndex,
-        pageSize: this.paginator.pageSize,
-        length: this.paginator.length
-      });
+      this.paginator.pageIndex = this.currentPageIndex;
+      if (this.currentPageIndex !== 0) {
+        this.paginator.page.next({
+          pageIndex: this.currentPageIndex,
+          pageSize: this.paginator.pageSize,
+          length: this.paginator.length
+        });
+      }
   }
 
 
