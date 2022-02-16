@@ -10,7 +10,7 @@ import { PostService } from '../../domain/post/services/post.service';
   templateUrl: './main-content.component.html',
   styleUrls: ['./main-content.component.scss']
 })
-export class MainContentComponent implements OnInit, AfterViewInit {
+export class MainContentComponent implements OnInit {
 
   public readonly numberOfItemsPerPage = 5;
   public currentSetOfPostCards$: Observable<PostModel[]>;
@@ -34,18 +34,6 @@ export class MainContentComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/page/' + this.currentPageIndex]);
     }
   }
-
-  ngAfterViewInit() {
-      this.paginator.pageIndex = this.currentPageIndex;
-      if (this.currentPageIndex !== 0) {
-        this.paginator.page.next({
-          pageIndex: this.currentPageIndex,
-          pageSize: this.paginator.pageSize,
-          length: this.paginator.length
-        });
-      }
-  }
-
 
   // TODO: fix the following issues
   // 1. Navigate pages using 1-based index
