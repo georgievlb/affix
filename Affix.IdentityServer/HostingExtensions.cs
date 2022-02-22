@@ -1,6 +1,9 @@
 using Affix.IdentityServer.Data;
 using Affix.IdentityServer.Models;
+using Affix.IdentityServer.Services;
 using Duende.IdentityServer;
+//using Duende.IdentityServer.AspNetIdentity; // TODO: Check out the Duende profile service
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -13,11 +16,11 @@ namespace Affix.IdentityServer
         {
             builder.Services.AddRazorPages();
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<AffixIdentityContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("AffixIdentityDb")));
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<AffixIdentityContext>()
                 .AddDefaultTokenProviders();
 
             builder.Services
@@ -33,7 +36,7 @@ namespace Affix.IdentityServer
                 })
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients)
+                .AddInMemoryClients(Config.Clients(builder.Configuration))
                 .AddAspNetIdentity<ApplicationUser>();
 
             builder.Services.AddAuthentication()
@@ -48,6 +51,8 @@ namespace Affix.IdentityServer
                     options.ClientSecret = "copy client secret from Google here";
                 });
 
+            builder.Services.AddTransient<IProfileService, ProfileService>();
+
             return builder.Build();
         }
 
@@ -58,8 +63,17 @@ namespace Affix.IdentityServer
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseForwardedHeaders();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+                app.UseForwardedHeaders();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseIdentityServer();

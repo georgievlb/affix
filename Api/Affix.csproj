@@ -5,16 +5,14 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <SpaRoot>..\Client\</SpaRoot>
-    <SpaProxyServerUrl>https://localhost:5002</SpaProxyServerUrl>
+    <SpaProxyServerUrl>https://localhost:6002</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <Configurations>Debug;Release;Local</Configurations>
-    <!--TODO: Research if this is how the server side renderer is configured-->
-    <!--<BuildServerSideRenderer>True</BuildServerSideRenderer>-->
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.3.23" />
-    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0" />
@@ -39,7 +37,6 @@
 
   <ItemGroup>
     <Folder Include=".platform\hooks\postdeploy\" />
-    <Folder Include="Areas\Identity\Persistence\Migrations\" />
     <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 
