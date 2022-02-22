@@ -14,7 +14,7 @@ namespace Affix.IdentityServer
         {
             using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                var context = scope.ServiceProvider.GetService<AffixIdentityContext>();
                 context.Database.Migrate();
 
                 var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();

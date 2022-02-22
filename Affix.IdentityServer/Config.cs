@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace Affix.IdentityServer
 {
@@ -14,40 +15,48 @@ namespace Affix.IdentityServer
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-            new ApiScope("scope1"),
-            new ApiScope("scope2"),
+                new ApiScope("AffixAPI")
             };
 
-        public static IEnumerable<Client> Clients =>
+        public static IEnumerable<Client> Clients (IConfiguration Configuration) =>
             new Client[]
             {
-            // m2m client credentials flow client
-            new Client
-            {
-                ClientId = "m2m.client",
-                ClientName = "Client Credentials Client",
+                new Client
+                {
+                    ClientId = "client1",
 
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
+                    // no interactive user, use the clientid/secret for authentication
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
 
-                AllowedScopes = { "scope1" }
-            },
+                    // secret for authentication
+                    ClientSecrets =
+                    {
+                        new Secret("MySecret".Sha256())
+                    },
 
-            // interactive client using code flow + pkce
-            new Client
-            {
-                ClientId = "interactive",
-                ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
+                    // scopes that client has access to
+                    AllowedScopes = { "AffixAPI" }
+                },
+                // JavaScript Client
+                new Client
+                {
+                    ClientId = "affix_client_spa",
+                    ClientName = "Affix JS Client",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = false,
 
-                AllowedGrantTypes = GrantTypes.Code,
-
-                RedirectUris = { "https://localhost:44300/signin-oidc" },
-                FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
-                PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
-
-                AllowOfflineAccess = true,
-                AllowedScopes = { "openid", "profile", "scope2" }
-            },
+                    RedirectUris =           { Configuration.GetSection("IdentityServer").GetValue<string>("RedirectUri") },
+                    PostLogoutRedirectUris = { Configuration.GetSection("IdentityServer").GetValue<string>("PostLogoutRedirectUris") },
+                    AllowedCorsOrigins =     { Configuration.GetSection("IdentityServer").GetValue<string>("AllowedCorsOrigins") },
+                    //AlwaysIncludeUserClaimsInIdToken = true,
+                    //AlwaysSendClientClaims = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "AffixAPI"
+                    }
+                }
             };
     }
 }

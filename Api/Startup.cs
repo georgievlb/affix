@@ -1,28 +1,16 @@
+using Affix.Services;
 using Afix.Persistence;
-using Auth.Areas.Identity.Data;
-using Affix.Models;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using System.Security.Cryptography.X509Certificates;
-using System.Security;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Linq;
-using Microsoft.AspNetCore.HttpOverrides;
-using Affix.Services;
 using System.Text.Json.Serialization;
-using Affix.Areas.Identity.Services;
-using Duende.IdentityServer.Services;
 
 namespace Affix
 {
@@ -63,22 +51,22 @@ namespace Affix
             });
 
             services.AddDatabaseDeveloperPageExceptionFilter();
-            // TODO: Add a signing credential for Identity Server
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, AffixIdentityContext>()
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients(Configuration));
 
-            services.AddTransient<IProfileService, ProfileService>();
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:5001";
 
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
+                });
 
-            services.AddControllersWithViews().AddJsonOptions(options =>
+            services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
-            services.AddRazorPages();
 
             services.AddScoped<IImageService, ImageService>();
         }
@@ -109,17 +97,12 @@ namespace Affix
             app.UseCors("localhost");
 
             app.UseAuthentication();
-            app.UseIdentityServer();
+
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers(); // TODO: delete this
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
-
-                endpoints.MapFallbackToFile("index.html");
+                endpoints.MapControllers();
             });
         }
     }

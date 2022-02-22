@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  port: 5001,
+  port: 6001,
   apiUrl: "localhost",
   bucketName: "affix-images"
 };
