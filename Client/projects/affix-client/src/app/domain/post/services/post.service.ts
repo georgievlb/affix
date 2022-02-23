@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, from, Observable, Subscription } from 'rxjs';
 import { PostModel } from '../models/post.model';
 import { environment } from "../../../../environments/environment";
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 const Posts: PostModel[] = [
   new PostModel('', new Date(), '', '', '', false, '', "", "", 0, '', '', '', '')
@@ -24,7 +25,7 @@ export class PostService implements OnDestroy {
   private readonly postPreview$$: BehaviorSubject<PostModel> = new BehaviorSubject<PostModel>(Posts[0]);
   private readonly postsUrl = `https://${environment.apiUrl}:${environment.port}/posts`;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private authService: AuthService) {
     this.subscription.add(
       this.httpClient.get(this.postsUrl)
         .subscribe((postCards: any) => {
@@ -147,4 +148,18 @@ export class PostService implements OnDestroy {
   }
 
   //#endregion
+
+  public getData = () => {
+    return from(
+      this.authService.getAccessToken()
+      .then(token => {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.httpClient.get("https://localhost:6001/posts/draft", { headers: headers }).toPromise();
+      })
+    );
+  }
+
+  public getAuth() {
+    return this.authService.isAuthenticated();
+  }
 }
