@@ -9,21 +9,41 @@ import { PreviewPostCardComponent } from './domain/post/components/preview-post-
 import { PreviewPostDetailsComponent } from './domain/post/components/preview-post-details/preview-post-details.component';
 import { UpdatePostComponent } from './domain/post/components/update-post/update-post.component';
 import { DeletePostComponent } from './domain/post/components/delete-post/delete-post.component';
+import { SigninCallbackComponent } from './auth/components/signin-callback/signin-callback.component';
+import { SignoutCallbackComponent } from './auth/components/signout-callback/signout-callback.component';
+
+// const routes: Routes = [
+//   { path: 'admin', component: ViewAdminPageComponent, canActivate: [AuthorizeGuard] },
+//   { path: 'admin/post/create', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
+//   { path: 'admin/post/draft', component: UpdatePostComponent, canActivate: [AuthorizeGuard] },
+//   { path: 'admin/post/preview/:moniker', component: PreviewPostCardComponent, canActivate: [AuthorizeGuard] },
+//   { path: 'admin/post/preview/details/:moniker', component: PreviewPostDetailsComponent, canActivate: [AuthorizeGuard] },
+//   { path: 'admin/post/edit', component: UpdatePostComponent, canActivate: [AuthorizeGuard] },
+//   { path: 'admin/post/edit/:moniker', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
+//   { path: 'admin/post/delete', component: DeletePostComponent, canActivate: [AuthorizeGuard] },
+//   { path: 'posts/:moniker', component: ViewPostDetailsComponent },
+//   { path: 'page/:number', component: MainContentComponent },
+//   { path: 'home', component: MainContentComponent, pathMatch: 'full' },
+//   { path: '', component: MainContentComponent, pathMatch: 'full' }
+// ];
 
 const routes: Routes = [
-  { path: 'admin', component: ViewAdminPageComponent, canActivate: [AuthorizeGuard] },
-  { path: 'admin/post/create', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
-  { path: 'admin/post/draft', component: UpdatePostComponent, canActivate: [AuthorizeGuard] },
-  { path: 'admin/post/preview/:moniker', component: PreviewPostCardComponent, canActivate: [AuthorizeGuard] },
-  { path: 'admin/post/preview/details/:moniker', component: PreviewPostDetailsComponent, canActivate: [AuthorizeGuard] },
-  { path: 'admin/post/edit', component: UpdatePostComponent, canActivate: [AuthorizeGuard] },
-  { path: 'admin/post/edit/:moniker', component: CreatePostComponent, canActivate: [AuthorizeGuard] },
-  { path: 'admin/post/delete', component: DeletePostComponent, canActivate: [AuthorizeGuard] },
-  { path: 'posts/:moniker', component: ViewPostDetailsComponent },
+  { path: 'signin-callback', component: SigninCallbackComponent },
+  { path: 'signout-callback', component: SignoutCallbackComponent },
+  { path: 'admin', component: ViewAdminPageComponent },
+  { path: 'admin/post/create', component: CreatePostComponent },
+  { path: 'admin/post/draft', component: UpdatePostComponent },
+  { path: 'admin/post/preview/:moniker', component: PreviewPostCardComponent },
+  { path: 'admin/post/preview/details/:moniker', component: PreviewPostDetailsComponent },
+  { path: 'admin/post/edit', component: UpdatePostComponent },
+  { path: 'admin/post/edit/:moniker', component: CreatePostComponent },
+  { path: 'admin/post/delete', component: DeletePostComponent },
+  { path: 'posts/:moniker', component: ViewPostDetailsComponent},
   { path: 'page/:number', component: MainContentComponent },
   { path: 'home', component: MainContentComponent, pathMatch: 'full' },
   { path: '', component: MainContentComponent, pathMatch: 'full' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],

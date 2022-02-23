@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PostModel } from '../../domain/post/models/post.model';
 import { PostService } from '../../domain/post/services/post.service';
 
@@ -16,6 +16,7 @@ export class MainContentComponent implements OnInit {
   public currentSetOfPostCards$: Observable<PostModel[]>;
   public postsCount$: Observable<number>;
   public currentPageIndex: number;
+  public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private postService: PostService,
     private route: ActivatedRoute,
@@ -47,4 +48,8 @@ export class MainContentComponent implements OnInit {
     this.router.navigate(['/page/' + this.currentPageIndex]);
   }
 
+  callApi() {
+    this.postService.getData().subscribe(data => console.log(data));
+    this.postService.getAuth().then(isAuth => this.isAuthenticated.next(isAuth));
+  }
 }

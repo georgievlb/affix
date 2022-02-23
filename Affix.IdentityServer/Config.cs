@@ -56,6 +56,26 @@ namespace Affix.IdentityServer
                         IdentityServerConstants.StandardScopes.Profile,
                         "AffixAPI"
                     }
+                },
+                // JavaScript Client2
+                new Client
+                {
+                    ClientId = "affix_client_spa2",
+                    ClientName = "Affix JS Client2",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = false,
+
+                    RedirectUris =           { Configuration.GetSection("IdentityServer").GetValue<string>("RedirectUri2") },
+                    PostLogoutRedirectUris = { Configuration.GetSection("IdentityServer").GetValue<string>("PostLogoutRedirectUris2") },
+                    AllowedCorsOrigins =     { Configuration.GetSection("IdentityServer").GetValue<string>("AllowedCorsOrigins2") },
+                    //AlwaysIncludeUserClaimsInIdToken = true,
+                    //AlwaysSendClientClaims = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "AffixAPI"
+                    }
                 }
             };
     }

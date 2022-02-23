@@ -8,3 +8,7 @@
                [pageIndex]="currentPageIndex"
                hidePageSize="true">
 </mat-paginator>
+
+<app-signin-menu></app-signin-menu>
+<button (click)="callApi()">call api</button>
+{{ isAuthenticated | async }}

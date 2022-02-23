@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IDTokenClaims } from 'oidc-client';
 import { Subscription } from 'rxjs';
-import { AuthorizeService } from '../api-authorization/authorize.service';
+// import { AuthorizeService } from '../api-authorization/authorize.service';
 
 @Component({
   selector: 'app-root',
@@ -17,25 +17,25 @@ export class AppComponent {
   public userName: string | undefined;
   public userRole: string | null;
 
-  constructor(private authService: AuthorizeService) {
-    this.subscription.add(this.authService
-      .isAuthenticated()
-      .subscribe(isUserLoggedIn => {
-        this.isUserLoggedIn = isUserLoggedIn;
-      })
-    );
+  // constructor(private authService: AuthorizeService) {
+  //   this.subscription.add(this.authService
+  //     .isAuthenticated()
+  //     .subscribe(isUserLoggedIn => {
+  //       this.isUserLoggedIn = isUserLoggedIn;
+  //     })
+  //   );
 
-    this.subscription.add(this.authService
-      .getUser()
-      .subscribe(user => {
-        this.userName = user?.name;
-      }));
+  //   this.subscription.add(this.authService
+  //     .getUser()
+  //     .subscribe(user => {
+  //       this.userName = user?.name;
+  //     }));
 
-    this.subscription.add(this.authService
-      .getUserClaims()
-      .subscribe((claims: IDTokenClaims | null) => {
-        this.userRole = claims ? claims['role'] : '';
-      }));
-  };
+  //   this.subscription.add(this.authService
+  //     .getUserClaims()
+  //     .subscribe((claims: IDTokenClaims | null) => {
+  //       this.userRole = claims ? claims['role'] : '';
+  //     }));
+  // };
 
 }

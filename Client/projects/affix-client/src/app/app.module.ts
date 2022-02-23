@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './modules/material.module';
+import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RenderHtmlPipe } from './domain/post/pipes/render-html.pipe';
@@ -15,8 +16,8 @@ import { ViewPostCardComponent } from './domain/post/components/view-post-card/v
 import { CreatePostComponent } from './domain/post/components/create-post/create-post.component';
 import { ViewPostDetailsComponent } from './domain/post/components/view-post-details/view-post-details.component';
 
-import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
-import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+// import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
+// import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
 import { PreviewPostCardComponent } from './domain/post/components/preview-post-card/preview-post-card.component';
 import { PreviewPostDetailsComponent } from './domain/post/components/preview-post-details/preview-post-details.component';
@@ -58,17 +59,18 @@ import { SearchDialogComponent } from './domain/search/components/search-dialog/
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     AppRoutingModule,
+    AuthModule,
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
     HttpClientModule,
-    ApiAuthorizationModule,
+    // ApiAuthorizationModule,
     DisqusModule.forRoot('affix-1'),
     ReactiveFormsModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    // { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, // MINE
+    // { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -39,7 +39,7 @@ namespace Affix
                 options.AddPolicy("localhost", builder =>
                 {
                     builder
-                    .WithOrigins(Configuration.GetValue<string>("Hostname"))
+                    .WithOrigins(Configuration.GetValue<string>("Hostname"), Configuration.GetValue<string>("Hostname2"))
                     .WithMethods("PUT", "GET", "DELETE")
                     .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
                 });
