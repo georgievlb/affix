@@ -15,10 +15,11 @@ namespace Affix.IdentityServer
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("AffixAPI")
+                new ApiScope("AffixAPI"),
+                new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
 
-        public static IEnumerable<Client> Clients (IConfiguration Configuration) =>
+        public static IEnumerable<Client> Clients(IConfiguration Configuration) =>
             new Client[]
             {
                 new Client
@@ -36,6 +37,22 @@ namespace Affix.IdentityServer
 
                     // scopes that client has access to
                     AllowedScopes = { "AffixAPI" }
+                },
+                new Client
+                {
+                    ClientId = "client2",
+
+                    // no interactive user, use the clientid/secret for authentication
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    // secret for authentication
+                    ClientSecrets =
+                    {
+                        new Secret("MySecret2".Sha256())
+                    },
+
+                    // scopes that client has access to
+                    AllowedScopes = { IdentityServerConstants.LocalApi.ScopeName }
                 },
                 // JavaScript Client
                 new Client

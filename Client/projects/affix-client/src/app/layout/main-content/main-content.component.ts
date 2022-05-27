@@ -47,9 +47,4 @@ export class MainContentComponent implements OnInit {
     this.currentSetOfPostCards$ = this.postService.getNextPostCardsPage(this.numberOfItemsPerPage * this.currentPageIndex, this.numberOfItemsPerPage);
     this.router.navigate(['/page/' + this.currentPageIndex]);
   }
-
-  callApi() {
-    this.postService.getData().subscribe(data => console.log(data));
-    this.postService.getAuth().then(isAuth => this.isAuthenticated.next(isAuth));
-  }
 }

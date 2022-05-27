@@ -1,6 +1,6 @@
 <div>
     <section>
-        <button *ngIf="!isUserAuthenticated" class="btn btn-link" style="color:gray" (click)="login()">Login</button>
-        <button *ngIf="isUserAuthenticated" class="btn btn-link" style="color:gray" (click)="logout()">Logout</button>
+        <button *ngIf="!isAuthenticated" (click)="login()">Login</button>
+        <button *ngIf="isAuthenticated" (click)="logout()">Logout</button>
     </section>
 </div>

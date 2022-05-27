@@ -21,6 +21,7 @@
         <app-subscription></app-subscription>
       </li>
       <li class="flex-item" *ngIf="this.isUserLoggedIn && this.userRole === 'admin'">
+      <!-- <li class="flex-item" *ngIf="this.isUserLoggedIn"> -->
         <button id="admin-button" mat-button color="primary" routerLink="/admin">Admin Area</button>
       </li>
     </ul>
@@ -66,6 +67,7 @@
       <app-subscription></app-subscription>
     </li>
     <li class="flex-item" *ngIf="this.isUserLoggedIn && this.userRole === 'admin'">
+    <!-- <li class="flex-item" *ngIf="this.isUserLoggedIn"> -->
       <button id="admin-button" mat-button color="primary" routerLink="/admin">Admin Area</button>
     </li>
   </ul>

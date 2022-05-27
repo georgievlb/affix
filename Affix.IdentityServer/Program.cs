@@ -1,4 +1,5 @@
-﻿using Affix.IdentityServer;
+using Affix.IdentityServer;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
