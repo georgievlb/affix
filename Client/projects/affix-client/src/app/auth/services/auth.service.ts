@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User, UserManager, UserManagerSettings } from 'oidc-client';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,11 @@ export class AuthService {
 
   private _userManager: UserManager;
   private _user: User | null = null;
+  private user$$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
   private _loginChangedSubject = new Subject<boolean>();
 
   public loginChanged = this._loginChangedSubject.asObservable();
+  public user$ = this.user$$.asObservable();
 
   constructor() {
     this._userManager = new UserManager(this.idpSettings);
@@ -38,6 +40,7 @@ export class AuthService {
       .then(user => {
         if (this._user !== user) {
           this._loginChangedSubject.next(this.checkUser(user));
+          this.user$$.next(user);
         }
         this._user = user;
 

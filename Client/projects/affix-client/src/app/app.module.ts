@@ -32,6 +32,8 @@ import { SubscriptionDialogComponent } from './domain/subscription/components/su
 import { SubscriptionThankyouDialogComponent } from './domain/subscription/components/subscription-thankyou-dialog/subscription-thankyou-dialog.component';
 import { SearchContainerComponent } from './domain/search/components/search-container/search-container.component';
 import { SearchDialogComponent } from './domain/search/components/search-dialog/search-dialog.component';
+import { AdminLoginComponent } from './domain/admin/admin-login/admin-login.component';
+import { AdminLogoutComponent } from './domain/admin/admin-logout/admin-logout.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { SearchDialogComponent } from './domain/search/components/search-dialog/
     SubscriptionDialogComponent,
     SubscriptionThankyouDialogComponent,
     SearchContainerComponent,
-    SearchDialogComponent
+    SearchDialogComponent,
+    AdminLoginComponent,
+    AdminLogoutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

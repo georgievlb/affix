@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -6,17 +6,12 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './signin-menu.component.html',
   styleUrls: ['./signin-menu.component.scss']
 })
-export class SigninMenuComponent implements OnInit {
-  public isUserAuthenticated: boolean = false;
+export class SigninMenuComponent {
 
-  constructor(private authService: AuthService) {}
+  @Input()
+  public isAuthenticated = false;
 
-  ngOnInit(): void {
-    this.authService.loginChanged
-    .subscribe(res => {
-      this.isUserAuthenticated = res;
-    })
-  }
+  constructor(private authService: AuthService) { }
 
   public login = () => {
     this.authService.login();

@@ -11,6 +11,8 @@ import { UpdatePostComponent } from './domain/post/components/update-post/update
 import { DeletePostComponent } from './domain/post/components/delete-post/delete-post.component';
 import { SigninCallbackComponent } from './auth/components/signin-callback/signin-callback.component';
 import { SignoutCallbackComponent } from './auth/components/signout-callback/signout-callback.component';
+import { AdminLoginComponent } from './domain/admin/admin-login/admin-login.component';
+import { AdminLogoutComponent } from './domain/admin/admin-logout/admin-logout.component';
 
 // const routes: Routes = [
 //   { path: 'admin', component: ViewAdminPageComponent, canActivate: [AuthorizeGuard] },
@@ -38,6 +40,8 @@ const routes: Routes = [
   { path: 'admin/post/edit', component: UpdatePostComponent },
   { path: 'admin/post/edit/:moniker', component: CreatePostComponent },
   { path: 'admin/post/delete', component: DeletePostComponent },
+  { path: 'admin/login', component: AdminLoginComponent },
+  { path: 'admin/logout', component: AdminLogoutComponent },
   { path: 'posts/:moniker', component: ViewPostDetailsComponent},
   { path: 'page/:number', component: MainContentComponent },
   { path: 'home', component: MainContentComponent, pathMatch: 'full' },
