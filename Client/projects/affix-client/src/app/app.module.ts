@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { MaterialModule } from './modules/material.module';
+import { MaterialModule } from './common/material.module';
 import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,12 +16,10 @@ import { ViewPostCardComponent } from './domain/post/components/view-post-card/v
 import { CreatePostComponent } from './domain/post/components/create-post/create-post.component';
 import { ViewPostDetailsComponent } from './domain/post/components/view-post-details/view-post-details.component';
 
-// import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
-// import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { ViewAdminPageComponent } from './domain/admin/view-admin-page/view-admin-page.component';
 import { PreviewPostCardComponent } from './domain/post/components/preview-post-card/preview-post-card.component';
 import { PreviewPostDetailsComponent } from './domain/post/components/preview-post-details/preview-post-details.component';
-import { RequestInterceptor } from './common/request-interceptor';
+import { AuthInterceptor } from './auth/interceptors/auth-interceptor';
 import { UpdatePostComponent } from './domain/post/components/update-post/update-post.component';
 import { RenderMarkdownPipe } from './domain/post/pipes/render-markdown.pipe';
 import { DeletePostComponent } from './domain/post/components/delete-post/delete-post.component';
@@ -68,13 +66,11 @@ import { AdminLogoutComponent } from './domain/admin/admin-logout/admin-logout.c
     MaterialModule,
     FormsModule,
     HttpClientModule,
-    // ApiAuthorizationModule,
     DisqusModule.forRoot('affix-1'),
     ReactiveFormsModule
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }, // MINE
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

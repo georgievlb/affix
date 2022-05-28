@@ -14,7 +14,6 @@ import { PostService } from './domain/post/services/post.service';
 export class AppComponent implements OnInit {
 
   private readonly subscription: Subscription = new Subscription();
-  // public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isAuthenticated = false;
   public token: string | null = '';
   public userName: string | undefined;
@@ -50,18 +49,6 @@ export class AppComponent implements OnInit {
   printToken() {
     console.log(this.token);
   }
-  //   this.subscription.add(this.authService
-  //     .getUser()
-  //     .subscribe(user => {
-  //       this.userName = user?.name;
-  //     }));
-
-  //   this.subscription.add(this.authService
-  //     .getUserClaims()
-  //     .subscribe((claims: IDTokenClaims | null) => {
-  //       this.userRole = claims ? claims['role'] : '';
-  //     }));
-  // };
 
   ngOnInit() {
       this.authService.getAccessToken()

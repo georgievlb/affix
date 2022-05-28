@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { User, UserManager, UserManagerSettings } from 'oidc-client';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { IDTokenClaims, User, UserManager, UserManagerSettings } from 'oidc-client';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class AuthService {
   private _userManager: UserManager;
   private _user: User | null = null;
   private user$$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  private userClaims$$: BehaviorSubject<IDTokenClaims | undefined> = new BehaviorSubject<IDTokenClaims | undefined>(undefined);
   private _loginChangedSubject = new Subject<boolean>();
 
   public loginChanged = this._loginChangedSubject.asObservable();
@@ -41,11 +43,22 @@ export class AuthService {
         if (this._user !== user) {
           this._loginChangedSubject.next(this.checkUser(user));
           this.user$$.next(user);
+          const claims: IDTokenClaims | undefined = user?.profile;
+          this.userClaims$$.next(claims);
         }
         this._user = user;
 
         return this.checkUser(user);
       })
+  }
+
+  public IsAdmin(): Observable<boolean> {
+    return this.getUserClaims()
+      .pipe(map(claims => claims ? claims.role === 'admin': false));
+  }
+
+  public getUserClaims(): Observable<IDTokenClaims | undefined> {
+    return this.userClaims$$.asObservable();
   }
 
   private checkUser = (user: User | null): boolean => {
@@ -76,4 +89,18 @@ export class AuthService {
     })
   }
 
+  // TODO: Remove because it's obsolete
+  // public getAccessToken(): Observable<string | null> {
+  //   return from(this.ensureUserManagerInitialized())
+  //     .pipe(mergeMap(() => from(this.userManager!.getUser())),
+  //       map(user => user && user.access_token));
+  // }
+
+    // TODO: Remove because it's obsolete
+  // private getUserFromStorage(): Observable<IUser | null> {
+  //   return from(this.ensureUserManagerInitialized())
+  //     .pipe(
+  //       mergeMap(() => this.userManager!.getUser()),
+  //       map(u => u && u.profile));
+  // }
 }
