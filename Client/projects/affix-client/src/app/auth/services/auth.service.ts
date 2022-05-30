@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IDTokenClaims, User, UserManager, UserManagerSettings } from 'oidc-client';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { environment } from "../../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
@@ -23,12 +23,12 @@ export class AuthService {
 
   private get idpSettings(): UserManagerSettings {
     return {
-      authority: 'https://localhost:5001/',
-      client_id: 'affix_client_spa2',
-      redirect_uri: 'https://localhost:6002/signin-callback',
-      post_logout_redirect_uri: 'https://localhost:6002/signout-callback',
-      response_type: "code",
-      scope: "openid profile AffixAPI"
+      authority: `${environment.authority}`,
+      client_id: `${environment.clientId}`,
+      redirect_uri: `${environment.redirect_uri}`,
+      post_logout_redirect_uri: `${environment.post_logout_redirect_uri}`,
+      response_type: `${environment.response_type}`,
+      scope: `${environment.scope}`
     };
 
   }

@@ -15,10 +15,22 @@ namespace Affix.IdentityServer
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddRazorPages();
+            var configuration = builder.Configuration;
 
             builder.Services.AddDbContext<AffixIdentityContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("AffixIdentityDb")));
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AffixApi", builder =>
+                {
+                    builder
+                    .WithOrigins(configuration.GetValue<string>("ApiUrl"))
+                    .AllowAnyHeader()
+                    .WithMethods("GET");
+                });
+            });
+            //}
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AffixIdentityContext>()
                 .AddDefaultTokenProviders();
@@ -87,6 +99,7 @@ namespace Affix.IdentityServer
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseCors("AffixApi");
             app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();

@@ -6,7 +6,13 @@ export const environment = {
   production: false,
   port: 6001,
   apiUrl: "localhost",
-  bucketName: "affix-images"
+  bucketName: 'affix-images',
+  authority: 'https://localhost:5001/',
+  clientId: 'affix_client_spa',
+  redirect_uri: 'https://localhost:6002/signin-callback',
+  post_logout_redirect_uri: 'https://localhost:6002/signout-callback',
+  response_type: 'code',
+  scope: 'openid profile AffixAPI'
 };
 
 /*

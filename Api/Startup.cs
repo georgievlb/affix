@@ -34,16 +34,19 @@ namespace Affix
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
             services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
-            services.AddCors(options =>
-            {
-                options.AddPolicy("localhost", builder =>
+            //if (Environment.EnvironmentName == "Local")
+            //{
+                services.AddCors(options =>
                 {
-                    builder
-                    .WithOrigins(Configuration.GetValue<string>("Hostname"), Configuration.GetValue<string>("Hostname2"))
-                    .WithMethods("PUT", "GET", "DELETE")
-                    .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
+                    options.AddPolicy("localhost", builder =>
+                    {
+                        builder
+                        .WithOrigins(Configuration.GetValue<string>("Hostname"))
+                        .WithMethods("PUT", "GET", "DELETE")
+                        .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
+                    });
                 });
-            });
+            //}
 
             services.AddSwaggerGen(c =>
             {
@@ -55,7 +58,7 @@ namespace Affix
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:5001";
+                    options.Authority = Configuration.GetValue<string>("Authority");
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -74,6 +77,7 @@ namespace Affix
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //app.UseDefaultFiles();
             if (env.IsDevelopment() || env.EnvironmentName == "Local")
             {
                 app.UseDeveloperExceptionPage();
@@ -81,6 +85,7 @@ namespace Affix
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Affix v1"));
                 app.UseMigrationsEndPoint();
                 app.UseForwardedHeaders();
+
             }
             else
             {
@@ -93,7 +98,10 @@ namespace Affix
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-
+            //if (env.EnvironmentName == "Local")
+            //{
+            //    app.UseCors("localhost");
+            //}
             app.UseCors("localhost");
 
             app.UseAuthentication();
@@ -103,6 +111,7 @@ namespace Affix
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }
