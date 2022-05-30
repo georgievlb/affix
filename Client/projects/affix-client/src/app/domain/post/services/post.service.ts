@@ -154,7 +154,7 @@ export class PostService implements OnDestroy {
       this.authService.getAccessToken()
       .then(token => {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-        return this.httpClient.get("https://localhost:6001/posts/draft", { headers: headers }).toPromise();
+        return this.httpClient.get(`https://${environment.apiUrl}:${environment.port}/posts/draft`, { headers: headers }).toPromise();
       })
     );
   }

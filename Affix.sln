@@ -5,25 +5,20 @@ VisualStudioVersion = 17.0.31512.422
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Affix", "Api\Affix.csproj", "{2AAC108A-9E85-41D1-AE6D-208E51E8F06F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Affix.IdentityServer", "Affix.IdentityServer\Affix.IdentityServer.csproj", "{EE80FB12-0B10-4C12-9549-8AB4AE34B664}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Affix.IdentityServer", "Affix.IdentityServer\Affix.IdentityServer.csproj", "{EE80FB12-0B10-4C12-9549-8AB4AE34B664}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Local|Any CPU = Local|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2AAC108A-9E85-41D1-AE6D-208E51E8F06F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2AAC108A-9E85-41D1-AE6D-208E51E8F06F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AAC108A-9E85-41D1-AE6D-208E51E8F06F}.Local|Any CPU.ActiveCfg = Local|Any CPU
-		{2AAC108A-9E85-41D1-AE6D-208E51E8F06F}.Local|Any CPU.Build.0 = Local|Any CPU
 		{2AAC108A-9E85-41D1-AE6D-208E51E8F06F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AAC108A-9E85-41D1-AE6D-208E51E8F06F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE80FB12-0B10-4C12-9549-8AB4AE34B664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE80FB12-0B10-4C12-9549-8AB4AE34B664}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE80FB12-0B10-4C12-9549-8AB4AE34B664}.Local|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE80FB12-0B10-4C12-9549-8AB4AE34B664}.Local|Any CPU.Build.0 = Debug|Any CPU
 		{EE80FB12-0B10-4C12-9549-8AB4AE34B664}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE80FB12-0B10-4C12-9549-8AB4AE34B664}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
