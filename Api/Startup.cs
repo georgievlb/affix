@@ -33,9 +33,10 @@ namespace Affix
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
-            services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
-            //if (Environment.EnvironmentName == "Local")
-            //{
+            if (Environment.EnvironmentName == "Local")
+            {
+                //services.AddDbContext<AffixContext>(options => options.UseSqlite(Configuration.GetConnectionString("AffixDb")));
+
                 services.AddCors(options =>
                 {
                     options.AddPolicy("localhost", builder =>
@@ -46,7 +47,9 @@ namespace Affix
                         .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
                     });
                 });
-            //}
+            }
+
+            services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
 
             services.AddSwaggerGen(c =>
             {

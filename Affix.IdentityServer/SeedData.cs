@@ -25,7 +25,7 @@ namespace Affix.IdentityServer
                     {
                         UserName = "alice",
                         Email = "AliceSmith@email.com",
-                        EmailConfirmed = true,
+                        EmailConfirmed = true
                     };
                     var result = userMgr.CreateAsync(alice, "Pass123$").Result;
                     if (!result.Succeeded)
@@ -55,6 +55,7 @@ namespace Affix.IdentityServer
                 {
                     bob = new ApplicationUser
                     {
+                        Id = Guid.NewGuid().ToString(),
                         UserName = "bob",
                         Email = "BobSmith@email.com",
                         EmailConfirmed = true
@@ -66,6 +67,7 @@ namespace Affix.IdentityServer
                     }
 
                     result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                            new Claim(JwtClaimTypes.Id, "2"),
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
