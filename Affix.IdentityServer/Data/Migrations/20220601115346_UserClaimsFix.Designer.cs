@@ -3,6 +3,7 @@ using System;
 using Affix.IdentityServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Affix.IdentityServer.Data.Migrations
 {
     [DbContext(typeof(AffixIdentityContext))]
-    partial class AffixIdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20220601115346_UserClaimsFix")]
+    partial class UserClaimsFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.2");

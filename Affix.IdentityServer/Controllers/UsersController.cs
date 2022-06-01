@@ -1,7 +1,9 @@
 ﻿using Affix.IdentityServer.Models;
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using static Duende.IdentityServer.IdentityServerConstants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,6 +15,23 @@ namespace Affix.IdentityServer.Controllers
         public string Email { get; set; }
         public string Password { get; set; }
     }
+
+    public class MyClaimModel
+    {
+        public int Id { get; set; }
+
+        public string ClaimType { get; set; }
+
+        public string ClaimValue { get; set; }
+    }
+
+    public class MyClaimModelWrapper
+    {
+        public string UserId { get; set; }
+
+        public IEnumerable<MyClaimModel> Claims { get; set; }
+    }
+
     [Authorize(LocalApi.PolicyName)]
     [Route("api/[controller]")]
     [ApiController]
@@ -54,9 +73,29 @@ namespace Affix.IdentityServer.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, [FromBody] MyClaimModelWrapper claimModelWrapper)
         {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(claimModelWrapper.UserId);
+                if (user == null)
+                {
+                    return BadRequest($"User with id{claimModelWrapper.UserId}, not found.");
+                }
+
+                var claims = new List<Claim>();
+                foreach (var claimModel in claimModelWrapper.Claims)
+                {
+                    claims.Add(new Claim(claimModel.ClaimType, claimModel.ClaimValue));
+                }
+                var result = await _userManager.AddClaimsAsync(user, claims);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}: {ex.InnerException.Message}");
+            }
         }
 
         // DELETE api/<UserController>/5
