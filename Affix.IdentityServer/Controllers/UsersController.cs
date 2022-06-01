@@ -37,39 +37,68 @@ namespace Affix.IdentityServer.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<UsersController> logger;
 
-        public UsersController(UserManager<ApplicationUser> userManager)
+        public UsersController(UserManager<ApplicationUser> userManager, ILogger<UsersController> logger)
         {
-            _userManager = userManager;
+            this.userManager = userManager;
+            this.logger = logger;
         }
 
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error calling {nameof(UsersController.Get)}, {ex.Message}, {ex.StackTrace}, {ex.InnerException}.");
+
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return "value";
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error calling {nameof(UsersController.GetById)}, {ex.Message}, {ex.StackTrace}, {ex.InnerException}.");
+
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
 
         // POST api/<UserController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] MyModel model)
         {
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            try
             {
-                return Ok();
-            }
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = true };
+                var result = await userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
 
-            return BadRequest(result.Errors);
+                return BadRequest(result.Errors);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error calling {nameof(UsersController.Post)}, {ex.Message}, {ex.StackTrace}, {ex.InnerException}.");
+
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
 
         // PUT api/<UserController>/5
@@ -78,7 +107,7 @@ namespace Affix.IdentityServer.Controllers
         {
             try
             {
-                var user = await _userManager.FindByIdAsync(claimModelWrapper.UserId);
+                var user = await userManager.FindByIdAsync(claimModelWrapper.UserId);
                 if (user == null)
                 {
                     return BadRequest($"User with id{claimModelWrapper.UserId}, not found.");
@@ -89,19 +118,32 @@ namespace Affix.IdentityServer.Controllers
                 {
                     claims.Add(new Claim(claimModel.ClaimType, claimModel.ClaimValue));
                 }
-                var result = await _userManager.AddClaimsAsync(user, claims);
+                var result = await userManager.AddClaimsAsync(user, claims);
+
                 return Ok();
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error: {ex.Message}: {ex.InnerException.Message}");
+                logger.LogError(ex, $"Error calling {nameof(UsersController.Put)}, {ex.Message}, {ex.StackTrace}, {ex.InnerException}.");
+
+                return BadRequest($"Error: {ex.Message}");
             }
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error calling {nameof(UsersController.Delete)}, {ex.Message}, {ex.StackTrace}, {ex.InnerException}.");
+
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
     }
 }
