@@ -11,6 +11,7 @@ using Afix.Persistence;
 using Affix.Services;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Affix.Controllers
 {
@@ -22,13 +23,15 @@ namespace Affix.Controllers
         private readonly AffixContext context;
         private readonly string bucketName;
         private readonly IImageService imageService;
+        private readonly ILogger<PostsController> logger;
 
-        public PostsController(AffixContext context, IImageService imageService)
+        public PostsController(AffixContext context, IImageService imageService, ILogger<PostsController> logger)
         {
             this.context = context;
             // TODO: Put this in a config file
             this.bucketName = "affix-images";
             this.imageService = imageService;
+            this.logger = logger;
         }
 
         [AllowAnonymous]
@@ -36,29 +39,42 @@ namespace Affix.Controllers
         [HttpGet]
         public async Task<ActionResult<PostModel>> GetByIdAsync(string moniker)
         {
-            var result = await context.Post.Include(p => p.Category)
-                .Where(p => p.Moniker == moniker).FirstOrDefaultAsync();
 
-            if (result == null)
+            try
             {
-                return NotFound();
+                var result = await context.Post.Include(p => p.Category)
+                    .Where(p => p.Moniker == moniker).FirstOrDefaultAsync();
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(result);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Ok(result);
+                logger.LogError(ex, $"Error calling {nameof(PostsController.GetByIdAsync)}, {ex.Message}, {ex.StackTrace}.");
+
+                return BadRequest($"Error: {ex.Message}");
             }
+
         }
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<Tuple<IEnumerable<PostModel>, int>>> GetAllAsync(int skip = 0, int take = 0)
         {
-            var posts = await context.Post
-                .Where(p => p.IsDraft == false)
-                .OrderByDescending(p => p.Date)
-                .Skip(skip)
-                .Take(take > 0 ? take : context.Post.Count())
-                .Select(p => new PostModel
+            try
+            {
+                var posts = await context.Post
+                    .Where(p => p.IsDraft == false)
+                    .OrderByDescending(p => p.Date)
+                    .Skip(skip)
+                    .Take(take > 0 ? take : context.Post.Count())
+                    .Select(p => new PostModel
                     {
                         Title = p.Title,
                         Content = p.Content,
@@ -71,131 +87,174 @@ namespace Affix.Controllers
                         Category = p.Category.Name,
                         Tags = string.Join(',', p.Category.Tags)
                     })
-                .ToListAsync();
+                    .ToListAsync();
 
-            var result = new Tuple<List<PostModel>, int>(posts, context.Post.Where(x => x.IsDraft == false).Count());
+                var result = new Tuple<List<PostModel>, int>(posts, context.Post.Where(x => x.IsDraft == false).Count());
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error calling {nameof(PostsController.GetAllAsync)}, {ex.Message}, {ex.StackTrace}.");
+
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
 
         [Route("draft")]
         [HttpGet]
         public async Task<ActionResult<List<PostModel>>> GeAlltDraftPostsAsync()
         {
-            var posts = await context.Post
-                .Include(post => post.Category)
-                .Where(post => post.IsDraft == true)
-                .OrderByDescending(post => post.Date)
-                .Select(post => new PostModel
-                {
-                    Title = post.Title,
-                    Content = post.Content,
-                    Summary = post.Summary,
-                    Header = post.Header,
-                    Date = DateTime.UtcNow,
-                    ImageId = post.ImageId,
-                    ImageAltText = post.ImageAltText,
-                    Moniker = post.Moniker,
-                    IsDraft = post.IsDraft,
-                    Category = post.Category.Name,
-                    Tags = string.Join(",", post.Category.Tags)
-                })
-                .ToListAsync();
+            try
+            {
+                var posts = await context.Post
+                    .Include(post => post.Category)
+                    .Where(post => post.IsDraft == true)
+                    .OrderByDescending(post => post.Date)
+                    .Select(post => new PostModel
+                    {
+                        Title = post.Title,
+                        Content = post.Content,
+                        Summary = post.Summary,
+                        Header = post.Header,
+                        Date = DateTime.UtcNow,
+                        ImageId = post.ImageId,
+                        ImageAltText = post.ImageAltText,
+                        Moniker = post.Moniker,
+                        IsDraft = post.IsDraft,
+                        Category = post.Category.Name,
+                        Tags = string.Join(",", post.Category.Tags)
+                    })
+                    .ToListAsync();
 
-            return Ok(posts);
+                return Ok(posts);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error calling {nameof(PostsController.GeAlltDraftPostsAsync)}, {ex.Message}, {ex.StackTrace}.");
+
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> PutPostAsync(PostModel post)
         {
-            var currentPost = await context.Post.FirstOrDefaultAsync(p => p.Moniker == post.Moniker);
-            if(currentPost == null)
+            try
             {
-                var newPost = new PostDataModel
+                var currentPost = await context.Post.FirstOrDefaultAsync(p => p.Moniker == post.Moniker);
+                if (currentPost == null)
                 {
-                    Title = post.Title,
-                    Content = post.Content,
-                    Summary = post.Summary,
-                    Header = post.Header,
-                    Date = DateTime.UtcNow,
-                    ImageId = post.ImageId,
-                    Score = new ScoreDataModel
+                    var newPost = new PostDataModel
+                    {
+                        Title = post.Title,
+                        Content = post.Content,
+                        Summary = post.Summary,
+                        Header = post.Header,
+                        Date = DateTime.UtcNow,
+                        ImageId = post.ImageId,
+                        Score = new ScoreDataModel
                         {
                             Likes = 0,
                             Shares = 0
                         },
-                    ImageAltText = post.ImageAltText,
-                    Moniker = post.Moniker,
-                    IsDraft = post.IsDraft,
-                    Category = new CategoryDataModel
-                    {
-                        Name = post.Category,
-                        Tags = post.Tags.Split(',')
-                    }
-                };
+                        ImageAltText = post.ImageAltText,
+                        Moniker = post.Moniker,
+                        IsDraft = post.IsDraft,
+                        Category = new CategoryDataModel
+                        {
+                            Name = post.Category,
+                            Tags = post.Tags.Split(',')
+                        }
+                    };
 
-                await context.Post.AddAsync(newPost);
-                await context.SaveChangesAsync();
+                    await context.Post.AddAsync(newPost);
+                    await context.SaveChangesAsync();
 
-                return Created($"posts/{newPost.Moniker}", newPost);
+                    return Created($"posts/{newPost.Moniker}", newPost);
+                }
+
+                else
+                {
+                    var updatedPost = context.Post.Include(p => p.Category).Where(p => p.Moniker == post.Moniker).First();
+                    updatedPost.Title = post.Title;
+                    updatedPost.Content = post.Content;
+                    updatedPost.Summary = post.Summary;
+                    updatedPost.Header = post.Header;
+                    updatedPost.Date = currentPost.IsDraft ? DateTime.UtcNow : currentPost.Date;
+                    updatedPost.ImageId = post.ImageId;
+                    updatedPost.ImageAltText = post.ImageAltText;
+                    updatedPost.Moniker = post.Moniker;
+                    updatedPost.IsDraft = post.IsDraft;
+                    updatedPost.Category.Name = post.Category;
+                    updatedPost.Category.Tags = post.Tags.Split(',');
+
+                    context.Post.Update(updatedPost);
+                    await context.SaveChangesAsync();
+
+                    return Ok(currentPost);
+                }
             }
-            
-            else
+            catch (Exception ex)
             {
-                var updatedPost = context.Post.Include(p => p.Category).Where(p => p.Moniker == post.Moniker).First();
-                updatedPost.Title = post.Title;
-                updatedPost.Content = post.Content;
-                updatedPost.Summary = post.Summary;
-                updatedPost.Header = post.Header;
-                updatedPost.Date = currentPost.IsDraft ? DateTime.UtcNow : currentPost.Date;
-                updatedPost.ImageId = post.ImageId;
-                updatedPost.ImageAltText = post.ImageAltText;
-                updatedPost.Moniker = post.Moniker;
-                updatedPost.IsDraft = post.IsDraft;
-                updatedPost.Category.Name = post.Category;
-                updatedPost.Category.Tags = post.Tags.Split(',');
+                logger.LogError(ex, $"Error calling {nameof(PostsController.PutPostAsync)}, {ex.Message}, {ex.StackTrace}.");
 
-                context.Post.Update(updatedPost);
-                await context.SaveChangesAsync();
-
-                return Ok(currentPost);
+                return BadRequest($"Error: {ex.Message}");
             }
         }
 
         [Route("image")]
         [HttpPut]
-        public async Task<ActionResult> PutImageAsync([FromForm]IFormFile image)
+        public async Task<ActionResult> PutImageAsync([FromForm] IFormFile image)
         {
-            var maximumImageSizeInBytes = 2000000;
-            var imageId = Guid.NewGuid().ToString();
-            using (var memoryStream = new MemoryStream())
+            try
             {
-                await image.CopyToAsync(memoryStream);
-
-                if (memoryStream.Length > maximumImageSizeInBytes)
+                var maximumImageSizeInBytes = 2000000;
+                var imageId = Guid.NewGuid().ToString();
+                using (var memoryStream = new MemoryStream())
                 {
-                    return BadRequest("Maximum image size is 2 megabytes. Try an image with a smaller size.");
-                }
-                await imageService.PutImage(memoryStream, bucketName, imageId);
-            }
+                    await image.CopyToAsync(memoryStream);
 
-            return Created($"posts/image/{imageId}", System.Text.Json.JsonSerializer.Serialize(imageId));
+                    if (memoryStream.Length > maximumImageSizeInBytes)
+                    {
+                        return BadRequest("Maximum image size is 2 megabytes. Try an image with a smaller size.");
+                    }
+                    await imageService.PutImage(memoryStream, bucketName, imageId);
+                }
+
+                return Created($"posts/image/{imageId}", System.Text.Json.JsonSerializer.Serialize(imageId));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error calling {nameof(PostsController.PutImageAsync)}, {ex.Message}, {ex.StackTrace}.");
+
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
 
         [HttpDelete]
         public async Task<ActionResult> DeletePostAsync(string moniker)
         {
-            var postToDelete = await context.Post.Include(p => p.Category).Where(p => p.Moniker == moniker).FirstOrDefaultAsync();
-            if (postToDelete == null)
+            try
             {
-                return NotFound($"No post found with moniker: \"{moniker}\"");
-            }
-            else
-            {
-                context.Post.Remove(postToDelete);
-                await context.SaveChangesAsync();
+                var postToDelete = await context.Post.Include(p => p.Category).Where(p => p.Moniker == moniker).FirstOrDefaultAsync();
+                if (postToDelete == null)
+                {
+                    return NotFound($"No post found with moniker: \"{moniker}\"");
+                }
+                else
+                {
+                    context.Post.Remove(postToDelete);
+                    await context.SaveChangesAsync();
 
-                return Ok();
+                    return Ok();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Error calling {nameof(PostsController.DeletePostAsync)}, {ex.Message}, {ex.StackTrace}.");
+
+                return BadRequest($"Error: {ex.Message}");
             }
         }
     }

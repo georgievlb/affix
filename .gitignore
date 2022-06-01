@@ -406,3 +406,12 @@ Thumbs.db
 !.elasticbeanstalk/*.global.yml
 
 keys
+
+# SQLite db
+/Affix.IdentityServer/Data/AffixIdentityDb.db-wal
+/Affix.IdentityServer/Data/AffixIdentityDb.db-shm
+/Affix.IdentityServer/Data/AffixIdentityDb.db
+
+# logs
+**/**/logs/
+/Affix.IdentityServer/log20220601.txt
