@@ -33,6 +33,7 @@ namespace Afix.Persistence
 
             modelBuilder.Entity<PostDataModel>()
                 .Property(x => x.Content)
+                .HasMaxLength(1000000)
                 .IsRequired();
 
             modelBuilder.Entity<PostDataModel>()
@@ -67,7 +68,8 @@ namespace Afix.Persistence
                 .Property(p => p.ImageId);
 
             modelBuilder.Entity<PostDataModel>()
-                .Property(p => p.ImageAltText);
+                .Property(p => p.ImageAltText)
+                .HasMaxLength(200);
 
             modelBuilder.Entity<PostDataModel>()
                 .Property(p => p.IsDraft);
@@ -129,6 +131,7 @@ namespace Afix.Persistence
 
             modelBuilder.Entity<CategoryDataModel>()
                 .Property(e => e.Tags)
+                .HasMaxLength(500)
                 .HasConversion(
                     v => string.Join(',', v),
                     v => v.Split(',', StringSplitOptions.RemoveEmptyEntries), valueComparer);

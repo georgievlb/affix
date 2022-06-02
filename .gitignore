@@ -415,3 +415,7 @@ keys
 # logs
 **/**/logs/
 /Affix.IdentityServer/log20220601.txt
+/Api/posts
+/Api/Persistence/Affix.db-wal
+/Api/Persistence/Affix.db-shm
+/Api/Persistence/Affix.db

@@ -35,8 +35,6 @@ namespace Affix
             });
             if (Environment.EnvironmentName == "Local")
             {
-                //services.AddDbContext<AffixContext>(options => options.UseSqlite(Configuration.GetConnectionString("AffixDb")));
-
                 services.AddCors(options =>
                 {
                     options.AddPolicy("localhost", builder =>
@@ -49,7 +47,8 @@ namespace Affix
                 });
             }
 
-            services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
+            //services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
+            services.AddDbContext<AffixContext>(options => options.UseSqlite(Configuration.GetConnectionString("AffixDb")));
 
             services.AddSwaggerGen(c =>
             {

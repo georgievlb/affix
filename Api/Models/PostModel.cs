@@ -42,5 +42,23 @@ namespace Affix.Models
 
             return Moniker.ToLowerInvariant() == other.Moniker.ToLowerInvariant();
         }
+
+        public override string ToString()
+        {
+            return $"Title: {Title}\n" +
+                $"Content: {Content}\n" +
+                $"Summary: {Summary}\n" +
+                $"Header: {Header}\n" +
+                $"Moniker: {Moniker}\n" +
+                $"Date: {Date}\n" +
+                $"Likes: {Likes}\n" +
+                $"Shares: {Shares}\n" +
+                $"ImageId: {ImageId}\n" +
+                $"ImageAltText: {ImageAltText}\n" +
+                $"IsDraft: {IsDraft}\n" +
+                $"Category: {Category}\n" +
+                $"Tags: {Tags}";
+
+        }
     }
 }

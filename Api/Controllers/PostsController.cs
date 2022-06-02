@@ -42,6 +42,8 @@ namespace Affix.Controllers
 
             try
             {
+                logger.LogInformation($"Calling {nameof(PostsController.GetByIdAsync)} with {nameof(moniker)} {moniker}.");
+
                 var result = await context.Post.Include(p => p.Category)
                     .Where(p => p.Moniker == moniker).FirstOrDefaultAsync();
 
@@ -69,6 +71,8 @@ namespace Affix.Controllers
         {
             try
             {
+                logger.LogInformation($"Calling {nameof(PostsController.GetAllAsync)} with {nameof(skip)} {skip} and {nameof(take)} {take}.");
+
                 var posts = await context.Post
                     .Where(p => p.IsDraft == false)
                     .OrderByDescending(p => p.Date)
@@ -107,6 +111,8 @@ namespace Affix.Controllers
         {
             try
             {
+                logger.LogInformation($"Calling {nameof(PostsController.GeAlltDraftPostsAsync)}.");
+
                 var posts = await context.Post
                     .Include(post => post.Category)
                     .Where(post => post.IsDraft == true)
@@ -142,6 +148,8 @@ namespace Affix.Controllers
         {
             try
             {
+                logger.LogInformation($"Calling {nameof(PostsController.PutPostAsync)} with post: {post}.");
+
                 var currentPost = await context.Post.FirstOrDefaultAsync(p => p.Moniker == post.Moniker);
                 if (currentPost == null)
                 {
@@ -209,6 +217,8 @@ namespace Affix.Controllers
         {
             try
             {
+                logger.LogInformation($"Calling {nameof(PostsController.PutImageAsync)} with {nameof(image)} {image}.");
+
                 var maximumImageSizeInBytes = 2000000;
                 var imageId = Guid.NewGuid().ToString();
                 using (var memoryStream = new MemoryStream())
@@ -237,6 +247,8 @@ namespace Affix.Controllers
         {
             try
             {
+                logger.LogInformation($"Calling {nameof(PostsController.PutImageAsync)} with {nameof(moniker)} {moniker}.");
+
                 var postToDelete = await context.Post.Include(p => p.Category).Where(p => p.Moniker == moniker).FirstOrDefaultAsync();
                 if (postToDelete == null)
                 {
