@@ -3,14 +3,13 @@
 </header>
 <main>
     <router-outlet></router-outlet>
+    <div>isAuthenticated: {{ isAuthenticated }}</div>
+    <div>has token: {{ token !== null ? true : false }}</div>
+    <div>{{ token }}</div>
+    <button (click)="printUser()">Print user</button>
+    <button (click)="printToken()">Print token</button>
+    <button (click)="callApi()">Call Api</button>
 </main>
-
-<div>isAuthenticated: {{ isAuthenticated }}</div>
-<div>has token: {{ token !== null ? true : false }}</div>
-<div>{{ token }}</div>
-<button (click)="printUser()">Print user</button>
-<button (click)="printToken()">Print token</button>
-<button (click)="callApi()">Call Api</button>
 <footer>
   <app-footer></app-footer>
 </footer>
