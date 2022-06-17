@@ -4,6 +4,8 @@ using Affix.IdentityServer.Services;
 using Duende.IdentityServer;
 //using Duende.IdentityServer.AspNetIdentity; // TODO: Check out the Duende profile service
 using Duende.IdentityServer.Services;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -15,11 +17,17 @@ namespace Affix.IdentityServer
         public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddRazorPages();
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
             var configuration = builder.Configuration;
 
             builder.Services.AddDbContext<AffixIdentityContext>(options =>
                 //options.UseSqlServer(builder.Configuration.GetConnectionString("AffixIdentityDb")));
                 options.UseSqlite(builder.Configuration.GetConnectionString("AffixIdentityDb")));
+                // options.UseSqlite("Data Source=AffixIdentityDb.db;"));
 
 
             builder.Services.AddCors(options =>
@@ -66,6 +74,8 @@ namespace Affix.IdentityServer
                 })
                 .AddLocalApi();
 
+            builder.Services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(@"/etc/keys"));
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy(IdentityServerConstants.LocalApi.PolicyName, policy =>
@@ -83,6 +93,10 @@ namespace Affix.IdentityServer
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
             app.UseSerilogRequestLogging();
 
             if (app.Environment.IsDevelopment())
@@ -94,16 +108,17 @@ namespace Affix.IdentityServer
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
                 app.UseForwardedHeaders();
+                // app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
+            app.UseMigrationsEndPoint();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors("AffixApi");
-            app.UseIdentityServer();
             app.UseAuthentication();
+            app.UseIdentityServer();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

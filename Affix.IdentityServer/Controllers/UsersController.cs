@@ -27,7 +27,7 @@ namespace Affix.IdentityServer.Controllers
 
     public class MyClaimModelWrapper
     {
-        public string UserId { get; set; }
+        public string UserEmail { get; set; }
 
         public IEnumerable<MyClaimModel> Claims { get; set; }
     }
@@ -99,6 +99,10 @@ namespace Affix.IdentityServer.Controllers
 
                 return BadRequest($"Error: {ex.Message}");
             }
+            finally
+            {
+                userManager.Dispose();
+            }
         }
 
         // PUT api/<UserController>/5
@@ -107,10 +111,10 @@ namespace Affix.IdentityServer.Controllers
         {
             try
             {
-                var user = await userManager.FindByIdAsync(claimModelWrapper.UserId);
+                var user = await userManager.FindByEmailAsync(claimModelWrapper.UserEmail);
                 if (user == null)
                 {
-                    return BadRequest($"User with id{claimModelWrapper.UserId}, not found.");
+                    return BadRequest($"User with id{claimModelWrapper.UserEmail}, not found.");
                 }
 
                 var claims = new List<Claim>();
