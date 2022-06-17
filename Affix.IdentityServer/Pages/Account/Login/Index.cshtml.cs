@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace Affix.IdentityServer.Pages.Login
 {
@@ -96,21 +97,26 @@ namespace Affix.IdentityServer.Pages.Login
 
             if (ModelState.IsValid)
             {
+                Log.Information("***************************** Model state is valid, attempting to log in. *****************************");
                 var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberLogin, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    Log.Information("***************************** Result is successful, moving on. *****************************");
+
                     var user = await _userManager.FindByNameAsync(Input.Username);
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
 
                     if (context != null)
                     {
+                        Log.Information("***************************** Context !- null. *****************************");
                         if (context.IsNativeClient())
                         {
+                            Log.Information("***************************** Context is native client. *****************************");
                             // The client is native, so this change in how to
                             // return the response is for better UX for the end user.
                             return this.LoadingPage(Input.ReturnUrl);
                         }
-
+                        Log.Information("***************************** Redirecting to return url. *****************************");
                         // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
                         return Redirect(Input.ReturnUrl);
                     }
@@ -118,10 +124,12 @@ namespace Affix.IdentityServer.Pages.Login
                     // request for a local page
                     if (Url.IsLocalUrl(Input.ReturnUrl))
                     {
+                        Log.Information("***************************** Request for a local page. *****************************");
                         return Redirect(Input.ReturnUrl);
                     }
                     else if (string.IsNullOrEmpty(Input.ReturnUrl))
                     {
+                        Log.Information("***************************** No return url, redirecting to / *****************************");
                         return Redirect("~/");
                     }
                     else
