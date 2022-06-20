@@ -29,21 +29,41 @@
  <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Compile Remove=".ebextensions\nginx\**" />
+    <Compile Remove="posts\**" />
     <Content Remove="$(SpaRoot)**" />
     <Content Remove=".ebextensions\nginx\**" />
+    <Content Remove="posts\**" />
     <EmbeddedResource Remove=".ebextensions\nginx\**" />
+    <EmbeddedResource Remove="posts\**" />
     <None Remove="$(SpaRoot)**" />
     <None Remove=".ebextensions\nginx\**" />
+    <None Remove="posts\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include=".platform\hooks\postdeploy\" />
     <Folder Include="Persistence\Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include=".ebextensions\https-instance-single.config" />
+    <None Include=".ebextensions\certificate.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include=".ebextensions\https-instance-single.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include=".ebextensions\setvars.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include=".platform\hooks\postdeploy\01_certbot.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include=".platform\nginx\conf.d\https.conf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Include=".platform\nginx\nginx.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -59,9 +79,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="affixis.pfx">
+    <Content Remove=".ebextensions\certificate.config" />
+    <Content Remove=".ebextensions\https-instance-single.config" />
+    <Content Remove=".ebextensions\setvars.config" />
+    <Content Remove=".platform\hooks\postdeploy\01_certbot.sh" />
+    <Content Remove=".platform\nginx\conf.d\https.conf" />
+    <Content Remove=".platform\nginx\nginx.conf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Affix.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
+    <None Update="affixis.pfx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
