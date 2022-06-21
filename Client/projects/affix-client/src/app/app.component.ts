@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   public userRole: string | null;
   public user : User | null;
 
-  constructor(private authService: AuthService, private postService: PostService) {
+  constructor(private authService: AuthService) {
     const token$ = from(this.authService.getAccessToken());
     const isAuthenticated$ = from(this.authService.isAuthenticated())
 
@@ -36,18 +36,6 @@ export class AppComponent implements OnInit {
         this.userRole = user?.profile.role;
       })
     );
-  }
-
-  callApi() {
-    this.postService.getData().subscribe(data => console.log(data));
-  }
-
-  printUser() {
-    console.log(this.user);
-  }
-
-  printToken() {
-    console.log(this.token);
   }
 
   ngOnInit() {
