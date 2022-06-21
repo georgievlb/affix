@@ -88,10 +88,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="affixis.pfx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Affix.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="affixis.pfx">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>

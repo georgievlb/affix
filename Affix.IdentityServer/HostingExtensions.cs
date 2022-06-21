@@ -25,9 +25,7 @@ namespace Affix.IdentityServer
             var configuration = builder.Configuration;
 
             builder.Services.AddDbContext<AffixIdentityContext>(options =>
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("AffixIdentityDb")));
                 options.UseSqlite(builder.Configuration.GetConnectionString("AffixIdentityDb")));
-                // options.UseSqlite("Data Source=AffixIdentityDb.db;"));
 
 
             builder.Services.AddCors(options =>
