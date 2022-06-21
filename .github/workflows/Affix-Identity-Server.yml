@@ -33,4 +33,4 @@ jobs:
     - name: Install dotnet-eb tool
       run: dotnet tool install -g amazon.elasticbeanstalk.tools
     - name: Deploy to Elastic Beanstalk
-      run: run: ${{ secrets.DEPLOYCOMMAND_IS }}
+      run: ${{ secrets.DEPLOYCOMMAND_IS }}
