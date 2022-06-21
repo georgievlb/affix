@@ -1,4 +1,4 @@
-name: .NET
+name: Affix Identity Server
 
 on:
   push:
@@ -33,6 +33,4 @@ jobs:
     - name: Install dotnet-eb tool
       run: dotnet tool install -g amazon.elasticbeanstalk.tools
     - name: Deploy to Elastic Beanstalk
-      run: pwd
-    - name: Deploy to Elastic Beanstalk2
-      run: ls
+      run: run: ${{ secrets.DEPLOYCOMMAND_IS }}
