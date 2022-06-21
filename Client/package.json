@@ -10,7 +10,6 @@
     "build": "ng build --configuration local",
     "build:dev": "ng build --configuration development",
     "build:prod": "ng build --configuration production",
-    "build:ssr": "ng run affix-client:server:dev",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -25,9 +24,7 @@
     "@angular/material": "^12.0.5",
     "@angular/platform-browser": "~12.0.4",
     "@angular/platform-browser-dynamic": "~12.0.4",
-    "@angular/platform-server": "~12.0.4",
     "@angular/router": "~12.0.4",
-    "@nguniversal/module-map-ngfactory-loader": "^8.2.6",
     "bootstrap": "^4.6.0",
     "jquery": "^3.5.1",
     "marked": "^2.1.3",
