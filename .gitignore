@@ -411,6 +411,9 @@ keys
 /Affix.IdentityServer/AffixIdentityDb.db-wal
 /Affix.IdentityServer/AffixIdentityDb.db-shm
 /Affix.IdentityServer/AffixIdentityDb.db
+/Api/Affix.db
+/Api/Affix.db-shm
+/Api/Affix.db-wal
 
 # logs
 **/**/logs/
