@@ -4,6 +4,7 @@ using Afix.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Affix.Persistence.Migrations
 {
     [DbContext(typeof(AffixContext))]
-    partial class AffixContextModelSnapshot : ModelSnapshot
+    [Migration("20220129145129_AddCategoryTable")]
+    partial class AddCategoryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +47,7 @@ namespace Affix.Persistence.Migrations
                     b.HasIndex("PostId")
                         .IsUnique();
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Affix.Persistence.DataModels.PostDataModel", b =>
@@ -81,6 +83,9 @@ namespace Affix.Persistence.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<Guid>("ScoreId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Summary")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -97,7 +102,7 @@ namespace Affix.Persistence.Migrations
                     b.HasIndex("Moniker")
                         .IsUnique();
 
-                    b.ToTable("Post", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Affix.Persistence.DataModels.ScoreDataModel", b =>
@@ -120,7 +125,7 @@ namespace Affix.Persistence.Migrations
                     b.HasIndex("PostId")
                         .IsUnique();
 
-                    b.ToTable("Score", (string)null);
+                    b.ToTable("Scores");
                 });
 
             modelBuilder.Entity("Affix.Persistence.DataModels.SubscriptionDataModel", b =>
@@ -138,7 +143,7 @@ namespace Affix.Persistence.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Subscription", (string)null);
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("Affix.Persistence.DataModels.CategoryDataModel", b =>

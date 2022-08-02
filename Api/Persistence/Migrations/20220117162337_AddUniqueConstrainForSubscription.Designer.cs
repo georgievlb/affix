@@ -4,6 +4,7 @@ using Afix.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Affix.Persistence.Migrations
 {
     [DbContext(typeof(AffixContext))]
-    partial class AffixContextModelSnapshot : ModelSnapshot
+    [Migration("20220117162337_AddUniqueConstrainForSubscription")]
+    partial class AddUniqueConstrainForSubscription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,32 +23,6 @@ namespace Affix.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Affix.Persistence.DataModels.CategoryDataModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Tags")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId")
-                        .IsUnique();
-
-                    b.ToTable("Category", (string)null);
-                });
 
             modelBuilder.Entity("Affix.Persistence.DataModels.PostDataModel", b =>
                 {
@@ -81,6 +57,9 @@ namespace Affix.Persistence.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<Guid>("ScoreId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Summary")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -97,7 +76,7 @@ namespace Affix.Persistence.Migrations
                     b.HasIndex("Moniker")
                         .IsUnique();
 
-                    b.ToTable("Post", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Affix.Persistence.DataModels.ScoreDataModel", b =>
@@ -120,7 +99,7 @@ namespace Affix.Persistence.Migrations
                     b.HasIndex("PostId")
                         .IsUnique();
 
-                    b.ToTable("Score", (string)null);
+                    b.ToTable("Scores");
                 });
 
             modelBuilder.Entity("Affix.Persistence.DataModels.SubscriptionDataModel", b =>
@@ -138,18 +117,7 @@ namespace Affix.Persistence.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Subscription", (string)null);
-                });
-
-            modelBuilder.Entity("Affix.Persistence.DataModels.CategoryDataModel", b =>
-                {
-                    b.HasOne("Affix.Persistence.DataModels.PostDataModel", "Post")
-                        .WithOne("Category")
-                        .HasForeignKey("Affix.Persistence.DataModels.CategoryDataModel", "PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
+                    b.ToTable("Subscriptions");
                 });
 
             modelBuilder.Entity("Affix.Persistence.DataModels.ScoreDataModel", b =>
@@ -165,9 +133,6 @@ namespace Affix.Persistence.Migrations
 
             modelBuilder.Entity("Affix.Persistence.DataModels.PostDataModel", b =>
                 {
-                    b.Navigation("Category")
-                        .IsRequired();
-
                     b.Navigation("Score")
                         .IsRequired();
                 });

@@ -47,7 +47,7 @@ namespace Affix
                 });
             }
 
-            services.AddDbContext<AffixContext>(options => options.UseSqlite(Configuration.GetConnectionString("AffixDb")));
+            services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
 
             services.AddSwaggerGen(c =>
             {
