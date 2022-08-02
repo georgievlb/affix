@@ -54,9 +54,9 @@
     <None Include=".ebextensions\setvars.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include=".platform\hooks\postdeploy\01_certbot.sh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+<!--    <None Include=".platform\hooks\postdeploy\01_certbot.sh">-->
+<!--      <CopyToOutputDirectory>Always</CopyToOutputDirectory>-->
+<!--    </None>-->
     <None Include=".platform\nginx\conf.d\https.conf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

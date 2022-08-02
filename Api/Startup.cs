@@ -47,6 +47,8 @@ namespace Affix
                 });
             }
 
+            services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Affix", Version = "v1" });

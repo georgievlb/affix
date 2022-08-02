@@ -109,7 +109,8 @@ namespace Affix.IdentityServer
                 app.UseForwardedHeaders();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
+            app.UseMigrationsEndPoint();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors("AffixApi");
