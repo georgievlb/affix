@@ -25,8 +25,7 @@ namespace Affix.IdentityServer
             var configuration = builder.Configuration;
 
             builder.Services.AddDbContext<AffixIdentityContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("AffixIdentityDb")));
-
+                options.UseSqlServer(builder.Configuration.GetConnectionString("AffixIdentityDb")));
 
             builder.Services.AddCors(options =>
             {
@@ -106,17 +105,16 @@ namespace Affix.IdentityServer
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
                 app.UseForwardedHeaders();
-                // app.UseHsts();
             }
 
-            // app.UseHttpsRedirection();
-            app.UseMigrationsEndPoint();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors("AffixApi");
-            app.UseAuthentication();
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
