@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+    reverseproxy:
+      build:
+        context: .
+        dockerfile: Affix.ReverseProxy/nginx.Dockerfile
+      depends_on:
+        - identityserver
+      ports:
+        - "44325:443"
+      networks:
+        affixnet:
+          aliases:
+            - "local.is.affix.com"
+
+    identityserver:
+      build:
+        context: .
+        dockerfile: Affix.IdentityServer/Dockerfile
+      ports:
+        - "5000:5000"
+      environment:
+        - ASPNETCORE_URLS=http://*:5000
+        - ASPNETCORE_ENVIRONMENT=Local
+      networks:
+        - affixnet
+
+networks:
+  affixnet: {}

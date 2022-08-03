@@ -7,6 +7,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Affix", "Api\Affix.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Affix.IdentityServer", "Affix.IdentityServer\Affix.IdentityServer.csproj", "{EE80FB12-0B10-4C12-9549-8AB4AE34B664}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Affix.ReverseProxy", "Affix.ReverseProxy", "{B6B467E4-9F19-4CFE-B3B6-221E8EB559AE}"
+	ProjectSection(SolutionItems) = preProject
+		Affix.ReverseProxy\nginx.Dockerfile = Affix.ReverseProxy\nginx.Dockerfile
+		Affix.ReverseProxy\nginx.local.conf = Affix.ReverseProxy\nginx.local.conf
+		Affix.ReverseProxy\is-local.conf = Affix.ReverseProxy\is-local.conf
+		Affix.ReverseProxy\is-local.crt = Affix.ReverseProxy\is-local.crt
+		Affix.ReverseProxy\is-local.key = Affix.ReverseProxy\is-local.key
+		Affix.ReverseProxy\is-local.pfx = Affix.ReverseProxy\is-local.pfx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

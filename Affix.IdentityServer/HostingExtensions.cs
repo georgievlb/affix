@@ -90,10 +90,13 @@ namespace Affix.IdentityServer
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            var forwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            };
+            forwardedHeaderOptions.KnownNetworks.Clear();
+            forwardedHeaderOptions.KnownProxies.Clear();
+            app.UseForwardedHeaders(forwardedHeaderOptions);
             app.UseSerilogRequestLogging();
 
             if (app.Environment.IsDevelopment())
