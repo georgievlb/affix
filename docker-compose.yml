@@ -8,11 +8,12 @@ services:
       depends_on:
         - identityserver
       ports:
-        - "44325:443"
+        - "443:443" # container port must match the port that nginx is listening on
       networks:
         affixnet:
           aliases:
             - "local.is.affix.com"
+            - "local.api.affix.com"
 
     identityserver:
       build:
@@ -22,6 +23,18 @@ services:
         - "5000:5000"
       environment:
         - ASPNETCORE_URLS=http://*:5000
+        - ASPNETCORE_ENVIRONMENT=Local
+      networks:
+        - affixnet
+   
+    api:
+      build:
+        context: .
+        dockerfile: Api/Dockerfile
+      ports:
+        - "5005:5005"
+      environment:
+        - ASPNETCORE_URLS=http://*:5005
         - ASPNETCORE_ENVIRONMENT=Local
       networks:
         - affixnet

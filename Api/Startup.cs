@@ -33,19 +33,21 @@ namespace Affix
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
-            if (Environment.EnvironmentName == "Local")
-            {
+            // if (Environment.EnvironmentName == "Local")
+            // {
                 services.AddCors(options =>
                 {
                     options.AddPolicy("localhost", builder =>
                     {
                         builder
-                        .WithOrigins(Configuration.GetValue<string>("Hostname"))
-                        .WithMethods("PUT", "GET", "DELETE")
-                        .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
+                            .AllowAnyOrigin()
+                            // .WithMethods("PUT", "GET", "DELETE")
+                            .AllowAnyHeader()
+                            // .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
+                            .AllowAnyHeader();
                     });
                 });
-            }
+            // }
 
             services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
 
@@ -89,15 +91,15 @@ namespace Affix
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Affix v1"));
                 app.UseMigrationsEndPoint();
-                app.UseForwardedHeaders();
+                // app.UseForwardedHeaders();
 
             }
             else
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-                app.UseForwardedHeaders();
+                // app.UseHsts();
+                // app.UseForwardedHeaders();
             }
 
             // app.UseHttpsRedirection();

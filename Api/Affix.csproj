@@ -8,6 +8,7 @@
     <SpaProxyServerUrl>https://localhost:6002</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <Configurations>Debug;Release;Local</Configurations>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,6 +39,7 @@
     <None Remove=".ebextensions\nginx\**" />
     <None Remove="posts\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Remove="..\Client\dist\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,12 +59,6 @@
 <!--    <None Include=".platform\hooks\postdeploy\01_certbot.sh">-->
 <!--      <CopyToOutputDirectory>Always</CopyToOutputDirectory>-->
 <!--    </None>-->
-    <None Include=".platform\nginx\conf.d\https.conf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Include=".platform\nginx\nginx.conf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -103,8 +99,9 @@
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:dev" Condition="'$(Configuration)' == 'Debug'" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:prod" Condition="'$(Configuration)' == 'Release'" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+<!--    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:dev" Condition="'$(Configuration)' == 'Debug'" />-->
+<!--    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:prod" Condition="'$(Configuration)' == 'Release'" />-->
 
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>

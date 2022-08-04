@@ -1,16 +1,10 @@
-<app-nav-menu [isUserLoggedIn]="this.isAuthenticated" [userRole]="this.userRole" [userName]="this.userName"></app-nav-menu> 
+<app-nav-menu [isUserLoggedIn]="this.isAuthenticated" [userRole]="this.userRole" [userName]="this.userName"></app-nav-menu>
 <header class="app-header">
 </header>
 <main>
     <router-outlet></router-outlet>
 </main>
 
-<div>isAuthenticated: {{ isAuthenticated }}</div>
-<div>has token: {{ token !== null ? true : false }}</div>
-<div>{{ token }}</div>
-<button (click)="printUser()">Print user</button>
-<button (click)="printToken()">Print token</button>
-<button (click)="callApi()">Call Api</button>
 <footer>
   <app-footer></app-footer>
 </footer>

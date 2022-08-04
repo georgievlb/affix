@@ -1,12 +1,12 @@
 export const environment = {
   production: true,
   port: 443,
-  apiUrl: "lachezargeorgiev.com",
+  apiUrl: "",
   bucketName: "affix-images",
-  authority: 'https://is.lachezargeorgiev.com/',
+  authority: '',
   clientId: 'affix_client_spa',
-  redirect_uri: 'https://lachezargeorgiev.com/signin-callback',
-  post_logout_redirect_uri: 'https://lachezargeorgiev.com/signout-callback',
+  redirect_uri: '',
+  post_logout_redirect_uri: '',
   response_type: "code",
   scope: "openid profile AffixAPI"
 };

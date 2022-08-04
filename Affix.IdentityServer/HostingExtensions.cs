@@ -32,7 +32,8 @@ namespace Affix.IdentityServer
                 options.AddPolicy("AffixApi", builder =>
                 {
                     builder
-                    .WithOrigins(configuration.GetValue<string>("ApiUrl"))
+                    // .WithOrigins(configuration.GetValue<string>("ApiUrl"))
+                    .AllowAnyOrigin()
                     .AllowAnyHeader()
                     .WithMethods("GET");
                 });
@@ -102,14 +103,14 @@ namespace Affix.IdentityServer
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseForwardedHeaders();
+                // app.UseForwardedHeaders();
             }
             else
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-                app.UseForwardedHeaders();
+                // app.UseHsts();
+                // app.UseForwardedHeaders();
             }
 
             // app.UseHttpsRedirection();

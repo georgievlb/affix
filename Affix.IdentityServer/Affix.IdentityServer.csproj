@@ -8,27 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include=".ebextensions\certificate.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include=".ebextensions\setvars.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include=".ebextensions\https-instance-single.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include=".platform\hooks\postdeploy\01_certbot.sh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include=".platform\nginx\conf.d\https.conf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include=".platform\nginx\nginx.conf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.0.0" />
 
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.0" />

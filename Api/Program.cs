@@ -18,7 +18,8 @@ namespace Affix
                     webBuilder.UseStartup<Startup>();
                 })
                 .UseSerilog((ctx, lc) => lc
-                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day, outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
+                // .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day, outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
+                .WriteTo.Console()
                 .Enrich.FromLogContext()
                 .ReadFrom.Configuration(ctx.Configuration));
     }

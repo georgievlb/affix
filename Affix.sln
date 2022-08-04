@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Affix.ReverseProxy", "Affix
 		Affix.ReverseProxy\is-local.crt = Affix.ReverseProxy\is-local.crt
 		Affix.ReverseProxy\is-local.key = Affix.ReverseProxy\is-local.key
 		Affix.ReverseProxy\is-local.pfx = Affix.ReverseProxy\is-local.pfx
+		Affix.ReverseProxy\api-local.conf = Affix.ReverseProxy\api-local.conf
+		Affix.ReverseProxy\api-local.crt = Affix.ReverseProxy\api-local.crt
+		Affix.ReverseProxy\api-local.key = Affix.ReverseProxy\api-local.key
+		Affix.ReverseProxy\api-local.pfx = Affix.ReverseProxy\api-local.pfx
 	EndProjectSection
 EndProject
 Global
