@@ -6,6 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <RootNamespace>Affix.UI</RootNamespace>
+        <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
+        <UserSecretsId>82c112d9-a0e7-4f4f-b45f-602e1ef6a769</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
