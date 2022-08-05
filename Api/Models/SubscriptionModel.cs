@@ -1,4 +1,4 @@
-﻿namespace Affix.Models
+﻿namespace Affix.API.Models
 {
     public class SubscriptionModel
     {

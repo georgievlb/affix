@@ -1,4 +1,4 @@
-using Affix.Persistence.DataModels;
+using Affix.API.Persistence.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;

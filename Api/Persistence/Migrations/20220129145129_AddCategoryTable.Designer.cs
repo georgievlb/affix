@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Affix.Persistence.Migrations
+namespace Affix.API.Persistence.Migrations
 {
     [DbContext(typeof(AffixContext))]
     [Migration("20220129145129_AddCategoryTable")]

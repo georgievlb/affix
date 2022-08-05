@@ -1,6 +1,6 @@
 using System;
 
-namespace Affix.Persistence.DataModels
+namespace Affix.API.Persistence.DataModels
 {
     public class PostDataModel
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace Affix.Models
+namespace Affix.API.Models
 {
     public class ImageModel
     {

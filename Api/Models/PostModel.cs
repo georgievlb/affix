@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Affix.Models
+namespace Affix.API.Models
 {
     public class PostModel
     {

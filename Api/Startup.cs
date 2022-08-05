@@ -1,4 +1,3 @@
-using Affix.Services;
 using Afix.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,8 +10,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using Affix.API.Services;
 
-namespace Affix
+namespace Affix.API
 {
     public class Startup
     {

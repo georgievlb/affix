@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Affix.Persistence.Migrations
+namespace Affix.API.Persistence.Migrations
 {
     public partial class AddIsDraftColumn : Migration
     {

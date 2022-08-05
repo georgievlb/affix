@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31512.422
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Affix", "Api\Affix.csproj", "{2AAC108A-9E85-41D1-AE6D-208E51E8F06F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Affix.API", "Api\Affix.API.csproj", "{2AAC108A-9E85-41D1-AE6D-208E51E8F06F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Affix.IdentityServer", "Affix.IdentityServer\Affix.IdentityServer.csproj", "{EE80FB12-0B10-4C12-9549-8AB4AE34B664}"
 EndProject

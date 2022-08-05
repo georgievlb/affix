@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Affix.Persistence.Migrations
+namespace Affix.API.Persistence.Migrations
 {
     public partial class RenameSubscriptionsAndScoresTables : Migration
     {

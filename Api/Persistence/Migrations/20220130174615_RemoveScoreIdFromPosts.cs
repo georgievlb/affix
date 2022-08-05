@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Affix.Persistence.Migrations
+namespace Affix.API.Persistence.Migrations
 {
     public partial class RemoveScoreIdFromPosts : Migration
     {

@@ -2,18 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Affix.Models;
-using Affix.Persistence.DataModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Afix.Persistence;
-using Affix.Services;
 using System.IO;
+using Affix.API.Models;
+using Affix.API.Persistence.DataModels;
+using Affix.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Affix.Controllers
+namespace Affix.API.Controllers
 {
     [Authorize]
     [ApiController]

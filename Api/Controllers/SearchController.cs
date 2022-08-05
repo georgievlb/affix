@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Linq;
-using Affix.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using System;
+using Affix.API.Models;
 
-namespace Affix.Controllers
+namespace Affix.API.Controllers
 {
 #if DEBUG || RELEASE
     //[RestrictHost("dev.lachezargeorgiev.com")]

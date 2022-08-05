@@ -9,7 +9,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Serilog;
 
-namespace Affix.Services
+namespace Affix.API.Services
 {
     public class ImageService : IImageService
     {

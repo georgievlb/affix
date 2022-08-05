@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Affix.Persistence.Migrations
+namespace Affix.API.Persistence.Migrations
 {
     [DbContext(typeof(AffixContext))]
     [Migration("20211106140434_AddImageAltText")]

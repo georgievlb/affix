@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Affix
+namespace Affix.API
 {
     public class RestrictHost : Attribute, IAuthorizationFilter
     {

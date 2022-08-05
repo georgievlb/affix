@@ -1,14 +1,14 @@
-﻿using Affix.Models;
-using Affix.Persistence.DataModels;
-using Afix.Persistence;
+﻿using Afix.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Affix.API.Models;
+using Affix.API.Persistence.DataModels;
 
-namespace Affix.Controllers
+namespace Affix.API.Controllers
 {
 #if DEBUG || RELEASE
     //[RestrictHost("dev.lachezargeorgiev.com")]
