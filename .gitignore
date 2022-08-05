@@ -407,21 +407,10 @@ Thumbs.db
 
 keys
 
-# SQLite db
-/Affix.IdentityServer/AffixIdentityDb.db-wal
-/Affix.IdentityServer/AffixIdentityDb.db-shm
-/Affix.IdentityServer/AffixIdentityDb.db
-/Api/Affix.db
-/Api/Affix.db-shm
-/Api/Affix.db-wal
-
 # logs
 **/**/logs/
 /Affix.IdentityServer/log20220601.txt
 
-/Api/posts
-/Api/Persistence/Affix.db-wal
-/Api/Persistence/Affix.db-shm
-/Api/Persistence/Affix.db
+/Affix.API/posts
 
 **/wwwroot/**
