@@ -5,8 +5,7 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:6001",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Local",
-        "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
+        "ASPNETCORE_ENVIRONMENT": "Local"
       }
     }
   }

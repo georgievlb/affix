@@ -4,9 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <SpaRoot>..\Client\</SpaRoot>
-    <SpaProxyServerUrl>https://localhost:6002</SpaProxyServerUrl>
-    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <Configurations>Debug;Release;Local</Configurations>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
@@ -17,7 +14,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0" />
@@ -30,16 +26,12 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Compile Remove=".ebextensions\nginx\**" />
     <Compile Remove="posts\**" />
-    <Content Remove="$(SpaRoot)**" />
     <Content Remove=".ebextensions\nginx\**" />
     <Content Remove="posts\**" />
     <EmbeddedResource Remove=".ebextensions\nginx\**" />
     <EmbeddedResource Remove="posts\**" />
-    <None Remove="$(SpaRoot)**" />
     <None Remove=".ebextensions\nginx\**" />
     <None Remove="posts\**" />
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-    <None Remove="..\Client\dist\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,37 +73,5 @@
     <Content Remove=".platform\nginx\conf.d\https.conf" />
     <Content Remove=".platform\nginx\nginx.conf" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="affixis.pfx" />
-  </ItemGroup>
-
-    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
-    <!-- Ensure Node.js is installed -->
-    <Exec Command="node --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-    </Exec>
-    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
-    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-  </Target>
-  
-  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
-<!--    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:dev" Condition="'$(Configuration)' == 'Debug'" />-->
-<!--    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:prod" Condition="'$(Configuration)' == 'Release'" />-->
-
-    <!-- Include the newly-built files in the publish output -->
-    <ItemGroup>
-      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-        <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      </ResolvedFileToPublish>
-    </ItemGroup>
-  </Target>
 
 </Project>

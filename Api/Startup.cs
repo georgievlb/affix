@@ -103,7 +103,6 @@ namespace Affix
             }
 
             // app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseRouting();
             //if (env.EnvironmentName == "Local")
             //{
@@ -118,7 +117,6 @@ namespace Affix
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapFallbackToFile("index.html");
             });
         }
     }

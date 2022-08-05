@@ -423,3 +423,5 @@ keys
 /Api/Persistence/Affix.db-wal
 /Api/Persistence/Affix.db-shm
 /Api/Persistence/Affix.db
+
+**/wwwroot/**
