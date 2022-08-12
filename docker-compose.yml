@@ -32,12 +32,24 @@ services:
     api:
       build:
         context: .
-        dockerfile: Api/Dockerfile
+        dockerfile: Affix.API/Dockerfile
       ports:
         - "5005:5005"
       environment:
         - ASPNETCORE_URLS=http://*:5005
         - ASPNETCORE_ENVIRONMENT=Local
+      networks:
+        - affixnet
+
+    client:
+      build:
+        context: .
+        dockerfile: Affix.Client/Dockerfile
+      ports:
+        - "5555:5555"
+      environment:
+        - ASPNETCORE_URLS=http://*:5555
+        - ASPNETCORE_ENVIRONMENT=Development
       networks:
         - affixnet
 

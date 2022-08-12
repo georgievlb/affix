@@ -11,18 +11,16 @@ RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
-COPY ["Api/Affix.csproj", "Api/"]
-RUN dotnet restore "Api/Affix.csproj"
+COPY ["Affix.API/Affix.API.csproj", "Affix.API/"]
+RUN dotnet restore "Affix.API/Affix.API.csproj"
 COPY . .
-WORKDIR "/src/Api"
-RUN dotnet build "Affix.csproj" -c Local -o /app/build
+WORKDIR "/src/Affix.API"
+RUN dotnet build "Affix.API.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Affix.csproj" -c Local -o /app/publish
+RUN dotnet publish "Affix.API.csproj" -c Debug -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS=http://*:5005
-ENV ASPNETCORE_ENVIRONMENT=Local
-ENTRYPOINT ["dotnet", "Affix.dll"]
+ENTRYPOINT ["dotnet", "Affix.API.dll"]

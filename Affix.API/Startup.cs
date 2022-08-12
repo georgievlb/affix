@@ -44,7 +44,7 @@ namespace Affix.API
                             // .WithMethods("PUT", "GET", "DELETE")
                             .AllowAnyHeader()
                             // .WithHeaders(HeaderNames.ContentType, HeaderNames.Authorization);
-                            .AllowAnyHeader();
+                            .AllowAnyMethod();
                     });
                 });
             // }

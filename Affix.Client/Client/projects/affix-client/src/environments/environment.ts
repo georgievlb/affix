@@ -9,8 +9,8 @@ export const environment = {
   bucketName: 'affix-images',
   authority: 'https://local.is.affix.com:443/',
   clientId: 'affix_client_spa',
-  redirect_uri: 'https://local.api.affix.com:443/signin-callback',
-  post_logout_redirect_uri: 'https://local.api.affix.com:443/signout-callback',
+  redirect_uri: 'https://local.client.affix.com:443/signin-callback',
+  post_logout_redirect_uri: 'https://local.client.affix.com:443/signout-callback',
   response_type: 'code',
   scope: 'openid profile AffixAPI'
 };

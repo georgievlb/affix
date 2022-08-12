@@ -92,11 +92,9 @@
             },
             "development": {
               "browserTarget": "affix-client:build:development",
-              "proxyConfig": "proxy.conf.js"
             },
             "local": {
               "browserTarget": "affix-client:build:local",
-              "proxyConfig": "proxy.conf.js"
             }
           },
           "defaultConfiguration": "local"

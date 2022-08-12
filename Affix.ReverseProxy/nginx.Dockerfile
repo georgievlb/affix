@@ -6,3 +6,6 @@ COPY Affix.ReverseProxy/is-local.key /etc/ssl/private/local.is.affix.com.key
 
 COPY Affix.ReverseProxy/api-local.crt /etc/ssl/certs/local.api.affix.com.crt
 COPY Affix.ReverseProxy/api-local.key /etc/ssl/private/local.api.affix.com.key
+
+COPY Affix.ReverseProxy/client-local.crt /etc/ssl/certs/local.client.affix.com.crt
+COPY Affix.ReverseProxy/client-local.key /etc/ssl/private/local.client.affix.com.key
