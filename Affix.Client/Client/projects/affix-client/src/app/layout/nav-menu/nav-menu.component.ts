@@ -13,7 +13,7 @@ export class NavMenuComponent implements OnInit {
 
   public isScreenSmall: boolean;
   public isCollapsed = true;
-  public homeUrl = `https://${environment.apiUrl}:${environment.port}/`;
+  public homeUrl = `https://${environment.clientUrl}:${environment.port}/`;
 
   constructor(private breakpointObserver: BreakpointObserver) { }
 

@@ -16,4 +16,7 @@
 
 ## Deployment to Dev
 
+## Known Issues
+- Cors errors: Ensure that all the certificates for the identity server and the api are trusted. 
+
 The Development environment is located in Elastic Beanstalk. After each successful commit to the `dev` branch, the code will be deployed to the environment using GitHub actions. The workflow file is located in `./Affix/.github/workflows/dotnet.yml`

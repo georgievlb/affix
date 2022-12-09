@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Affix.ReverseProxy", "Affix
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Affix.Client", "Affix.Client\Affix.Client.csproj", "{06A9B955-73AC-49C1-AF0B-1F27E2308A67}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{0C9591DB-9006-425F-8658-6F4912025102}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,12 +48,6 @@ Global
 		{06A9B955-73AC-49C1-AF0B-1F27E2308A67}.Local|Any CPU.Build.0 = Debug|Any CPU
 		{06A9B955-73AC-49C1-AF0B-1F27E2308A67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06A9B955-73AC-49C1-AF0B-1F27E2308A67}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C9591DB-9006-425F-8658-6F4912025102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C9591DB-9006-425F-8658-6F4912025102}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C9591DB-9006-425F-8658-6F4912025102}.Local|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C9591DB-9006-425F-8658-6F4912025102}.Local|Any CPU.Build.0 = Debug|Any CPU
-		{0C9591DB-9006-425F-8658-6F4912025102}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C9591DB-9006-425F-8658-6F4912025102}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

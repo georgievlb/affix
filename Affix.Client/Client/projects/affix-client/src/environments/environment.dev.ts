@@ -6,6 +6,7 @@
 //   production: false,
 //   port: 6006,
 //   apiUrl: "localhost",
+//   clientUrl: "local.client.affix.com",
 //   bucketName: "affix-images",
 //   authority: 'https://localhost:5005/', // TODO CHANGE IT TO DEV
 //   clientId: 'affix_client_spa',

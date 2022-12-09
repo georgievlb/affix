@@ -17,6 +17,15 @@ services:
             - "local.is.affix.com"
             - "local.api.affix.com"
 
+    db:
+      build:
+        context: .
+        dockerfile: Affix.DB/db.Dockerfile
+      ports:
+        - "1433:1433"
+      networks:
+        - affixnet
+
     identityserver:
       build:
         context: .

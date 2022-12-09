@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   port: 443,
   apiUrl: "local.api.affix.com",
+  clientUrl: "local.client.affix.com",
   bucketName: 'affix-images',
   authority: 'https://local.is.affix.com:443/',
   clientId: 'affix_client_spa',
