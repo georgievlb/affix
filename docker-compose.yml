@@ -21,8 +21,12 @@ services:
       build:
         context: .
         dockerfile: Affix.DB/db.Dockerfile
+      restart: always
       ports:
-        - "1433:1433"
+        - "1430:1433"
+      environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=P@ssword1
       networks:
         - affixnet
 

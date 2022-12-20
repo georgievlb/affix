@@ -1,35 +1,70 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS baseserver
-WORKDIR /app
-COPY Affix.ReverseProxy/is-local.crt /usr/local/share/ca-certificates/is-local.crt
-COPY Affix.ReverseProxy/api-local.crt /usr/local/share/ca-certificates/api-local.crt
-RUN update-ca-certificates
+﻿# Use the latest version of the .NET core runtime image as the base image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 
-
-FROM node:14-alpine3.15 as base
+# Create the working directory
 WORKDIR /app
+
+# Use the latest version of the Node.js LTS image as the base image for the client
+FROM node:14-alpine3.15 AS client
+
+# Create the working directory
+WORKDIR /app
+
+# Copy the client files and install the dependencies
 COPY ./Affix.Client/Client .
 WORKDIR /app/Affix.Client/Client
 RUN npm install
 
-FROM base as build
+# Use the client image as the build image for the client
+FROM client AS build
+
+# Build the client
 WORKDIR /app
 RUN npm run build
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS buildserver
+# Use the latest version of the .NET core SDK image as the build image for the server
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS server
+
+# Create the working directory
 WORKDIR /src
+
+# Copy the server project file and restore the dependencies
 COPY ["Affix.Client/Affix.Client.csproj", "Affix.Client/"]
 RUN dotnet restore "Affix.Client/Affix.Client.csproj"
+
+# Copy the rest of the server source code and change the working directory
 COPY . .
 WORKDIR "/src/Affix.Client"
-RUN dotnet build "Affix.Client.csproj" -c Debug -o /app/buildserver
 
-FROM buildserver as publishserver
-RUN dotnet publish "Affix.Client.csproj" -c Debug -o /app/publishserver
+# Build the server in release mode and output the result to the /app/build directory
+RUN dotnet build "Affix.Client.csproj" -c Debug -o /app/build
 
-FROM baseserver AS final
+# Use the server image as the publish image
+FROM server AS publish
+
+# Publish the server in release mode and output the result to the /app/publish directory
+RUN dotnet publish "Affix.Client.csproj" -c Debug -o /app/publish
+
+# Use the base image as the final image
+FROM base AS final
+
+# Create the working directory
 WORKDIR /app
-COPY --from=publishserver /app/publishserver .
+
+# Copy the published files from the publish image
+COPY --from=publish /app/publish .
+
+# Copy the built client files from the build image
 COPY --from=build /app/dist ./wwwroot
+
+# Set the environment variables
 ENV ASPNETCORE_URLS=http://*:5555
 ENV ASPNETCORE_ENVIRONMENT=Local
+
+# Set the entrypoint for the final image
 ENTRYPOINT ["dotnet", "Affix.Client.dll"]
+
+# Copy the certificate files and update the certificates
+COPY Affix.ReverseProxy/is-local.crt /usr/local/share/ca-certificates/is-local.crt
+COPY Affix.ReverseProxy/api-local.crt /usr/local/share/ca-certificates/api-local.crt
+RUN update-ca-certificates

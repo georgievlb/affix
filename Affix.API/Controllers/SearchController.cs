@@ -12,7 +12,6 @@ using Affix.API.Models;
 namespace Affix.API.Controllers
 {
 #if DEBUG || RELEASE
-    //[RestrictHost("dev.lachezargeorgiev.com")]
 #endif
     [Route("[controller]")]
     [ApiController]
@@ -44,8 +43,8 @@ namespace Affix.API.Controllers
                         ImageAltText = p.ImageAltText,
                         ImageId = p.ImageId
 
-                    }) // TODO: Figure out a way to executed query in DB as a queryable.
-                    .AsEnumerable() // Execute query in memory or else EF won't know how to transalte it to SQL.
+                    })
+                    .AsEnumerable() // Execute query in memory or else EF won't know how to translate it to SQL.
                     .Where(p => p.IsDraft == false &&
                             keywords.Any(k => k == p.Title.ToLower() || p.Title.ToLower().Contains(k) || p.Content.ToLower().Contains(k))
                            )

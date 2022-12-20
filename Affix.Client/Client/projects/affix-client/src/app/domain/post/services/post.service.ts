@@ -100,6 +100,10 @@ export class PostService implements OnDestroy {
 
 
   //#region Observables
+    // TODO: Implement:
+  //   checkMoniker(moniker: string): Observable<boolean> {
+  //       return this.http.get<boolean>(`/api/posts/check-moniker/${moniker}`);
+  //   }
 
   getEditPost(): Observable<PostModel> {
     return this.editPost$$.asObservable();

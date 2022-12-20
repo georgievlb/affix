@@ -41,7 +41,28 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     });
   }
 
-  onContentChanged(event: any) {
+    // createPost(isDraft: boolean = false): void {
+    //     this.postModel.isDraft = isDraft;
+    //
+    //     // Check if the moniker is unique
+    //     this.postService.checkMoniker(this.postModel.moniker)
+    //         .subscribe((isUnique: boolean) => {
+    //             if (isUnique) {
+    //                 // If the moniker is unique, create the post
+    //                 this.postService.putPost(this.postModel)
+    //                     .subscribe((data: PostModel) => {
+    //                         this.postModel = this.postService.getEmptyPostModel();
+    //                         this.router.navigate([`/posts/${data.moniker}`])
+    //                     });
+    //             } else {
+    //                 // If the moniker is not unique, show an error message
+    //                 console.error("The moniker is not unique.");
+    //             }
+    //         });
+    // }
+
+
+    onContentChanged(event: any) {
     this.postModel.parsedContent = this.compileMarkdown(event.target.value);
   }
 
@@ -174,7 +195,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         this.postModel.category,
         this.postModel.tags
         );
-    } 
+    }
   }
 
   ngOnDestroy(): void {

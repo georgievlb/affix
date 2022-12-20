@@ -1,26 +1,29 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-COPY Affix.ReverseProxy/is-local.crt /usr/local/share/ca-certificates/is-local.crt
-RUN update-ca-certificates
+﻿# Use a multi-stage build to reduce the size of the final image
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
-# Install Node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y \
-        nodejs \
-    && rm -rf /var/lib/apt/lists/*
-
+# Copy the project file and restore dependencies first, to take advantage of Docker's caching
 WORKDIR /src
 COPY ["Affix.API/Affix.API.csproj", "Affix.API/"]
 RUN dotnet restore "Affix.API/Affix.API.csproj"
+
+# Copy the rest of the source code and build the project
 COPY . .
 WORKDIR "/src/Affix.API"
 RUN dotnet build "Affix.API.csproj" -c Debug -o /app/build
 
-FROM build AS publish
+# Publish the project
 RUN dotnet publish "Affix.API.csproj" -c Debug -o /app/publish
 
-FROM base AS final
+# Use a smaller base image for the final image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+# Copy the published app and the certificate file
+COPY --from=build /app/publish .
+COPY Affix.ReverseProxy/is-local.crt /usr/local/share/ca-certificates/is-local.crt
+
+# Update the certificate store
+RUN update-ca-certificates
+
+# Set the entry point for the container
 ENTRYPOINT ["dotnet", "Affix.API.dll"]
