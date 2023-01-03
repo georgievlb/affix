@@ -27,5 +27,7 @@ namespace Affix.API.Persistence.DataModels
         public bool IsDraft { get; set; }
 
         public CategoryDataModel Category { get; set; }
+
+        public ImageDataModel Image { get; set; }
     }
 }

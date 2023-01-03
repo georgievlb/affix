@@ -16,6 +16,8 @@ namespace Afix.Persistence
 
         public DbSet<CategoryDataModel> Category { get; set; }
 
+        public DbSet<ImageDataModel> Image { get; set; }
+        
         public AffixContext(DbContextOptions<AffixContext> options)
             : base(options)
         { }
@@ -63,11 +65,11 @@ namespace Afix.Persistence
                 .HasIndex(x => x.Moniker)
                 .IsUnique();
 
-            modelBuilder.Entity<PostDataModel>()
-                .Property(p => p.ImageId);
-
-            modelBuilder.Entity<PostDataModel>()
-                .Property(p => p.ImageAltText);
+            // modelBuilder.Entity<PostDataModel>()
+            //     .Property(p => p.ImageId);
+            //
+            // modelBuilder.Entity<PostDataModel>()
+            //     .Property(p => p.ImageAltText);
 
             modelBuilder.Entity<PostDataModel>()
                 .Property(p => p.IsDraft);
@@ -84,6 +86,12 @@ namespace Afix.Persistence
                 .HasOne(p => p.Category)
                 .WithOne(s => s.Post)
                 .HasForeignKey<CategoryDataModel>(s => s.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<PostDataModel>()
+                .HasOne(p => p.Image)
+                .WithOne(s => s.Post)
+                .HasForeignKey<ImageDataModel>(s => s.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Score
@@ -132,6 +140,19 @@ namespace Afix.Persistence
                 .HasConversion(
                     v => string.Join(',', v),
                     v => v.Split(',', StringSplitOptions.RemoveEmptyEntries), valueComparer);
+
+            modelBuilder.Entity<ImageDataModel>()
+                .HasKey(i => i.Id);
+
+            modelBuilder.Entity<ImageDataModel>()
+                .Property(i => i.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<ImageDataModel>()
+                .Property(i => i.Img);
+
+            modelBuilder.Entity<ImageDataModel>()
+                .Property(i => i.ImageAltText);
         }
     }
 }

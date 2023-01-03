@@ -152,7 +152,11 @@ namespace Affix.API.Controllers
                         Summary = post.Summary,
                         Header = post.Header,
                         Date = DateTime.UtcNow,
-                        ImageId = post.ImageId,
+                        Image = new ImageDataModel
+                        {
+                            ImageAltText = post.ImageAltText,
+                            Id = post.ImageId 
+                        },
                         Score = new ScoreDataModel
                         {
                             Likes = 0,
@@ -205,21 +209,43 @@ namespace Affix.API.Controllers
 
         [Route("image")]
         [HttpPut]
-        public async Task<ActionResult> PutImageAsync([FromForm] IFormFile image)
+        public async Task<ActionResult> PutImageAsync([FromForm] IFormFile imageFile)
         {
             try
             {
-                var maximumImageSizeInBytes = 2000000;
-                var imageId = Guid.NewGuid().ToString();
+                // Generate a new Guid for the id column
+                var imageId = Guid.NewGuid();
+
+                // Read the image file into a byte array
+                byte[] imageBytes;
                 using (var memoryStream = new MemoryStream())
                 {
-                    await image.CopyToAsync(memoryStream);
+                    imageFile.CopyTo(memoryStream);
+                    imageBytes = memoryStream.ToArray();
+                }
+
+                // Create a new Image entity with the id and image data
+                ImageDataModel image = new ImageDataModel
+                {
+                    Id = imageId,
+                    Img = imageBytes
+                };
+
+                // Add the image to the database context
+                await context.Image.AddAsync(image);
+
+                // Save the changes to the database
+                await context.SaveChangesAsync();
+                
+                var maximumImageSizeInBytes = 2000000;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await imageFile.CopyToAsync(memoryStream);
 
                     if (memoryStream.Length > maximumImageSizeInBytes)
                     {
                         return BadRequest("Maximum image size is 2 megabytes. Try an image with a smaller size.");
                     }
-                    await imageService.PutImage(memoryStream, bucketName, imageId);
                 }
 
                 return Created($"posts/image/{imageId}", System.Text.Json.JsonSerializer.Serialize(imageId));
@@ -231,6 +257,32 @@ namespace Affix.API.Controllers
                 return BadRequest($"Error: {ex.Message}");
             }
         }
+        // public async Task<ActionResult> PutImageAsync([FromForm] IFormFile image)
+        // {
+        //     try
+        //     {
+        //         var maximumImageSizeInBytes = 2000000;
+        //         var imageId = Guid.NewGuid().ToString();
+        //         using (var memoryStream = new MemoryStream())
+        //         {
+        //             await image.CopyToAsync(memoryStream);
+        //
+        //             if (memoryStream.Length > maximumImageSizeInBytes)
+        //             {
+        //                 return BadRequest("Maximum image size is 2 megabytes. Try an image with a smaller size.");
+        //             }
+        //             await imageService.PutImage(memoryStream, bucketName, imageId);
+        //         }
+        //
+        //         return Created($"posts/image/{imageId}", System.Text.Json.JsonSerializer.Serialize(imageId));
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         logger.LogError(ex, $"Error calling {nameof(PostsController.PutImageAsync)}, {ex.Message}, {ex.StackTrace}.");
+        //
+        //         return BadRequest($"Error: {ex.Message}");
+        //     }
+        // }
 
         [HttpDelete]
         public async Task<ActionResult> DeletePostAsync(string moniker)

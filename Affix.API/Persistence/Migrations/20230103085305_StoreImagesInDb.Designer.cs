@@ -4,6 +4,7 @@ using Afix.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Affix.API.Persistence.Migrations
 {
     [DbContext(typeof(AffixContext))]
-    partial class AffixContextModelSnapshot : ModelSnapshot
+    [Migration("20230103085305_StoreImagesInDb")]
+    partial class StoreImagesInDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,20 +57,20 @@ namespace Affix.API.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageAltText")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Img")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<Guid?>("PostId")
+                    b.Property<Guid>("PostId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId")
-                        .IsUnique()
-                        .HasFilter("[PostId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Image");
                 });
@@ -182,7 +184,8 @@ namespace Affix.API.Persistence.Migrations
                     b.HasOne("Affix.API.Persistence.DataModels.PostDataModel", "Post")
                         .WithOne("Image")
                         .HasForeignKey("Affix.API.Persistence.DataModels.ImageDataModel", "PostId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Post");
                 });
