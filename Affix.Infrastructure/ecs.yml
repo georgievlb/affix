@@ -136,7 +136,7 @@ Resources:
       Scheme: internet-facing
       Type: application
       Subnets:
-        - [!Ref PublicSubnetAZ1, !Ref PublicSubnetAZ2]
+        - !Join [",", [!Ref PublicSubnetAZ1, !Ref PublicSubnetAZ2]]
       SecurityGroups: # TODO: Add more security groups if necessary
         - !Ref SecurityGroup
         - !Ref LoadBalancerSecurityGroup
