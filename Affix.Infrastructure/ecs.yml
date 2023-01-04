@@ -41,6 +41,7 @@ Resources:
    Properties:
      AvailabilityZone: us-east-1b
      CidrBlock: 10.192.11.0/24
+     VpcId: !Ref VPC
 
   ECSTaskExecutionRole:
     Type: AWS::IAM::Role
