@@ -260,7 +260,7 @@ Resources:
   LaunchConfiguration:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
-      ImageId: ami-0849a313b038afda0 # TODO: Create a Lambda function that gets the latest Amazon Linux2 AMI ID
+      ImageId: ami-0fe472d8a85bc7b0e # TODO: Create a Lambda function that gets the latest Amazon Linux2 AMI ID
       InstanceType: t2.micro
       SecurityGroups:
         - !Ref SecurityGroup
