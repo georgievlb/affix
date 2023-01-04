@@ -5,11 +5,11 @@ Parameters:
   MinInstances:
     Description: Minimum number of instances in AutoScaling Group
     Type: String
-    Defaults: 1
+    Default: 1
   MaxInstances:
     Description: Maximum number of instances in AutoScaling Group
     Type: String
-    Defaults: 1
+    Default: 1
 
 Resources:
   # VPC to host the ECS cluster
@@ -219,8 +219,8 @@ Resources:
   # ECS cluster to manage the containers
   ECSCluster:
     Type: AWS::ECS::Cluster
-      Properties:
-        ClusterName: !Ref AWS::StackName
+    Properties:
+      ClusterName: !Ref AWS::StackName
 
   # Auto Scaling group to launch and manage EC2 instances
   AutoScalingGroup:
@@ -293,11 +293,11 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
 
-  Outputs:
-    ECSCluster:
-      Value: !Ref ECSCluster
-      Export:
-        Name: ECSCluster
+Outputs:
+  ECSCluster:
+    Value: !Ref ECSCluster
+    Export:
+      Name: ECSCluster
   
   
   # This template creates a VPC, an Internet gateway, a security group, a subnet, an Application Load Balancer and an 
