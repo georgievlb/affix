@@ -270,15 +270,6 @@ Resources:
       UserData:
         'Fn::Base64': !Sub |
           #!/bin/bash
-          echo Successfully 
-          yum update -y
-          amazon-linux-extras install docker
-          service docker start
-          usermod -a -G docker ec2-user
-          chkconfig docker on
-          su ec2-user
-          docker login -u AWS -p $(aws ecr get-login --no-include-email)
-          yum install -y amazon-ecs-agent
           echo Successfully ran UserData
           /opt/aws/bin/cfn-signal -e 0 --stack ${AWS::StackName} --resource AutosScalingGroup --region ${AWS::Region}
 
