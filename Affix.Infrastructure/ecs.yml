@@ -245,10 +245,9 @@ Resources:
         - !Ref TargetGroup
       HealthCheckType: ELB # TODO: Ensure that ELB is properly configured
     CreationPolicy:
-      AutoScalingCreationPolicy:
-        ResourceSignal:
-          Count: 1
-          Timeout: PT5M
+      ResourceSignal:
+        Count: 1
+        Timeout: PT5M
     UpdatePolicy:
       AutoScalingRollingUpdate:
         MinInstanceInService: !Ref MinInstances
