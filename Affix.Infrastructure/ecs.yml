@@ -194,11 +194,11 @@ Resources:
         - IpProtocol: tcp
           FromPort: 443
           ToPort: 443
-          CidrIp: 0.0.0.0/0, 127.0.0.1/32
+          CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
-          CidrIp: 0.0.0.0/0, 127.0.0.1/32
+          CidrIp: 0.0.0.0/0
 
   # Target group to route traffic to the ECS cluster
   TargetGroup:
