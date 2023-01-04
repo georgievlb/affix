@@ -246,7 +246,7 @@ Resources:
       HealthCheckType: ELB # TODO: Ensure that ELB is properly configured
     CreationPolicy:
       AutoScalingCreationPolicy:
-        ResourcesSignal:
+        ResourceSignal:
           Count: 1
           Timeout: PT5M
     UpdatePolicy:
