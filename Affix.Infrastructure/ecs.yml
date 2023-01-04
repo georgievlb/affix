@@ -282,10 +282,10 @@ Resources:
           /opt/aws/bin/cfn-signal -e 0 --stack ${AWS::StackName} --resource AutosScalingGroup --region ${AWS::Region}
 
   EC2InstanceProfile:
-      Type: AWS::IAM::InstanceProfile
-      Properties:
-        Roles:
-          - !Ref EC2InstanceRole
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref EC2InstanceRole
     
   # IAM role to allow the EC2 instances to access other AWS resources
   EC2InstanceRole:
@@ -294,12 +294,33 @@ Resources:
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
-          - Effect: Allow
+          -
+            Effect: Allow
             Principal:
               Service: ec2.amazonaws.com
             Action: sts:AssumeRole
+      Path: /
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+      Policies:
+        -
+          PolicyName: ecs-service
+          PolicyDocument:
+            Statement:
+              -
+                Effect: Allow
+                Action:
+                  - ecs:ListTasks
+                  - ecs:UpdateContainerInstancesState
+                  - ecs:DescribeContainerInstances
+                  - ecs:CreateCluster
+                  - ecs:DeregisterContainerInstance
+                  - ecs:DiscoverPollEndpoint
+                  - ecs:Poll
+                  - ecs:RegisterContainerInstance
+                  - ecs:StartTelemetrySession
+                  - ecs:Submit*
+                Resource: "*"
 
   RouteTablePublic:
     Type: 'AWS::EC2::RouteTable'
