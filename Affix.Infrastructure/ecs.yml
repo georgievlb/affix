@@ -29,13 +29,19 @@ Resources:
       VpcId: !Ref VPC
       InternetGatewayId: !Ref InternetGateway
 
-  # Subnet for the ECS cluster
-  Subnet:
+  PublicSubnetAZ1:
     Type: AWS::EC2::Subnet
     Properties:
+      AvailabilityZone: us-east-1a
       VpcId: !Ref VPC
-      CidrBlock: 10.0.0.0/24
-  
+      CidrBlock: 10.192.10.0/24
+
+  PublicSubnetAZ2:
+   Type: AWS::EC2::Subnet
+   Properties:
+     AvailabilityZone: us-east-1b
+     CidrBlock: 10.192.11.0/24
+
   ECSTaskExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -129,7 +135,7 @@ Resources:
       Scheme: internet-facing
       Type: application
       Subnets:
-        - !Ref Subnet # TODO: Add more subnets if necessary
+        - [!Ref PublicSubnetAZ1, !Ref PublicSubnetAZ2]
       SecurityGroups: # TODO: Add more security groups if necessary
         - !Ref SecurityGroup
         - !Ref LoadBalancerSecurityGroup
@@ -213,7 +219,7 @@ Resources:
       HealthCheckTimeoutSeconds: 10
       HealthyThresholdCount: 5
       UnhealthyThresholdCount: 5
-      HealthCheckPath: /
+      HealthCheckPath: /health
       HealthCheckProtocol: HTTP
 
   # ECS cluster to manage the containers
@@ -230,7 +236,7 @@ Resources:
       MaxSize: !Ref MaxInstances
       DesiredCapacity: 1
       LaunchConfigurationName: !Ref LaunchConfiguration
-      VPCZoneIdentifier: !Ref Subnet
+      VPCZoneIdentifier: !Ref PublicSubnetAZ1
       TargetGroupARNs:
         - !Ref TargetGroup
       HealthCheckType: ELB # TODO: Ensure that ELB is properly configured
