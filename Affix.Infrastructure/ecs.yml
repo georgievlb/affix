@@ -238,7 +238,9 @@ Resources:
       MaxSize: !Ref MaxInstances
       DesiredCapacity: 1
       LaunchConfigurationName: !Ref LaunchConfiguration
-      VPCZoneIdentifier: !Ref PublicSubnetAZ1
+      VPCZoneIdentifier:
+        - !Ref PublicSubnetAZ1
+        - !Ref PublicSubnetAZ2
       TargetGroupARNs:
         - !Ref TargetGroup
       HealthCheckType: ELB # TODO: Ensure that ELB is properly configured
