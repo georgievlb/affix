@@ -242,19 +242,20 @@ Resources:
       TargetGroupARNs:
         - !Ref TargetGroup
       HealthCheckType: ELB # TODO: Ensure that ELB is properly configured
-      CreationPolicy:
+    CreationPolicy:
+      AutoScalingCreationPolicy:
         ResourcesSignal:
           Count: 1
           Timeout: PT5M
-      UpdatePolicy:
-        AutoScalingRollingUpdate:
-          MinInstanceInService: !Ref MinInstances
-          MaxBatchSize: 1
-          PauseTime: PT15M
-          WaitOnResourceSignals: true
-          MinSuccessfulInstancePercent: 75
-          SuspendProcesses:
-            - HealthCheck
+    UpdatePolicy:
+      AutoScalingRollingUpdate:
+        MinInstanceInService: !Ref MinInstances
+        MaxBatchSize: 1
+        PauseTime: PT15M
+        WaitOnResourceSignals: true
+        MinSuccessfulInstancePercent: 75
+        SuspendProcesses:
+          - HealthCheck
 
   # Launch configuration to specify the EC2 instance configuration
   LaunchConfiguration:
