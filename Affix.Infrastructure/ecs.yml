@@ -35,7 +35,6 @@ Resources:
       AvailabilityZone: us-east-1a
       VpcId: !Ref VPC
       CidrBlock: 10.192.10.0/24
-      MapPublicIpOnLaunch: true
 
   PublicSubnetAZ2:
    Type: AWS::EC2::Subnet
@@ -43,7 +42,6 @@ Resources:
      AvailabilityZone: us-east-1b
      CidrBlock: 10.192.11.0/24
      VpcId: !Ref VPC
-     MapPublicIpOnLaunch: true
 
   ECSTaskExecutionRole:
     Type: AWS::IAM::Role
