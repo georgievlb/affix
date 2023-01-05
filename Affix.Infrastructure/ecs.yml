@@ -262,6 +262,7 @@ Resources:
   LaunchConfiguration:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
+      AssociatePublicIpAddress: true
       ImageId: ami-0b5eea76982371e91 # TODO: Create a Lambda function that gets the latest Amazon Linux2 AMI ID
       InstanceType: t2.micro
       SecurityGroups:
@@ -313,7 +314,7 @@ Resources:
                 Resource: "*"
 
   RouteTablePublic:
-    Type: 'AWS::EC2::RouteTable'
+    Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref VPC
       Tags:
@@ -321,7 +322,7 @@ Resources:
           Value: Public
 
   RouteTablePublicRoute:
-    Type: 'AWS::EC2::Route'
+    Type: AWS::EC2::Route
     DependsOn: VPCGatewayAttachment
     Properties:
       RouteTableId: !Ref RouteTablePublic
@@ -329,12 +330,12 @@ Resources:
       GatewayId: !Ref InternetGateway
 
   RouteTableAssociationPublicSubnetAZ1:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref PublicSubnetAZ1
       RouteTableId: !Ref RouteTablePublic
   RouteTableAssociationPublicSubnetAZ2:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref PublicSubnetAZ2
       RouteTableId: !Ref RouteTablePublic
