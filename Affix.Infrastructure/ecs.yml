@@ -35,6 +35,7 @@ Resources:
       AvailabilityZone: us-east-1a
       VpcId: !Ref VPC
       CidrBlock: 10.192.10.0/24
+      MapPublicIpOnLaunch: true
 
   PublicSubnetAZ2:
    Type: AWS::EC2::Subnet
@@ -42,6 +43,7 @@ Resources:
      AvailabilityZone: us-east-1b
      CidrBlock: 10.192.11.0/24
      VpcId: !Ref VPC
+     MapPublicIpOnLaunch: true
 
   ECSTaskExecutionRole:
     Type: AWS::IAM::Role
@@ -262,16 +264,20 @@ Resources:
   LaunchConfiguration:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
-      ImageId: ami-0fe472d8a85bc7b0e # TODO: Create a Lambda function that gets the latest Amazon Linux2 AMI ID
+      ImageId: ami-0b5eea76982371e91 # TODO: Create a Lambda function that gets the latest Amazon Linux2 AMI ID
       InstanceType: t2.micro
       SecurityGroups:
         - !Ref SecurityGroup
       IamInstanceProfile: !Ref EC2InstanceProfile
+      KeyName: affix-instance
       UserData:
-        'Fn::Base64': !Sub |
-          #!/bin/bash
-          echo Successfully ran UserData
-          /opt/aws/bin/cfn-signal -e 0 --stack ${AWS::StackName} --resource AutosScalingGroup --region ${AWS::Region}
+        'Fn::Base64': !Sub
+          - |
+            #!/bin/bash
+            yum update -y
+            yum install -y amazon-ecs-agent
+            echo Successfully ran UserData
+            /opt/aws/bin/cfn-signal -e 0 --stack ${AWS::StackName} --resource AutosScalingGroup --region ${AWS::Region}
 
   EC2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
