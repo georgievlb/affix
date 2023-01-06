@@ -69,9 +69,9 @@ Resources:
       ListenerArn: !Ref ALBListener
       Priority: 50000
   
-  # We define a default target group here, as this is a mandatory Parameters
+  # We define a default target group here, as this is a mandatory Parameter
   # when creating an Application Load Balancer Listener. This is not used, instead
-  # a target group is created per-service in each service template (../services/*)
+  # a target group is created per-service in each service template.
   ALBDefaultTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
@@ -79,3 +79,10 @@ Resources:
         Fn::ImportValue: !Sub ${VpcStackName}-VPC
       Port: 80
       Protocol: HTTP
+
+Outputs:
+  ALB:
+    Description: The application load balancer
+    Value: !Ref ALB
+    Export:
+      Name: !Sub ${AWS::StackName}-ALB
