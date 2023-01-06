@@ -57,3 +57,16 @@ Resources:
     Properties:
       SubnetId: !Ref PublicSubnetAZ2
       RouteTableId: !Ref PublicRouteTable
+
+Outputs:
+  VPC:
+    Description: A reference to the created VPC
+    Value: !Ref VPC
+
+  PublicSubnetAZ1:
+    Description: A reference to the first public subnet in availability zone 1
+    Value: !Ref PublicSubnetAZ1
+
+  PublicSubnetAZ2:
+    Description: A reference to the second public subnet in availability zone 2
+    Value: !Ref PublicSubnetAZ2
