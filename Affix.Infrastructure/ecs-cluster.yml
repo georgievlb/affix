@@ -21,7 +21,7 @@ Resources:
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: !Ref AWS::StackName  
+      ClusterName: !Sub ${AWS::StackName}-cluster
   
   ECSAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
@@ -57,7 +57,7 @@ Resources:
       ImageId: ami-0b5eea76982371e91 # TODO: Create a Lambda function that gets the latest Amazon Linux2 AMI ID
       InstanceType: t2.micro
       SecurityGroups:
-        - !Sub ${SecurityGroupStackName}-ECSHostSecurityGroup
+        - Fn::ImportValue: !Sub ${SecurityGroupStackName}-ECSHostSecurityGroup
       IamInstanceProfile: !Ref ECSInstanceProfile
       KeyName: affix-instance
       UserData:
