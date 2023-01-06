@@ -212,6 +212,9 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
+        # Allow access from anywhere to our ECS services
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: -1
 
   # Target group to route traffic to the ECS cluster
   TargetGroup:
