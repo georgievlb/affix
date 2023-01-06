@@ -32,8 +32,8 @@ Resources:
       VPCZoneIdentifier:
         - Fn::ImportValue: !Sub ${VpcStackName}-PublicSubnetAZ1
         - Fn::ImportValue: !Sub ${VpcStackName}-PublicSubnetAZ2
-      TargetGroupARNs:
-        - !Ref TargetGroup
+#      TargetGroupARNs:
+#        - !Ref TargetGroup
       HealthCheckType: ELB
     CreationPolicy:
       ResourceSignal:
