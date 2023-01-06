@@ -86,3 +86,7 @@ Outputs:
     Value: !Ref ALB
     Export:
       Name: !Sub ${AWS::StackName}-ALB
+  ALBListenerARN:
+    Value: !Ref ALBListener
+    Export:
+      Name: !Sub ${AWS::StackName}-ALBListenerARN
