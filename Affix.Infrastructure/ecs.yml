@@ -250,7 +250,7 @@ Resources:
     CreationPolicy:
       ResourceSignal:
         Count: 1
-        Timeout: PT5M
+        Timeout: PT10M
     UpdatePolicy:
       AutoScalingRollingUpdate:
         MinInstanceInService: !Ref MinInstances
