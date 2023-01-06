@@ -19,9 +19,6 @@ Parameters:
     Description: Maximum number of instances of this task we can run across our cluster
     Type: Number
     Default: 3
-  ECSServiceAutoScalingRoleARN:
-    Description: The ECS service auto scaling role ARN
-    Type: String
 
 Resources:
   Service:
@@ -42,7 +39,7 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       Family: affix-api
-      ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
+#      ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
       ContainerDefinitions:
         - Name: affix-api
           Essential: true
