@@ -49,7 +49,7 @@ Resources:
           Environment:
             - Name: ASPNETCORE_ENVIRONMENT
               Value: Local
-  
+
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
@@ -76,8 +76,7 @@ Resources:
       Priority: 1
       Conditions:
         - Field: path-pattern
-          Values:
-            - !Ref Path
+          Values: /
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
