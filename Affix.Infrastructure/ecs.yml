@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: ECS Cluster
+Description: ECS Cluster Template
 Parameters:
   MinInstances:
     Description: Minimum number of instances in AutoScaling Group
@@ -12,37 +12,6 @@ Parameters:
     Default: 1
 
 Resources:
-  # VPC to host the ECS cluster
-  VPC:
-    Type: AWS::EC2::VPC
-    Properties:
-      CidrBlock: 10.192.0.0/16
-
-  # Internet gateway to enable internet connectivity
-  InternetGateway:
-    Type: AWS::EC2::InternetGateway
-
-  # Attach the Internet gateway to the VPC
-  VPCGatewayAttachment:
-    Type: AWS::EC2::VPCGatewayAttachment
-    Properties:
-      VpcId: !Ref VPC
-      InternetGatewayId: !Ref InternetGateway
-
-  PublicSubnetAZ1:
-    Type: AWS::EC2::Subnet
-    Properties:
-      AvailabilityZone: us-east-1a
-      VpcId: !Ref VPC
-      CidrBlock: 10.192.10.0/24
-
-  PublicSubnetAZ2:
-   Type: AWS::EC2::Subnet
-   Properties:
-     AvailabilityZone: us-east-1b
-     CidrBlock: 10.192.11.0/24
-     VpcId: !Ref VPC
-
   ECSTaskExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -229,7 +198,6 @@ Resources:
       HealthCheckPath: /health
       HealthCheckProtocol: HTTP
 
-  # ECS cluster to manage the containers
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
@@ -317,33 +285,6 @@ Resources:
                   - ecs:StartTelemetrySession
                   - ecs:Submit*
                 Resource: "*"
-
-  RouteTablePublic:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - Key: Name
-          Value: Public
-
-  RouteTablePublicRoute:
-    Type: AWS::EC2::Route
-    DependsOn: VPCGatewayAttachment
-    Properties:
-      RouteTableId: !Ref RouteTablePublic
-      DestinationCidrBlock: '0.0.0.0/0'
-      GatewayId: !Ref InternetGateway
-
-  RouteTableAssociationPublicSubnetAZ1:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId: !Ref PublicSubnetAZ1
-      RouteTableId: !Ref RouteTablePublic
-  RouteTableAssociationPublicSubnetAZ2:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      SubnetId: !Ref PublicSubnetAZ2
-      RouteTableId: !Ref RouteTablePublic
 
 Outputs:
   ECSCluster:
