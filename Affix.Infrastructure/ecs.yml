@@ -276,7 +276,7 @@ Resources:
         'Fn::Base64': !Sub |
           #!/bin/bash
           echo Successfully ran UserData
-          /opt/aws/bin/cfn-signal -e 0 --stack ${AWS::StackName} --resource AutosScalingGroup --region ${AWS::Region}
+          /opt/aws/bin/cfn-signal -e 0 --stack ${AWS::StackName} --resource AutoScalingGroup --region ${AWS::Region}
 
   EC2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
