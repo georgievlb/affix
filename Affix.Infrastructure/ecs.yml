@@ -114,26 +114,24 @@ Resources:
           TargetGroupArn: !Ref TargetGroup
       
   # Security group to control inbound and outbound traffic to the ECS cluster
-  SecurityGroup:
+  ECSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Security group for ECS cluster
       VpcId: !Ref VPC
       SecurityGroupIngress:
-        # SSH to the ECS host
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
           CidrIp: 0.0.0.0/0
-        # Any TCP traffic from the ALB
         - IpProtocol: tcp
           FromPort: 0
           ToPort: 65535
-          CidrIp: 0.0.0.0/0
           SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
       SecurityGroupEgress:
         - IpProtocol: -1
           CidrIp: 0.0.0.0/0
+
   # Application Load Balancer to distribute traffic to the ECS cluster
   ApplicationLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -143,8 +141,7 @@ Resources:
       Subnets:
         - !Ref PublicSubnetAZ1
         - !Ref PublicSubnetAZ2
-      SecurityGroups: # TODO: Add more security groups if necessary
-        - !Ref SecurityGroup
+      SecurityGroups:
         - !Ref LoadBalancerSecurityGroup
       LoadBalancerAttributes:
         - Key: idle_timeout.timeout_seconds
@@ -213,8 +210,8 @@ Resources:
           ToPort: 80
           CidrIp: 0.0.0.0/0
         # Allow access from anywhere to our ECS services
-        - CidrIp: 0.0.0.0/0
-          IpProtocol: -1
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
 
   # Target group to route traffic to the ECS cluster
   TargetGroup:
@@ -274,7 +271,7 @@ Resources:
       ImageId: ami-0b5eea76982371e91 # TODO: Create a Lambda function that gets the latest Amazon Linux2 AMI ID
       InstanceType: t2.micro
       SecurityGroups:
-        - !Ref SecurityGroup
+        - !Ref ECSSecurityGroup
       IamInstanceProfile: !Ref EC2InstanceProfile
       KeyName: affix-instance
       UserData:
