@@ -76,7 +76,8 @@ Resources:
       Priority: 1
       Conditions:
         - Field: path-pattern
-          Values: /
+          Values:
+            - /
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
