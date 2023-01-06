@@ -5,6 +5,8 @@ Parameters:
   VpcStackName:
     Type: String
     Default: affix-vpc
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
   MinInstances:
     Description: Minimum number of instances in AutoScaling Group
     Type: String
@@ -54,7 +56,7 @@ Resources:
       ImageId: ami-0b5eea76982371e91 # TODO: Create a Lambda function that gets the latest Amazon Linux2 AMI ID
       InstanceType: t2.micro
       SecurityGroups:
-        - !Ref ECSSecurityGroup
+        - !Ref SecurityGroup
       IamInstanceProfile: !Ref ECSInstanceProfile
       KeyName: affix-instance
       UserData:
