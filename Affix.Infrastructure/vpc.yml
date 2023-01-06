@@ -62,11 +62,17 @@ Outputs:
   VPC:
     Description: A reference to the created VPC
     Value: !Ref VPC
+    Export:
+      Name: !Sub ${AWS::StackName}-VPC
 
   PublicSubnetAZ1:
     Description: A reference to the first public subnet in availability zone 1
     Value: !Ref PublicSubnetAZ1
+    Export:
+      Name: !Sub ${AWS::StackName}-PublicSubnetAZ1
 
   PublicSubnetAZ2:
     Description: A reference to the second public subnet in availability zone 2
     Value: !Ref PublicSubnetAZ2
+    Export:
+      Name: !Sub ${AWS::StackName}-PublicSubnetAZ2
