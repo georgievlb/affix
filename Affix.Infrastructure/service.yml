@@ -1,0 +1,101 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: ECS Cluster Template
+Parameters:
+  VpcStackName:
+    Type: String
+    Default: affix-vpc
+  SecurityGroupStackName:
+    Type: String
+    Default: affix-security-groups
+  EcsStackName:
+    Type: String
+    Default: affix-ecs
+  DesiredCount:
+    Description: How many instances of this task should we run across our cluster?
+    Type: Number
+    Default: 1
+  MaxCount:
+    Description: Maximum number of instances of this task we can run across our cluster
+    Type: Number
+    Default: 3
+  ECSServiceAutoScalingRoleARN:
+    Description: The ECS service auto scaling role ARN
+    Type: String
+
+Resources:
+  Service:
+    Type: AWS::ECS::Service
+#    DependsOn: ALBListenerRule
+    Properties:
+      Cluster:
+        Fn::ImportValue: !Sub ${EcsStackName}-ECSServiceAutoScalingRole
+      Role: !Ref ServiceRole
+      DesiredCount: !Ref DesiredCount
+      TaskDefinition: !Ref TaskDefinition
+      LoadBalancers:
+        - ContainerName: affix-api
+          ContainerPort: 5005
+#          TargetGroupArn: !Ref TargetGroup
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: affix-api
+      ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
+      ContainerDefinitions:
+        - Name: affix-api
+          Essential: true
+          Image: lbgeorgiev/affix_api:latest
+          Memory: 512
+          PortMappings:
+            - ContainerPort: 5005
+          Environment:
+            - Name: ASPNETCORE_ENVIRONMENT
+              Value: Local
+
+  ServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service:
+                - 'ecs.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: alb-registration-policy
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:AuthorizeSecurityGroupIngress
+                  - ec2:Describe*
+                  - elasticloadbalancing:DeregisterInstancesFromLoadBalancer
+                  - elasticloadbalancing:Describe*
+                  - elasticloadbalancing:RegisterInstancesWithLoadBalancer
+                  - elasticloadbalancing:DeregisterTargets
+                  - elasticloadbalancing:DescribeTargetGroups
+                  - elasticloadbalancing:DescribeTargetHealth
+                  - elasticloadbalancing:RegisterTargets
+                Resource: '*'
+  
+
+  
+
+  
+  ECSTaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
