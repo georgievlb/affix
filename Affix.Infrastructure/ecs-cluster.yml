@@ -67,8 +67,7 @@ Resources:
           yum install -y https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
           yum install -y aws-cfn-bootstrap hibagent
           echo Successfully ran UserData
-          /opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName} --resource ECSLaunchConfiguration
-          /opt/aws/bin/cfn-signal -e $? --region ${AWS::Region} --stack ${AWS::StackName} --resource ECSAutoScalingGroup
+          /opt/aws/bin/cfn-signal -e --region ${AWS::Region} --stack ${AWS::StackName} --resource ECSAutoScalingGroup
 
   # This IAM Role is attached to all of the ECS hosts.
   ECSRole:
