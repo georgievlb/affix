@@ -41,15 +41,16 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
-        # Allow access from anywhere to our ECS services
-        - IpProtocol: -1
-          CidrIp: 0.0.0.0/0
 
 Outputs:
   ECSHostSecurityGroup:
     Description: A reference to the security group for ECS hosts
     Value: !Ref ECSHostSecurityGroup
+    Export:
+      Name: !Sub ${AWS::StackName}-ECSHostSecurityGroup
 
   LoadBalancerSecurityGroup:
     Description: A reference to the security group for load balancers
     Value: !Ref LoadBalancerSecurityGroup
+    Export:
+      Name: !Sub ${AWS::StackName}-LoadBalancerSecurityGroup
