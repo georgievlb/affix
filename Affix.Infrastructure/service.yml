@@ -5,12 +5,12 @@ Parameters:
   VpcStackName:
     Type: String
     Default: affix-vpc
-  SecurityGroupStackName:
-    Type: String
-    Default: affix-security-groups
   EcsStackName:
     Type: String
     Default: affix-ecs
+  LoadBalancerStackName:
+    Type: String
+    Default: affix-load-balancer
   DesiredCount:
     Description: How many instances of this task should we run across our cluster?
     Type: Number
@@ -18,12 +18,12 @@ Parameters:
   MaxCount:
     Description: Maximum number of instances of this task we can run across our cluster
     Type: Number
-    Default: 3
+    Default: 1
 
 Resources:
   Service:
     Type: AWS::ECS::Service
-#    DependsOn: ALBListenerRule
+    DependsOn: ALBListenerRule
     Properties:
       Cluster:
         Fn::ImportValue: !Sub ${EcsStackName}-ECSCluster
@@ -33,13 +33,12 @@ Resources:
       LoadBalancers:
         - ContainerName: affix-api
           ContainerPort: 5005
-#          TargetGroupArn: !Ref TargetGroup
+          TargetGroupArn: !Ref ALBTargetGroup
 
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
       Family: affix-api
-#      ExecutionRoleArn: !GetAtt ECSTaskExecutionRole.Arn
       ContainerDefinitions:
         - Name: affix-api
           Essential: true
@@ -50,6 +49,38 @@ Resources:
           Environment:
             - Name: ASPNETCORE_ENVIRONMENT
               Value: Local
+  
+  ALBTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: ECSClusterTargetGroup
+      Port: 80
+      Protocol: HTTP
+      Matcher:
+        HttpCode: 200-299
+      VpcId:
+        Fn::ImportValue: !Sub ${VpcStackName}-VPC
+      TargetType: instance
+      HealthCheckIntervalSeconds: 30
+      HealthCheckTimeoutSeconds: 10
+      HealthyThresholdCount: 5
+      UnhealthyThresholdCount: 5
+      HealthCheckPath: /health
+      HealthCheckProtocol: HTTP
+
+  ALBListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn:
+        Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBListenerARN
+      Priority: 1
+      Conditions:
+        - Field: path-pattern
+          Values:
+            - !Ref Path
+      Actions:
+        - TargetGroupArn: !Ref ALBTargetGroup
+          Type: forward
 
   ServiceRole:
     Type: AWS::IAM::Role
@@ -79,20 +110,3 @@ Resources:
                   - elasticloadbalancing:DescribeTargetHealth
                   - elasticloadbalancing:RegisterTargets
                 Resource: '*'
-  
-
-  
-
-  
-  ECSTaskExecutionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
-      AssumeRolePolicyDocument:
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: ecs-tasks.amazonaws.com
-            Action: sts:AssumeRole
-      Path: /
