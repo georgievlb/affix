@@ -139,13 +139,17 @@ Outputs:
   ECSCluster:
     Value: !Ref ECSCluster
     Export:
-      Name: ECSCluster
+      Name: !Sub ${AWS::StackName}-ECSCluster
 
   ECSServiceAutoScalingRole:
     Description: A reference to ECS service auto scaling role
     Value: !GetAtt ECSServiceAutoScalingRole.Arn
+    Export:
+      Name: !Sub ${AWS::StackName}-ECSServiceAutoScalingRole
 
-  ECSAutoScalingGroupName:
+  ECSAutoScalingGroup:
     Description: A reference to ECS AutoScaling Group Name
     Value: !Ref ECSAutoScalingGroup
+    Export:
+      Name: !Sub ${AWS::StackName}-ECSAutoScalingGroup
   
