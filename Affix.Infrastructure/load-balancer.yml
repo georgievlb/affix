@@ -98,6 +98,6 @@ Outputs:
     Export:
       Name: !Sub ${AWS::StackName}-ALBListenerARN
   ALBDefaultTargetGroup:
-    Value: !Ref ALBListener
+    Value: !Ref ALBDefaultTargetGroup
     Export:
       Name: !Sub ${AWS::StackName}-ALBDefaultTargetGroup
