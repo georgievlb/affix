@@ -40,18 +40,18 @@ Resources:
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
           IpProtocol: -1
-#        - CidrIp: 0.0.0.0/0
-#          IpProtocol: tcp
-#          FromPort: 80
-#          ToPort: 80
-#        - CidrIp: 0.0.0.0/0
-#          IpProtocol: tcp
-#          FromPort: 443
-#          ToPort: 443
-#        - CidrIp: 0.0.0.0/0
-#          IpProtocol: tcp
-#          FromPort: 5005
-#          ToPort: 5005
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 5005
+          ToPort: 5005
       SecurityGroupEgress:
           - CidrIp: 0.0.0.0/0
             IpProtocol: -1
