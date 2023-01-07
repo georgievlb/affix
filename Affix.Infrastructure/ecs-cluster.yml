@@ -19,6 +19,10 @@ Parameters:
     Description: Maximum number of instances in AutoScaling Group
     Type: String
     Default: 1
+  ECSAMI:
+    Description: ECS-Optimized AMI ID
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ecs/optimized-ami/amazon-linux/recommended/image_id
 
 Resources:
   ECSCluster:
@@ -58,7 +62,7 @@ Resources:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       AssociatePublicIpAddress: true
-      ImageId: ami-0b5eea76982371e91 # TODO: Create a Lambda function that gets the latest Amazon Linux2 AMI ID
+      ImageId: !Ref ECSAMI
       InstanceType: t2.micro
       SecurityGroups:
         - Fn::ImportValue: !Sub ${SecurityGroupStackName}-ECSHostSecurityGroup
