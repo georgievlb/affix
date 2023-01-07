@@ -18,9 +18,9 @@ Resources:
           FromPort: 22
           ToPort: 22
           CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: 0
-          ToPort: 65535
+#        - IpProtocol: tcp
+#          FromPort: 0
+#          ToPort: 65535
           SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
       SecurityGroupEgress:
         - IpProtocol: -1
@@ -33,19 +33,23 @@ Resources:
       VpcId:
         Fn::ImportValue: !Sub ${VpcStackName}-VPC
       SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 443
-          ToPort: 443
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: -1
+#        - IpProtocol: tcp
+#          FromPort: 443
+#          ToPort: 443
+#          CidrIp: 0.0.0.0/0
+#        - IpProtocol: tcp
+#          FromPort: 80
+#          ToPort: 80
+#          CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
-          - IpProtocol: tcp
-            FromPort: 80
-            ToPort: 80
-            CidrIp: 0.0.0.0/0
+          - CidrIp: 0.0.0.0/0
+            IpProtocol: -1
+#          - IpProtocol: tcp
+#            FromPort: 80
+#            ToPort: 80
+#            CidrIp: 0.0.0.0/0
 
 Outputs:
   ECSHostSecurityGroup:
