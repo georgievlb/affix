@@ -33,7 +33,7 @@ Resources:
       LaunchType: EC2
       LoadBalancers:
         - ContainerName: affix-api
-          ContainerPort: 5005
+          ContainerPort: 80
           TargetGroupArn: !Ref ALBTargetGroup
 
   TaskDefinition:
@@ -46,8 +46,8 @@ Resources:
           Image: lbgeorgiev/affix_api:latest
           Memory: 512
           PortMappings:
-            - ContainerPort: 5005
-              HostPort: 80
+            - ContainerPort: 80
+              HostPort: 5005
           Environment:
             - Name: ASPNETCORE_ENVIRONMENT
               Value: Local
@@ -70,7 +70,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       Name: ECSClusterTargetGroup
-      Port: 80
+      Port: 5005
       Protocol: HTTP
       Matcher:
         HttpCode: 200-299
