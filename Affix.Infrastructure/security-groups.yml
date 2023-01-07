@@ -21,8 +21,10 @@ Resources:
 #        - IpProtocol: tcp
 #          FromPort: 0
 #          ToPort: 65535
+        - IpProtocol: -1
           SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
       SecurityGroupEgress:
+        - IpProtocol: -1
           SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
 
   LoadBalancerSecurityGroup:
