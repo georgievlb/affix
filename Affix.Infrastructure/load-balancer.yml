@@ -69,7 +69,7 @@ Resources:
       ListenerArn: !Ref ALBListener
       Priority: 50000
 
-  ALBTargetGroup:
+  ALBDefaultTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       Name: ECSClusterTargetGroup
