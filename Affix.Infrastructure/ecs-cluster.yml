@@ -72,12 +72,12 @@ Resources:
       UserData:
         'Fn::Base64': !Sub |
           #!/bin/bash
-          echo ECS_CLUSTER=affix-ecs >> /etc/ecs/ecs.config
+          echo "ECS_CLUSTER=${AWS::StackName}" >> /etc/ecs/ecs.config
           yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
           yum install -y https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
           yum install -y aws-cfn-bootstrap hibagent
           /opt/aws/bin/cfn-init -v --region ${AWS::Region} --stack ${AWS::StackName} --resource ECSLaunchConfiguration
-          echo Successfully ran UserData
+          echo Successfully registered container instance 
           /opt/aws/bin/cfn-signal -e 0 --stack ${AWS::StackName} --resource ECSAutoScalingGroup --region ${AWS::Region}
 
   # This IAM Role is attached to all of the ECS hosts.
