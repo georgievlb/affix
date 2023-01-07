@@ -72,6 +72,7 @@ Resources:
       UserData:
         'Fn::Base64': !Sub |
           #!/bin/bash
+          echo ECS_CLUSTER=affix-ecs >> /etc/ecs/ecs.config
           yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
           yum install -y https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
           yum install -y aws-cfn-bootstrap hibagent
