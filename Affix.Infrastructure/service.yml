@@ -30,10 +30,16 @@ Resources:
       Role: !Ref ServiceRole
       DesiredCount: !Ref DesiredCount
       TaskDefinition: !Ref TaskDefinition
+      LaunchType: EC2
       LoadBalancers:
         - ContainerName: affix-api
           ContainerPort: 5005
           TargetGroupArn: !Ref ALBTargetGroup
+      PlacemenetStrategies:
+        - Type: spread
+          Field: instanceId
+        - Field: attribute:ecs.availability-zone
+          Type: spread
 
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -46,6 +52,7 @@ Resources:
           Memory: 512
           PortMappings:
             - ContainerPort: 5005
+              HostPort: 80
           Environment:
             - Name: ASPNETCORE_ENVIRONMENT
               Value: Local
@@ -54,6 +61,9 @@ Resources:
             Options:
               awslogs-group: !Ref CloudWatchLogsGroup
               awslogs-region: !Ref AWS::Region
+      RequiresCompatibilities:
+        - EC2
+      NetworkMode: bridge
 
   CloudWatchLogsGroup:
     Type: AWS::Logs::LogGroup
