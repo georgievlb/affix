@@ -39,8 +39,6 @@ Resources:
         Fn::ImportValue: !Sub ${VpcStackName}-VPC
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
-          IpProtocol: -1
-        - CidrIp: 0.0.0.0/0
           IpProtocol: tcp
           FromPort: 80
           ToPort: 80
