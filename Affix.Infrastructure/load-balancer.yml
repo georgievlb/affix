@@ -72,7 +72,6 @@ Resources:
   ALBDefaultTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: ECSClusterTargetGroup
       Port: 80
       Protocol: HTTP
       Matcher:
