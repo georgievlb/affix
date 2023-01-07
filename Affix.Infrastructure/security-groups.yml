@@ -14,17 +14,16 @@ Resources:
       VpcId:
         Fn::ImportValue: !Sub ${VpcStackName}-VPC
       SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 22
-          ToPort: 22
-          CidrIp: 0.0.0.0/0
+#        - IpProtocol: tcp
+#          FromPort: 22
+#          ToPort: 22
+#          CidrIp: 0.0.0.0/0
 #        - IpProtocol: tcp
 #          FromPort: 0
 #          ToPort: 65535
           SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
       SecurityGroupEgress:
-        - IpProtocol: -1
-          CidrIp: 0.0.0.0/0
+          SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
 
   LoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
