@@ -35,11 +35,6 @@ Resources:
         - ContainerName: affix-api
           ContainerPort: 5005
           TargetGroupArn: !Ref ALBTargetGroup
-      PlacemenetStrategies:
-        - Type: spread
-          Field: instanceId
-        - Field: attribute:ecs.availability-zone
-          Type: spread
 
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
