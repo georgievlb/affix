@@ -37,8 +37,8 @@ Resources:
       VPCZoneIdentifier:
         - Fn::ImportValue: !Sub ${VpcStackName}-PublicSubnetAZ1
         - Fn::ImportValue: !Sub ${VpcStackName}-PublicSubnetAZ2
-      TargetGroupARNs:
-        - Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBDefaultTargetGroup
+#      TargetGroupARNs:
+#        - Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBDefaultTargetGroup
       HealthCheckType: ELB
     CreationPolicy:
       ResourceSignal:
