@@ -50,6 +50,12 @@ Resources:
             - Name: ASPNETCORE_ENVIRONMENT
               Value: Local
 
+  CloudWatchLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Ref AWS::StackName
+      RetentionInDays: 2
+
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
