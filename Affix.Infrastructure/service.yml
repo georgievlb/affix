@@ -56,13 +56,16 @@ Resources:
       Name: ECSClusterTargetGroup
       Port: 80
       Protocol: HTTP
+      Matcher:
+        HttpCode: 200-299
       VpcId:
         Fn::ImportValue: !Sub ${VpcStackName}-VPC
       TargetType: instance
-      HealthCheckIntervalSeconds: 30
-      HealthCheckTimeoutSeconds: 10
-      HealthyThresholdCount: 5
-      UnhealthyThresholdCount: 5
+      HealthCheckIntervalSeconds: 10
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+      HealthCheckPath: /health
       HealthCheckProtocol: HTTP
 
   ALBListenerRule:
