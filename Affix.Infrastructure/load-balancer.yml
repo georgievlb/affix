@@ -37,7 +37,7 @@ Resources:
       DefaultActions:
         - Type: forward
           TargetGroupArn: !Ref ALBDefaultTargetGroup
-      Port: 5005
+      Port: 80
       Protocol: HTTP
       #SslPolicy: ELBSecurityPolicy-2016-08 # Default security policy.
       # More info here: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies
