@@ -62,7 +62,8 @@ Resources:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       AssociatePublicIpAddress: true
-      ImageId: !Ref ECSAMI
+      # ImageId: !Ref ECSAMI
+      ImageId: ami-00eb0dc604a8124fd
       InstanceType: t2.micro
       SecurityGroups:
         - Fn::ImportValue: !Sub ${SecurityGroupStackName}-ECSHostSecurityGroup
