@@ -100,8 +100,6 @@ Resources:
         RestrictPublicBuckets: true
     DeletionPolicy: Retain
 
-  # Grant access for the load balancer to write the logs
-  # For the magic number 127311923021, refer to https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
   ALBLoggingBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties:
@@ -110,9 +108,32 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS: 127311923021 # Elastic Load Balancing Account ID for us-east-1
+              Service: elasticloadbalancing.amazonaws.com
             Action: s3:PutObject
             Resource: !Ref ALBLogsBucket
+
+  ALBIAMRole:
+    DependsOn: ALBLogsBucket
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - elasticloadbalancing.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Sid: AllowElasticLoadBalancerWriteAccess
+                Effect: Allow
+                Action: s3:PutObject
+                Resource: !Ref ALBLogsBucket
+
 Outputs:
   ALB:
     Description: The application load balancer
