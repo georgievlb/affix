@@ -11,6 +11,7 @@ Parameters:
 
 Resources:  
   ALB:
+    DependsOn: ALBLogsBucket
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Scheme: internet-facing
