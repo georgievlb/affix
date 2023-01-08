@@ -133,7 +133,7 @@ Resources:
               - Sid: AllowElasticLoadBalancerWriteAccess
                 Effect: Allow
                 Action: s3:PutObject
-                Resource: !Ref ALBLogsBucket
+                Resource: !Sub "arn:aws:s3:::${ALBLogsBucket}/*"
 
 Outputs:
   ALB:
