@@ -27,7 +27,7 @@ Resources:
         - Key: access_logs.s3.enabled
           Value: true
         - Key: access_logs.s3.bucket
-          Value: !Ref ALBLogsBucket
+          Value: affix-load-balancer-logs
       IpAddressType: ipv4
   
   # TODO Enable ALBListener HTTPS forwarding once you have a valid certificate
@@ -83,57 +83,57 @@ Resources:
 
 
   # Create an S3 logs bucket
-  ALBLogsBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: affix-load-balancer-logs
-      AccessControl: LogDeliveryWrite
-      LifecycleConfiguration:
-        Rules:
-          - Id: ExpireLogs
-            ExpirationInDays: 365
-            Status: Enabled
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
-        BlockPublicPolicy: true
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
-    DeletionPolicy: Retain
-
-  ALBLoggingBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref ALBLogsBucket
-      PolicyDocument:
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: elasticloadbalancing.amazonaws.com
-            Action: s3:PutObject
-            Resource: !Ref ALBLogsBucket
-
-  ALBIAMRole:
-    DependsOn: ALBLogsBucket
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - elasticloadbalancing.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      Policies:
-        - PolicyName: ALBIAMPolicy
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Sid: AllowElasticLoadBalancerWriteAccess
-                Effect: Allow
-                Action: s3:PutObject
-                Resource: !Sub "arn:aws:s3:::${ALBLogsBucket}/*"
+#  ALBLogsBucket:
+#    Type: AWS::S3::Bucket
+#    Properties:
+#      BucketName: affix-load-balancer-logs
+#      AccessControl: LogDeliveryWrite
+#      LifecycleConfiguration:
+#        Rules:
+#          - Id: ExpireLogs
+#            ExpirationInDays: 365
+#            Status: Enabled
+#      PublicAccessBlockConfiguration:
+#        BlockPublicAcls: true
+#        BlockPublicPolicy: true
+#        IgnorePublicAcls: true
+#        RestrictPublicBuckets: true
+#    DeletionPolicy: Retain
+#
+#  ALBLoggingBucketPolicy:
+#    Type: AWS::S3::BucketPolicy
+#    Properties:
+#      Bucket: !Ref ALBLogsBucket
+#      PolicyDocument:
+#        Statement:
+#          - Effect: Allow
+#            Principal:
+#              Service: elasticloadbalancing.amazonaws.com
+#            Action: s3:PutObject
+#            Resource: !Ref ALBLogsBucket
+#
+#  ALBIAMRole:
+#    DependsOn: ALBLogsBucket
+#    Type: AWS::IAM::Role
+#    Properties:
+#      AssumeRolePolicyDocument:
+#        Version: 2012-10-17
+#        Statement:
+#          - Effect: Allow
+#            Principal:
+#              Service:
+#                - elasticloadbalancing.amazonaws.com
+#            Action:
+#              - sts:AssumeRole
+#      Policies:
+#        - PolicyName: ALBIAMPolicy
+#          PolicyDocument:
+#            Version: 2012-10-17
+#            Statement:
+#              - Sid: AllowElasticLoadBalancerWriteAccess
+#                Effect: Allow
+#                Action: s3:PutObject
+#                Resource: !Sub "arn:aws:s3:::${ALBLogsBucket}/*"
 
 Outputs:
   ALB:
