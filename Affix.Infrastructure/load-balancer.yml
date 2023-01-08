@@ -11,7 +11,7 @@ Parameters:
 
 Resources:  
   ALB:
-    DependsOn: ALBLogsBucket
+    DependsOn: ALBIAMRole
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Scheme: internet-facing
@@ -126,7 +126,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Policies:
-          PolicyDocument:
+        - PolicyDocument:
             Version: 2012-10-17
             Statement:
               - Sid: AllowElasticLoadBalancerWriteAccess
