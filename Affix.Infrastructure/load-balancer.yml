@@ -80,6 +80,39 @@ Resources:
       Port: 80
       Protocol: HTTP
 
+
+  # Create an S3 logs bucket
+  ALBLogsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "affix-alb-logs-${AWS::AccountId}"
+      AccessControl: LogDeliveryWrite
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireLogs
+            ExpirationInDays: 365
+            Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+    DeletionPolicy: Retain
+
+  # Grant access for the load balancer to write the logs
+  # For the magic number 127311923021, refer to https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-logging-bucket-permissions
+  ALBLoggingBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ALBLogsBucket
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: 127311923021 # Elastic Load Balancing Account ID for us-east-1
+            Action: s3:PutObject
+            Resource: !Ref ALBLogsBucket
+#            Resource: !Sub "arn:aws:s3:::affix-alb-logs-${AWS::AccountId}/*"
 Outputs:
   ALB:
     Description: The application load balancer
