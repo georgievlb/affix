@@ -47,7 +47,7 @@ Resources:
           Memory: 512
           PortMappings:
             - ContainerPort: 80
-              HostPort: 5005
+              HostPort: 80
           Environment:
             - Name: ASPNETCORE_ENVIRONMENT
               Value: Local
@@ -69,7 +69,6 @@ Resources:
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: ECSClusterTargetGroup
       Port: 80
       Protocol: HTTP
       Matcher:
