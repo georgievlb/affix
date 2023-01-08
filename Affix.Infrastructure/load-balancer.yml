@@ -23,10 +23,10 @@ Resources:
       LoadBalancerAttributes:
         - Key: idle_timeout.timeout_seconds
           Value: '60'
-      #        - Key: access_logs.s3.enabled
-      #          Value: true
-      #        - Key: access_logs.s3.bucket
-      #          Value: affix-load-balancer-logs
+        - Key: access_logs.s3.enabled
+          Value: true
+        - Key: access_logs.s3.bucket
+          Value: affix-load-balancer-logs
       IpAddressType: ipv4
   
   # TODO Enable ALBListener HTTPS forwarding once you have a valid certificate
