@@ -112,8 +112,7 @@ Resources:
             Principal:
               AWS: 127311923021 # Elastic Load Balancing Account ID for us-east-1
             Action: s3:PutObject
-            Resource: !Ref ALBLogsBucket
-#            Resource: !Sub "arn:aws:s3:::affix-alb-logs-${AWS::AccountId}/*"
+            Resource: !Sub "arn:aws:s3:::affix-alb-logs-${AWS::AccountId}/*"
 Outputs:
   ALB:
     Description: The application load balancer
