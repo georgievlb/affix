@@ -86,8 +86,8 @@ Resources:
   ALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     Properties:
-      ListenerArn:
-        Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBListenerARN
+      ListenerArn: arn:aws:elasticloadbalancing:us-east-1:136492436586:listener/app/affix-l-ALB-1JJ9XUF7LCEST/f54ce3674d57c55e/bbe6be5d1d5eebd1
+#        Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBListenerARN
       Priority: 1
       Conditions:
         - Field: path-pattern
