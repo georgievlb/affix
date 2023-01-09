@@ -56,7 +56,6 @@ Resources:
             Options:
               awslogs-group: !Ref CloudWatchLogsGroup
               awslogs-region: !Ref AWS::Region
-          ForceUpdate: true
       RequiresCompatibilities:
         - EC2
       NetworkMode: bridge
