@@ -30,6 +30,7 @@ Resources:
       IpAddressType: ipv4
   
   # TODO Enable ALBListener HTTPS forwarding once you have a valid certificate
+  # TODO: Add a fixed-response ALBListenerRule. See https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#fixed-response-actions
   ALBListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -39,100 +40,15 @@ Resources:
           TargetGroupArn: !Ref ALBDefaultTargetGroup
       Port: 80
       Protocol: HTTP
-      #SslPolicy: ELBSecurityPolicy-2016-08 # Default security policy.
-      # More info here: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies
-  #      Certificates:
-  #        - CertificateArn: !Ref ECSClusterCertificate
-#  ALBListenerRule:
-#    Type: AWS::ElasticLoadBalancingV2::ListenerRule
-#    Properties:
-#      Actions:
-#        - Type: fixed-response
-#          FixedResponseConfig:
-#            ContentType: text/html
-#            MessageBody: |
-#              <!DOCTYPE html>
-#              <html>
-#                <head>
-#                  <title>Page unrecognized</title>
-#                </head>
-#                <body>
-#                    <div>404</div>
-#                </body>
-#              </html>
-#            StatusCode: 404
-#      Conditions:
-#        - Field: path-pattern
-#          PathPatternConfig:
-#            Values:
-#              - "*"
-#      ListenerArn: !Ref ALBListener
-#      Priority: 50000
-  
-  # We define a default target group here, as this is a mandatory Parameter
-  # when creating an Application Load Balancer Listener. This is not used, instead
-  # a target group is created per-service in each service template.
+
   ALBDefaultTargetGroup:
+    Description: Defines a mandatory default target group. This is not used, instead a target group is created per-service in each ECS service template. 
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       VpcId:
         Fn::ImportValue: !Sub ${VpcStackName}-VPC
       Port: 80
       Protocol: HTTP
-
-
-  # Create an S3 logs bucket
-#  ALBLogsBucket:
-#    Type: AWS::S3::Bucket
-#    Properties:
-#      BucketName: affix-load-balancer-logs
-#      AccessControl: LogDeliveryWrite
-#      LifecycleConfiguration:
-#        Rules:
-#          - Id: ExpireLogs
-#            ExpirationInDays: 365
-#            Status: Enabled
-#      PublicAccessBlockConfiguration:
-#        BlockPublicAcls: true
-#        BlockPublicPolicy: true
-#        IgnorePublicAcls: true
-#        RestrictPublicBuckets: true
-#    DeletionPolicy: Retain
-#
-#  ALBLoggingBucketPolicy:
-#    Type: AWS::S3::BucketPolicy
-#    Properties:
-#      Bucket: !Ref ALBLogsBucket
-#      PolicyDocument:
-#        Statement:
-#          - Effect: Allow
-#            Principal:
-#              Service: elasticloadbalancing.amazonaws.com
-#            Action: s3:PutObject
-#            Resource: !Ref ALBLogsBucket
-#
-#  ALBIAMRole:
-#    DependsOn: ALBLogsBucket
-#    Type: AWS::IAM::Role
-#    Properties:
-#      AssumeRolePolicyDocument:
-#        Version: 2012-10-17
-#        Statement:
-#          - Effect: Allow
-#            Principal:
-#              Service:
-#                - elasticloadbalancing.amazonaws.com
-#            Action:
-#              - sts:AssumeRole
-#      Policies:
-#        - PolicyName: ALBIAMPolicy
-#          PolicyDocument:
-#            Version: 2012-10-17
-#            Statement:
-#              - Sid: AllowElasticLoadBalancerWriteAccess
-#                Effect: Allow
-#                Action: s3:PutObject
-#                Resource: !Sub "arn:aws:s3:::${ALBLogsBucket}/*"
 
 Outputs:
   ALB:

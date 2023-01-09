@@ -13,23 +13,14 @@ Resources:
       GroupDescription: Access to the ECS hosts and the tasks/containers that run on them
       VpcId:
         Fn::ImportValue: !Sub ${VpcStackName}-VPC
+      # TODO: Restrict port access to ports 22 (SSH and ports used by the ALB). You can use the SourceSecurityGroupId property and provide it the ALB security group
       SecurityGroupIngress:
-#        - IpProtocol: tcp
-#          FromPort: 22
-#          ToPort: 22
-#          CidrIp: 0.0.0.0/0
-#        - IpProtocol: tcp
-#          FromPort: 0
-#          ToPort: 65535
-#        - IpProtocol: -1
-#          SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
         - CidrIp: 0.0.0.0/0
           IpProtocol: -1
+      # TODO: same restrictions as above
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
           IpProtocol: -1
-#        - IpProtocol: -1
-#          SourceSecurityGroupId: !Ref LoadBalancerSecurityGroup
 
   LoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup

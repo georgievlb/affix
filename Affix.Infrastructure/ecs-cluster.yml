@@ -41,28 +41,18 @@ Resources:
       VPCZoneIdentifier:
         - Fn::ImportValue: !Sub ${VpcStackName}-PublicSubnetAZ1
         - Fn::ImportValue: !Sub ${VpcStackName}-PublicSubnetAZ2
-#      TargetGroupARNs:
-#        - Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBDefaultTargetGroup
       HealthCheckType: ELB
     CreationPolicy:
       ResourceSignal:
         Count: 1
         Timeout: PT10M
-#    UpdatePolicy:
-#      AutoScalingRollingUpdate:
-#        MinInstanceInService: !Ref MinInstances
-#        MaxBatchSize: 1
-#        PauseTime: PT15M
-#        WaitOnResourceSignals: true
-#        MinSuccessfulInstancePercent: 75
-#        SuspendProcesses:
-#          - HealthCheck
+    # TODO: Add an UpdatePolicy. See https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatepolicy.html
 
   ECSLaunchConfiguration:
     Type: AWS::AutoScaling::LaunchConfiguration
     Properties:
       AssociatePublicIpAddress: true
-      # ImageId: !Ref ECSAMI
+      # TODO: Remove hardcoded AMI ID. See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/retrieve-ecs-optimized_AMI.html
       ImageId: ami-00eb0dc604a8124fd
       InstanceType: t2.micro
       SecurityGroups:
@@ -81,8 +71,8 @@ Resources:
           echo Successfully registered container instance 
           /opt/aws/bin/cfn-signal -e 0 --stack ${AWS::StackName} --resource ECSAutoScalingGroup --region ${AWS::Region}
 
-  # This IAM Role is attached to all of the ECS hosts.
   ECSRole:
+    Description: This IAM Role is attached to all of the ECS hosts.
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
