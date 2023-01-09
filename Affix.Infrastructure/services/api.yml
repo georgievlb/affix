@@ -92,7 +92,7 @@ Resources:
       Conditions:
         - Field: path-pattern
           Values:
-            - /
+            - /api/*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
