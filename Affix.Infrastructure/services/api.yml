@@ -76,8 +76,8 @@ Resources:
       VpcId:
         Fn::ImportValue: !Sub ${VpcStackName}-VPC
       TargetType: instance
-      HealthCheckIntervalSeconds: 60
-      HealthCheckTimeoutSeconds: 60
+      HealthCheckIntervalSeconds: 30
+      HealthCheckTimeoutSeconds: 120
       HealthyThresholdCount: 2
       UnhealthyThresholdCount: 10
       HealthCheckPath: /health
