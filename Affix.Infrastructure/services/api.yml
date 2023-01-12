@@ -78,7 +78,7 @@ Resources:
       TargetType: instance
       HealthCheckIntervalSeconds: 60
       HealthCheckTimeoutSeconds: 60
-      HealthyThresholdCount: 1
+      HealthyThresholdCount: 2
       UnhealthyThresholdCount: 10
       HealthCheckPath: /health
       HealthCheckProtocol: HTTP
