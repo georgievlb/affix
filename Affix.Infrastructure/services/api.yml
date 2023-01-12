@@ -80,7 +80,7 @@ Resources:
       HealthCheckTimeoutSeconds: 120
       HealthyThresholdCount: 2
       UnhealthyThresholdCount: 10
-      HealthCheckPath: /health
+      HealthCheckPath: /api/health
       HealthCheckProtocol: HTTP
 
   ALBListenerRule:
