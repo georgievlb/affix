@@ -36,7 +36,6 @@ Resources:
       DBSubnetGroupName: AffixDbSubnets
       SubnetIds:
         - !Sub ${VpcStackName}-PublicSubnetAZ1
-        - !Sub ${VpcStackName}-PublicSubnetAZ2
 
 Outputs:
   MyDBInstanceEndpoint:
