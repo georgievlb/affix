@@ -23,12 +23,21 @@ Resources:
       PubliclyAccessible: true
       VPCSecurityGroups:
         - !Sub ${SecurityGroupStackName}-DbSecurityGroup
-      DBSubnetGroupName: !Sub ${VpcStackName}-PublicSubnetAZ1
+      DBSubnetGroupName: !Ref AffixDbSubnetGroup
       MultiAZ: false
       StorageType: gp2
       BackupRetentionPeriod: 7
       PreferredBackupWindow: 23:00-23:30
       PreferredMaintenanceWindow: sun:03:00-sun:04:00
+  AffixDbSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: AffixDb subnet group
+      DBSubnetGroupName: AffixDbSubnets
+      SubnetIds:
+        - !Sub ${VpcStackName}-PublicSubnetAZ1
+        - !Sub ${VpcStackName}-PublicSubnetAZ2
+
 Outputs:
   MyDBInstanceEndpoint:
     Description: Endpoint for the created RDS database
