@@ -13,7 +13,7 @@ Resources:
     Type: AWS::RDS::DBInstance
     Properties:
       DBInstanceClass: db.t2.micro
-      DBName: affix-db
+      DBName: affixdb
       Engine: sqlserver-ex
       EngineVersion: "15.00.4236.7.v1"
       LicenseModel: "license-included"
