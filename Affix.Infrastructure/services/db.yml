@@ -17,7 +17,7 @@ Resources:
       Engine: sqlserver-ex
       EngineVersion: "15.00.4236.7.v1"
       LicenseModel: "license-included"
-      MasterUsername: affix-sa
+      MasterUsername: affixsa
       MasterUserPassword: 19873jhe02*
       AllocatedStorage: "20"
       PubliclyAccessible: true
