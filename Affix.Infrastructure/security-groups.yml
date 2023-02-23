@@ -45,6 +45,18 @@ Resources:
           - CidrIp: 0.0.0.0/0
             IpProtocol: -1
 
+  DbSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for affix DB access
+      VpcId: !Sub ${VpcStackName}-VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 1433
+          ToPort: 1433
+          CidrIp: 0.0.0.0/0
+
+
 Outputs:
   ECSHostSecurityGroup:
     Description: A reference to the security group for ECS hosts
@@ -57,3 +69,8 @@ Outputs:
     Value: !Ref LoadBalancerSecurityGroup
     Export:
       Name: !Sub ${AWS::StackName}-LoadBalancerSecurityGroup
+  DbSecurityGroup:
+    Description: A reference to the security group for the db instance
+    Value: !Ref DbSecurityGroup
+    Export:
+      Name: !Sub ${AWS::StackName}-DbSecurityGroup
