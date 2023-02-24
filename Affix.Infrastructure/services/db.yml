@@ -9,7 +9,7 @@ Parameters:
     Type: String
     Default: affix-security-groups
 Resources:
-  AffixDb:
+  Instance:
     Type: AWS::RDS::DBInstance
     Properties:
       DBInstanceClass: db.t3.small
