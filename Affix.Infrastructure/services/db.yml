@@ -35,9 +35,13 @@ Resources:
       DBSubnetGroupDescription: AffixDb subnet group
       DBSubnetGroupName: AffixDbSubnets
       SubnetIds:
-        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnets
+        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetAZ1
+        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnetAZ2
 
 Outputs:
   MyDBInstanceEndpoint:
     Description: Endpoint for the created RDS database
     Value: !Sub ${AffixDb.Endpoint.Address}:${AffixDb.Endpoint.Port}
+    Export:
+      Name: !Sub ${AWS::StackName}-db-endpoint
+
