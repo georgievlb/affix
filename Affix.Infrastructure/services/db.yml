@@ -40,7 +40,7 @@ Resources:
 Outputs:
   MyDBInstanceEndpoint:
     Description: Endpoint for the created RDS database
-    Value: !Sub ${AffixDb.Endpoint.Address}:${AffixDb.Endpoint.Port}
+    Value: !Sub ${Instance.Endpoint.Address}:${Instance.Endpoint.Port}
     Export:
       Name: !Sub ${AWS::StackName}-db-endpoint
 
