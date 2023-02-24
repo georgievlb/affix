@@ -28,6 +28,9 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: 10.192.10.0/24
       MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: Affix public subnet AZ1
 
   PublicSubnetAZ2:
     Type: AWS::EC2::Subnet
@@ -36,6 +39,9 @@ Resources:
       CidrBlock: 10.192.11.0/24
       VpcId: !Ref VPC
       MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: Affix public subnet AZ2
   
   PrivateSubnetAZ1:
     Type: AWS::EC2::Subnet
