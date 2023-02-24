@@ -57,6 +57,17 @@ Resources:
           ToPort: 1433
           CidrIp: 0.0.0.0/0
 
+  JumpHostSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for affix jump host(s)
+      VpcId:
+        Fn::ImportValue: !Sub ${VpcStackName}-VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3389
+          ToPort: 3389
+          CidrIp: 0.0.0.0/0
 
 Outputs:
   ECSHostSecurityGroup:
