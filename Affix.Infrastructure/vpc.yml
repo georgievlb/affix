@@ -126,11 +126,11 @@ Outputs:
     Export:
       Name: !Sub ${AWS::StackName}-PublicSubnetAZ2
   
-  PrivateSubnetAZ1:
-    Description: A reference to the first private subnet in availability zone 1
-    Value: !Ref PrivateSubnetAZ1
+  PrivateSubnets:
+    Description: Affix vpc private subnets
+    Value: !Join [',', [!Ref PrivateSubnetAZ1, !Ref PrivateSubnetAZ2]]
     Export:
-      Name: !Sub ${AWS::StackName}-PrivateSubnetAZ1
+      Name: !Sub ${AWS::StackName}-PrivateSubnets
 
   DBSubnetGroupName:
     Description: Affix Db subnet group

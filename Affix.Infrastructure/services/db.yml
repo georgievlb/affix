@@ -35,8 +35,7 @@ Resources:
       DBSubnetGroupDescription: AffixDb subnet group
       DBSubnetGroupName: AffixDbSubnets
       SubnetIds:
-        - "subnet-0fe2e22944c2f3c80"
-        - "subnet-062e4cb67cf1f1254"
+        - Fn::ImportValue: !Sub ${VpcStackName}-PrivateSubnets
 
 Outputs:
   MyDBInstanceEndpoint:
