@@ -130,7 +130,7 @@ Outputs:
     Description: A reference to the first private subnet in availability zone 1
     Value: !Ref PrivateSubnetAZ2
     Export:
-      Name: !Sub ${AWS::StackName}-PrivateSubnetAZ2
+      Name: !Sub ${AWS::StackName}-PrivateSubnetAZ1
 
   DBSubnetGroupName:
     Description: Affix Db subnet group
