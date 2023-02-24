@@ -47,7 +47,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: us-east-1b
-      CidrBlock: 10.192.12.0/24
+      CidrBlock: 10.192.21.0/24
       VpcId: !Ref VPC
       MapPublicIpOnLaunch: false
 
