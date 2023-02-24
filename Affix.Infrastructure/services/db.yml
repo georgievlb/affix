@@ -36,6 +36,7 @@ Resources:
       DBSubnetGroupName: AffixDbSubnets
       SubnetIds:
         - "subnet-0fe2e22944c2f3c80"
+        - "subnet-062e4cb67cf1f1254"
 
 Outputs:
   MyDBInstanceEndpoint:
