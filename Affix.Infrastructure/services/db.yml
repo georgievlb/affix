@@ -8,6 +8,10 @@ Parameters:
   SecurityGroupStackName:
     Type: String
     Default: affix-security-groups
+  MasterUsername:
+    Type: String
+  MasterPassword:
+    Type: String
 Resources:
   Instance:
     Type: AWS::RDS::DBInstance
@@ -16,8 +20,6 @@ Resources:
       Engine: sqlserver-ex
       EngineVersion: "15.00.4236.7.v1"
       LicenseModel: "license-included"
-      MasterUsername: affixsa
-      MasterUserPassword: 19873jhe02*
       AllocatedStorage: "20"
       PubliclyAccessible: true
       VPCSecurityGroups:
