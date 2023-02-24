@@ -44,6 +44,9 @@ Resources:
       CidrBlock: 10.192.20.0/24
       VpcId: !Ref VPC
       MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: Affix private subnet AZ1
       
   PrivateSubnetAZ2:
     Type: AWS::EC2::Subnet
@@ -52,6 +55,9 @@ Resources:
       CidrBlock: 10.192.21.0/24
       VpcId: !Ref VPC
       MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: Affix private subnet AZ2
 
   DBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
