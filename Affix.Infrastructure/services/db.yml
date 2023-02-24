@@ -23,7 +23,7 @@ Resources:
       MasterUsername: !Ref MasterUsername
       MasterUserPassword: !Ref MasterPassword
       AllocatedStorage: "20"
-      PubliclyAccessible: true
+      PubliclyAccessible: false
       VPCSecurityGroups:
         - Fn::ImportValue: !Sub ${SecurityGroupStackName}-DbSecurityGroup
       DBSubnetGroupName: !Ref AffixDbSubnetGroup
