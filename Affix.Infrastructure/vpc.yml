@@ -6,6 +6,8 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: 10.192.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
       Tags:
         - Key: Name
           Value: Affix-VPC
@@ -133,7 +135,7 @@ Outputs:
       Name: !Sub ${AWS::StackName}-PrivateSubnetAZ1
 
   PrivateSubnetAZ2:
-    Description: A reference to the second publprivateic subnet in availability zone 2
+    Description: A reference to the second private subnet in availability zone 2
     Value: !Ref PrivateSubnetAZ2
     Export:
       Name: !Sub ${AWS::StackName}-PrivateSubnetAZ2
