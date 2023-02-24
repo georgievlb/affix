@@ -128,7 +128,7 @@ Outputs:
   
   PrivateSubnetAZ1:
     Description: A reference to the first private subnet in availability zone 1
-    Value: !Ref PrivateSubnetAZ2
+    Value: !Ref PrivateSubnetAZ1
     Export:
       Name: !Sub ${AWS::StackName}-PrivateSubnetAZ1
 
