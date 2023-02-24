@@ -21,7 +21,7 @@ Resources:
       AllocatedStorage: "20"
       PubliclyAccessible: true
       VPCSecurityGroups:
-        - !Sub ${SecurityGroupStackName}-DbSecurityGroup
+        - Fn::ImportValue: !Sub ${SecurityGroupStackName}-DbSecurityGroup
       DBSubnetGroupName: !Ref AffixDbSubnetGroup
       MultiAZ: false
       StorageType: gp2
