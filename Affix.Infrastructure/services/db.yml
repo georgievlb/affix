@@ -20,6 +20,8 @@ Resources:
       Engine: sqlserver-ex
       EngineVersion: "15.00.4236.7.v1"
       LicenseModel: "license-included"
+      MasterUsername: !Ref MasterUsername
+      MasterUserPassword: !Ref MasterPassword
       AllocatedStorage: "20"
       PubliclyAccessible: true
       VPCSecurityGroups:
