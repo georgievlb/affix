@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
-Description: ECS Cluster Template
+Description: Affix API template
 Parameters:
   VpcStackName:
     Type: String
