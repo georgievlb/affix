@@ -16,13 +16,13 @@ Resources:
   Instance:
     Type: AWS::RDS::DBInstance
     Properties:
-      DBInstanceClass: db.t3.small
+      DBInstanceClass: db.t2.micro
       Engine: sqlserver-ex
-      EngineVersion: "15.00.4236.7.v1"
+      EngineVersion: "14.00.3451.2.v1"
       LicenseModel: "license-included"
       MasterUsername: !Ref MasterUsername
       MasterUserPassword: !Ref MasterPassword
-      AllocatedStorage: "20"
+      AllocatedStorage: 20
       PubliclyAccessible: false
       VPCSecurityGroups:
         - Fn::ImportValue: !Sub ${SecurityGroupStackName}-DbSecurityGroup
