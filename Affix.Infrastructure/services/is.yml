@@ -88,7 +88,7 @@ Resources:
     Properties:
       ListenerArn:
         Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBListenerARN
-      Priority: 1
+      Priority: 10
       Conditions:
         - Field: path-pattern
           Values:
