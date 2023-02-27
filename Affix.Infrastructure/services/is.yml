@@ -1,0 +1,129 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Affix Identity Server template
+Parameters:
+  VpcStackName:
+    Type: String
+    Default: affix-vpc
+  EcsStackName:
+    Type: String
+    Default: affix-ecs
+  LoadBalancerStackName:
+    Type: String
+    Default: affix-load-balancer
+  DesiredCount:
+    Description: How many instances of this task should we run across our cluster?
+    Type: Number
+    Default: 1
+  MaxCount:
+    Description: Maximum number of instances of this task we can run across our cluster
+    Type: Number
+    Default: 1
+
+Resources:
+  Service:
+    Type: AWS::ECS::Service
+    DependsOn: ALBListenerRule
+    Properties:
+      Cluster:
+        Fn::ImportValue: !Sub ${EcsStackName}-ECSCluster
+      Role: !Ref ServiceRole
+      DesiredCount: !Ref DesiredCount
+      TaskDefinition: !Ref TaskDefinition
+      LaunchType: EC2
+      LoadBalancers:
+        - ContainerName: affix-is
+          ContainerPort: 88
+          TargetGroupArn: !Ref ALBTargetGroup
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: affix-is
+      ContainerDefinitions:
+        - Name: affix-is
+          Essential: true
+          Image: lbgeorgiev/affix_is:latest
+          Memory: 512
+          PortMappings:
+            - ContainerPort: 88
+              HostPort: 88
+          Environment:
+            - Name: ASPNETCORE_ENVIRONMENT
+              Value: Local
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudWatchLogsGroup
+              awslogs-region: !Ref AWS::Region
+      RequiresCompatibilities:
+        - EC2
+      NetworkMode: bridge
+
+  CloudWatchLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Ref AWS::StackName
+      RetentionInDays: 3
+
+  ALBTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: 88
+      Protocol: HTTP
+      Matcher:
+        HttpCode: 200-299
+      VpcId:
+        Fn::ImportValue: !Sub ${VpcStackName}-VPC
+      TargetType: instance
+      HealthCheckIntervalSeconds: 130
+      HealthCheckTimeoutSeconds: 120
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 10
+      HealthCheckPath: /.well-known/openid-configuration
+      HealthCheckProtocol: HTTP
+
+  ALBListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn:
+        Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBListenerARN
+      Priority: 1
+      Conditions:
+        - Field: path-pattern
+          Values:
+            - /api/*
+            - /.well-known/*
+      Actions:
+        - TargetGroupArn: !Ref ALBTargetGroup
+          Type: forward
+
+  ServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service:
+                - 'ecs.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: alb-registration-policy
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:AuthorizeSecurityGroupIngress
+                  - ec2:Describe*
+                  - elasticloadbalancing:DeregisterInstancesFromLoadBalancer
+                  - elasticloadbalancing:Describe*
+                  - elasticloadbalancing:RegisterInstancesWithLoadBalancer
+                  - elasticloadbalancing:DeregisterTargets
+                  - elasticloadbalancing:DescribeTargetGroups
+                  - elasticloadbalancing:DescribeTargetHealth
+                  - elasticloadbalancing:RegisterTargets
+                  - elasticloadbalancing:RegisterTasksWithLoadBalancer
+                Resource: '*'
