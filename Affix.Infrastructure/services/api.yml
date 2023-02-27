@@ -44,7 +44,7 @@ Resources:
         - Name: affix-api
           Essential: true
           Image: lbgeorgiev/affix_api:latest
-          Memory: 512
+          Memory: 128
           PortMappings:
             - ContainerPort: 80
               HostPort: 80

@@ -44,7 +44,7 @@ Resources:
         - Name: affix-is
           Essential: true
           Image: lbgeorgiev/affix_is:latest
-          Memory: 512
+          Memory: 128
           PortMappings:
             - ContainerPort: 88
               HostPort: 88
