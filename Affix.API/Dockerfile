@@ -26,4 +26,8 @@ COPY Affix.ReverseProxy/is-local.crt /usr/local/share/ca-certificates/is-local.c
 RUN update-ca-certificates
 
 # Set the entry point for the container
+ARG ENVIRONMENT
+ARG URLS
+ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
+ENV ASPNETCORE_URLS=$URLS
 ENTRYPOINT ["dotnet", "Affix.API.dll"]
