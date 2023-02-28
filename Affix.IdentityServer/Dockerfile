@@ -36,5 +36,9 @@ WORKDIR /app
 # Copy the published files from the publish image
 COPY --from=publish /app/publish .
 
+ARG ENVIRONMENT
+ARG URLS
+ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
+ENV ASPNETCORE_URLS=$URLS
 # Set the entrypoint for the final image
 ENTRYPOINT ["dotnet", "Affix.IdentityServer.dll"]
