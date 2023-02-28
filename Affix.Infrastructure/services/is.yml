@@ -97,6 +97,7 @@ Resources:
 
   ALBListenerRule:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    DependsOn: MigrateIsDbResource
     Properties:
       ListenerArn:
         Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBListenerARN
