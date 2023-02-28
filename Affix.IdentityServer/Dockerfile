@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 
 # Create the working directory
 WORKDIR /app
-
+COPY ["Data/Scripts/migrate-is-db.sh", "."]
 # Use the latest version of the .NET core SDK image as the build image
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 

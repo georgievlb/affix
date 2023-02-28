@@ -62,7 +62,9 @@ Resources:
 #            - Name: ASPNETCORE_ENVIRONMENT
 #              Value: !Ref Environment
           Command:
-            - /migrate-is-db.sh
+            - 'bin/sh'
+            - '-c'
+            - !Sub /app/migrate-is-db.sh
           LogConfiguration:
             LogDriver: awslogs
             Options:
