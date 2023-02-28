@@ -148,12 +148,12 @@ Resources:
           import cfnresponse
           import subprocess
           def handler(event, context):
-          script_url = "https://dot.net/v1/dotnet-install.sh"
-          subprocess.run(["curl", "-sSL", script_url, "-o", "dotnet-install.sh"])
-          subprocess.run(["chmod 744", "dotnet-install.sh"])
-          subprocess.run(["./dotnet-install.sh", "--version", "6.0.100"])
-          responseData = {'Message': 'Script installed successfully'}
-          cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
+              script_url = "https://dot.net/v1/dotnet-install.sh"
+              subprocess.run(["curl", "-sSL", script_url, "-o", "dotnet-install.sh"])
+              subprocess.run(["chmod 744", "dotnet-install.sh"])
+              subprocess.run(["./dotnet-install.sh", "--version", "6.0.100"])
+              responseData = {'Message': 'Script installed successfully'}
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
       Handler: index.handler
       Role: !GetAtt MigrateIsDbLambdaRole.Arn
       Runtime: python3.9
