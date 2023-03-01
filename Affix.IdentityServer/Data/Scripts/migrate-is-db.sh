@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 echo "Determining os release:" >> /var/log/dbmigration.log
 cat /etc/os-release
