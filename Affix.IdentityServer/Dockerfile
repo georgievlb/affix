@@ -36,9 +36,10 @@ WORKDIR /app
 # Copy the published files from the publish image
 COPY --from=publish /app/publish .
 
-ARG ENVIRONMENT
-ARG URLS
-ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
-ENV ASPNETCORE_URLS=$URLS
+#ARG ENVIRONMENT
+#ARG URLS
+#ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
+#ENV ASPNETCORE_URLS=$URLS
+#ENV AffixIdentityDb="Server=localhost,1433;Database=AffixIdentity;User=sa;Password=P@ssword1;MultipleActiveResultSets=true"
 # Set the entrypoint for the final image
 ENTRYPOINT ["dotnet", "Affix.IdentityServer.dll"]
