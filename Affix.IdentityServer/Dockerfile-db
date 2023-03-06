@@ -1,0 +1,21 @@
+﻿# Use the latest version of the .NET core runtime image as the base image
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS base
+
+# Create the working directory
+WORKDIR /src
+
+# Copy the project file and restore the dependencies
+COPY ["Affix.IdentityServer/Affix.IdentityServer.csproj", "Affix.IdentityServer/"]
+RUN dotnet restore "Affix.IdentityServer/Affix.IdentityServer.csproj"
+
+# Copy the rest of the source code and change the working directory
+COPY . .
+WORKDIR "/src/Affix.IdentityServer"
+
+# Build the project in local mode
+RUN dotnet build "Affix.IdentityServer.csproj" -c Local
+ENV CONNECTION_STRING="default"
+
+#CMD chmod 744 /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh && /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh $CONNECTION_STRING
+CMD echo "Done."
+ 

@@ -29,6 +29,9 @@ Parameters:
   HostPort:
     Type: Number
     Default: 88
+  ConnectionString:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Default: 'affix-dev-is-connection-string'
 
 Resources:
   Service:
@@ -51,25 +54,35 @@ Resources:
     Properties:
       Family: affix-is
       ContainerDefinitions:
-        - Name: affix-is
-          Essential: true
-          Image: lbgeorgiev/affix_is:latest
-          Memory: 128
-          PortMappings:
-            - ContainerPort: !Ref ContainerPort
-              HostPort: !Ref HostPort
+#        - Name: affix-is
+#          Essential: true
+#          Image: lbgeorgiev/affix_is:latest
+#          Memory: 128
+#          PortMappings:
+#            - ContainerPort: !Ref ContainerPort
+#              HostPort: !Ref HostPort
 #          Environment:
 #            - Name: ASPNETCORE_ENVIRONMENT
 #              Value: !Ref Environment
-          Command:
-            - 'bin/sh'
-            - '-c'
-            - !Sub /app/migrate-is-db.sh
+#          Command:
+#            - 'bin/sh'
+#            - '-c'
+#            - !Sub /app/migrate-is-db.sh
           LogConfiguration:
             LogDriver: awslogs
             Options:
               awslogs-group: !Ref CloudWatchLogsGroup
               awslogs-region: !Ref AWS::Region
+        - Name: affix-is-db-migrate
+          Essential: true
+          Image: lbgeorgiev/affix_is_db_migrate:latest
+          Memory: 128
+          HealthCheckGracePeriodSeconds: 180
+          Command:
+            - 'bin/sh'
+            - '-c'
+#            - !Sub /app/migrate-is-db.sh ${ConnectionString}
+            - !Sub chmod 744 /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh && /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh ${ConnectionString}
       RequiresCompatibilities:
         - EC2
       NetworkMode: bridge
