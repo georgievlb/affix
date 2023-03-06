@@ -75,7 +75,7 @@ Resources:
           Image: lbgeorgiev/affix_is_db_migrate:latest
           Memory: 128
           Command:
-            - 'bin/sh'
+            - '/bin/sh'
             - '-c'
 #            - !Sub /app/migrate-is-db.sh ${ConnectionString}
             - !Sub chmod 744 /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh && /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh ${ConnectionString}
