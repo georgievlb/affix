@@ -68,11 +68,11 @@ Resources:
 #            - 'bin/sh'
 #            - '-c'
 #            - !Sub /app/migrate-is-db.sh
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref CloudWatchLogsGroup
-              awslogs-region: !Ref AWS::Region
+#          LogConfiguration:
+#            LogDriver: awslogs
+#            Options:
+#              awslogs-group: !Ref CloudWatchLogsGroup
+#              awslogs-region: !Ref AWS::Region
         - Name: affix-is-db-migrate
           Essential: true
           Image: lbgeorgiev/affix_is_db_migrate:latest
@@ -83,6 +83,11 @@ Resources:
             - '-c'
 #            - !Sub /app/migrate-is-db.sh ${ConnectionString}
             - !Sub chmod 744 /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh && /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh ${ConnectionString}
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudWatchLogsGroup
+              awslogs-region: !Ref AWS::Region
       RequiresCompatibilities:
         - EC2
       NetworkMode: bridge
