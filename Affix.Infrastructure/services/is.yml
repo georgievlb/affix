@@ -55,25 +55,21 @@ Resources:
     Properties:
       Family: affix-is
       ContainerDefinitions:
-#        - Name: affix-is
-#          Essential: true
-#          Image: lbgeorgiev/affix_is:latest
-#          Memory: 128
-#          PortMappings:
-#            - ContainerPort: !Ref ContainerPort
-#              HostPort: !Ref HostPort
+        - Name: affix-is
+          Essential: true
+          Image: lbgeorgiev/affix_is:latest
+          Memory: 128
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+              HostPort: !Ref HostPort
 #          Environment:
 #            - Name: ASPNETCORE_ENVIRONMENT
 #              Value: !Ref Environment
-#          Command:
-#            - 'bin/sh'
-#            - '-c'
-#            - !Sub /app/migrate-is-db.sh
-#          LogConfiguration:
-#            LogDriver: awslogs
-#            Options:
-#              awslogs-group: !Ref CloudWatchLogsGroup
-#              awslogs-region: !Ref AWS::Region
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CloudWatchLogsGroup
+              awslogs-region: !Ref AWS::Region
         - Name: affix-is-db-migrate
           Essential: true
           Image: lbgeorgiev/affix_is_db_migrate:latest
