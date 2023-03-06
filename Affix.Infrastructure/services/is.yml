@@ -73,7 +73,7 @@ Resources:
         - Name: affix-is-db-migrate
           Essential: false
           Image: lbgeorgiev/affix_is_db_migrate:latest
-          Memory: 256
+          Memory: 512
           Command:
             - '/bin/sh'
             - '-c'
