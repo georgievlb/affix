@@ -16,5 +16,5 @@ WORKDIR "/src/Affix.IdentityServer"
 RUN dotnet build "Affix.IdentityServer.csproj" -c Local
 ENV CONNECTION_STRING="default"
 
-CMD chmod 744 /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh && /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh $CONNECTION_STRING
- 
+#CMD chmod 744 /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh && /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh $CONNECTION_STRING
+CMD echo "Done."
