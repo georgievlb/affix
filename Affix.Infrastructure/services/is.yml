@@ -129,19 +129,8 @@ Resources:
             - /api/*
             - /.well-known/*
             - /diagnostics/*
-            - /grants/*
-            - /ciba/*
-        - Field: path-pattern
-          Values:
             - /connect/*
             - /account/*
-            - /consent/*
-            - /device/*
-            - /externallogin/*
-        - Field: path-pattern
-          Values:
-            - /home/*
-            - /redirect/*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
