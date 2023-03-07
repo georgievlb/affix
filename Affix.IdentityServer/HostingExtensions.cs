@@ -116,6 +116,7 @@ namespace Affix.IdentityServer
             // app.UseHttpsRedirection();
             app.UseMigrationsEndPoint();
             app.UseStaticFiles();
+            app.UsePathBase("/is");
             app.UseRouting();
             app.UseCors("AffixApi");
             app.UseIdentityServer();

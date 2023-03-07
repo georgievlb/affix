@@ -114,7 +114,7 @@ Resources:
       HealthCheckTimeoutSeconds: 120
       HealthyThresholdCount: 2
       UnhealthyThresholdCount: 10
-      HealthCheckPath: /.well-known/openid-configuration
+      HealthCheckPath: /is/.well-known/openid-configuration
       HealthCheckProtocol: HTTP
 
   ALBListenerRule:
@@ -127,10 +127,7 @@ Resources:
         - Field: path-pattern
           Values:
             - /api/*
-            - /.well-known/*
-            - /diagnostics/*
-            - /connect/*
-            - /account/*
+            - /is/*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
