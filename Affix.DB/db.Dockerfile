@@ -11,6 +11,7 @@ ENV MSSQL_PID=Developer
 
 # Install the .NET Core runtime
 USER root
+RUN apt-get -y update
 RUN mkdir /opt/dotnet-runtime && wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O /opt/dotnet-runtime/packages-microsoft-prod.deb \
     && dpkg -i /opt/dotnet-runtime/packages-microsoft-prod.deb \
     && apt-get update \
@@ -32,6 +33,7 @@ WORKDIR /app/affix
 RUN dotnet tool install --global dotnet-ef --version 6.0 && export PATH="$HOME/.dotnet/tools/"
 
 RUN chmod -R 744 /app/affix/Affix.DB
+ENV ASPNETCORE_ENVIRONMENT=Local
 CMD ["/bin/bash", "Affix.DB/entrypoint.sh"]
 #This Dockerfile is based on the mcr.microsoft.com/mssql/server:2019-latest image, which is the latest version of the Microsoft SQL Server 2019 image. It sets the required environment variables ACCEPT_EULA and SA_PASSWORD, and installs the .NET Core runtime using apt-get.
 #

@@ -18,7 +18,7 @@ Parameters:
   MaxCount:
     Description: Maximum number of instances of this task we can run across our cluster
     Type: Number
-    Default: 1
+    Default: 2
   Environment:
     Description: The environment for the Identity Server
     Type: String
@@ -77,19 +77,19 @@ Resources:
             Options:
               awslogs-group: !Ref CloudWatchLogsGroup
               awslogs-region: !Ref AWS::Region
-        - Name: affix-is-db-migrate
-          Essential: false
-          Image: lbgeorgiev/affix_is_db_migrate:latest
-          Memory: 512
-          Command:
-            - '/bin/sh'
-            - '-c'
-            - !Sub chmod 744 /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh && /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh ${ConnectionString}
-          LogConfiguration:
-            LogDriver: awslogs
-            Options:
-              awslogs-group: !Ref CloudWatchLogsGroup
-              awslogs-region: !Ref AWS::Region
+#        - Name: affix-is-db-migrate
+#          Essential: false
+#          Image: lbgeorgiev/affix_is_db_migrate:latest
+#          Memory: 512
+#          Command:
+#            - '/bin/sh'
+#            - '-c'
+#            - !Sub chmod 744 /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh && /src/Affix.IdentityServer/Data/Scripts/migrate-is-db.sh ${ConnectionString}
+#          LogConfiguration:
+#            LogDriver: awslogs
+#            Options:
+#              awslogs-group: !Ref CloudWatchLogsGroup
+#              awslogs-region: !Ref AWS::Region
       RequiresCompatibilities:
         - EC2
       NetworkMode: bridge
@@ -128,6 +128,16 @@ Resources:
           Values:
             - /api/*
             - /.well-known/*
+            - /diagnostics/*
+            - /grants/*
+            - /ciba/*
+            - /connect/*
+            - /account/*
+            - /consent/*
+            - /device/*
+            - /externallogin/*
+            - /home/*
+            - /redirect/*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
