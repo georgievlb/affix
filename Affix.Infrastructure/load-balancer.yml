@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
-Description: ECS Cluster Template
+Description: Affix Load Balancer Template
 Parameters:
   VpcStackName:
     Type: String
@@ -38,8 +38,10 @@ Resources:
       DefaultActions:
         - Type: forward
           TargetGroupArn: !Ref ALBDefaultTargetGroup
-      Port: 80
-      Protocol: HTTP
+      Port: 443
+      Protocol: HTTPS
+      Certificates:
+        - CertificateArn: arn:aws:acm:us-east-1:136492436586:certificate/d22576b3-452c-4af1-be44-30ab91449e2d
 
   ALBDefaultTargetGroup:
     Description: Defines a mandatory default target group. This is not used, instead a target group is created per-service in each ECS service template. 
