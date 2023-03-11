@@ -58,27 +58,27 @@ Resources:
     Properties:
       Family: affix-api
       ContainerDefinitions:
-#        - Name: affix-api
-#          Essential: true
-#          Image: lbgeorgiev/affix_api:latest
-#          Memory: 128
-#          PortMappings:
-#            - ContainerPort: !Ref ContainerPort
-#              HostPort: !Ref HostPort
-#          Environment:
-#            - Name: ASPNETCORE_ENVIRONMENT
-#              Value: !Ref Environment
-#            - Name: URLS
-#              Value: !Ref Urls
-#            - Name: AffixDb
-#              Value: !Ref ConnectionString
-#          LogConfiguration:
-#            LogDriver: awslogs
-#            Options:
-#              awslogs-group: !Ref CloudWatchLogsGroup
-#              awslogs-region: !Ref AWS::Region
+       - Name: affix-api
+         Essential: true
+         Image: lbgeorgiev/affix_api:latest
+         Memory: 128
+         PortMappings:
+           - ContainerPort: !Ref ContainerPort
+             HostPort: !Ref HostPort
+         Environment:
+           - Name: ASPNETCORE_ENVIRONMENT
+             Value: !Ref Environment
+           - Name: URLS
+             Value: !Ref Urls
+           - Name: AffixDb
+             Value: !Ref ConnectionString
+         LogConfiguration:
+           LogDriver: awslogs
+           Options:
+             awslogs-group: !Ref CloudWatchLogsGroup
+             awslogs-region: !Ref AWS::Region
         - Name: affix-api-db-migrate
-          Essential: true
+          Essential: false
           Image: lbgeorgiev/affix_api_db_migrate:latest
           Memory: 512
           Command:
