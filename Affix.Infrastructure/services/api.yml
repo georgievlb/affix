@@ -58,21 +58,21 @@ Resources:
     Properties:
       Family: affix-api
       ContainerDefinitions:
-       - Name: affix-api
-         Essential: true
-         Image: lbgeorgiev/affix_api:latest
-         Memory: 128
-         PortMappings:
+        - Name: affix-api
+          Essential: true
+          Image: lbgeorgiev/affix_api:latest
+          Memory: 128
+          PortMappings:
            - ContainerPort: !Ref ContainerPort
              HostPort: !Ref HostPort
-         Environment:
+          Environment:
            - Name: ASPNETCORE_ENVIRONMENT
              Value: !Ref Environment
            - Name: URLS
              Value: !Ref Urls
            - Name: AffixDb
              Value: !Ref ConnectionString
-         LogConfiguration:
+          LogConfiguration:
            LogDriver: awslogs
            Options:
              awslogs-group: !Ref CloudWatchLogsGroup
