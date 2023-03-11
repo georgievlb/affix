@@ -9,10 +9,10 @@ RUN dotnet restore "Affix.API/Affix.API.csproj"
 # Copy the rest of the source code and build the project
 COPY . .
 WORKDIR "/src/Affix.API"
-RUN dotnet build "Affix.API.csproj" -c Debug -o /app/build
+RUN dotnet build "Affix.API.csproj" -c Local -o /app/build
 
 # Publish the project
-RUN dotnet publish "Affix.API.csproj" -c Debug -o /app/publish
+RUN dotnet publish "Affix.API.csproj" -c Local -o /app/publish
 
 # Use a smaller base image for the final image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
@@ -20,14 +20,14 @@ WORKDIR /app
 
 # Copy the published app and the certificate file
 COPY --from=build /app/publish .
-COPY Affix.ReverseProxy/is-local.crt /usr/local/share/ca-certificates/is-local.crt
+#COPY Affix.ReverseProxy/is-local.crt /usr/local/share/ca-certificates/is-local.crt
 
 # Update the certificate store
-RUN update-ca-certificates
+# RUN update-ca-certificates
 
 # Set the entry point for the container
-ARG ENVIRONMENT
-ARG URLS
-ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
-ENV ASPNETCORE_URLS=$URLS
+#ARG ENVIRONMENT
+#ARG URLS
+#ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
+#ENV ASPNETCORE_URLS=$URLS
 ENTRYPOINT ["dotnet", "Affix.API.dll"]

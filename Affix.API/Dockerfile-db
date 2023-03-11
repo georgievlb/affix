@@ -16,6 +16,6 @@ WORKDIR "/src/Affix.API"
 RUN dotnet build "Affix.API.csproj" -c Local
 ENV CONNECTION_STRING="default"
 
-CMD chmod 744 /src/Affix.API/Persistence/Scripts/migrate-api-db.sh && /src/Affix.API/Persistence/Scripts/migrate-api-db.sh $CONNECTION_STRING
+#CMD chmod 744 /src/Affix.API/Persistence/Scripts/migrate-api-db.sh && /src/Affix.API/Persistence/Scripts/migrate-api-db.sh $CONNECTION_STRING
 
 CMD echo "Done."
