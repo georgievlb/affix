@@ -78,7 +78,7 @@ Resources:
 #              awslogs-group: !Ref CloudWatchLogsGroup
 #              awslogs-region: !Ref AWS::Region
         - Name: affix-api-db-migrate
-          Essential: false
+          Essential: true
           Image: lbgeorgiev/affix_api_db_migrate:latest
           Memory: 512
           Command:
