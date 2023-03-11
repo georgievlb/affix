@@ -81,6 +81,11 @@ Resources:
           Essential: false
           Image: lbgeorgiev/affix_api_db_migrate:latest
           Memory: 512
+          Environment:
+            - Name: ASPNETCORE_ENVIRONMENT
+              Value: !Ref Environment
+            - Name: AffixDb
+              Value: !Ref ConnectionString
           Command:
             - '/bin/sh'
             - '-c'
