@@ -18,7 +18,23 @@ Parameters:
   MaxCount:
     Description: Maximum number of instances of this task we can run across our cluster
     Type: Number
-    Default: 1
+    Default: 2
+  Environment:
+    Description: The environment for the API
+    Type: String
+    Default: Development
+  Urls:
+    Type: String
+    Default: 'http://*:80'
+  ContainerPort:
+    Type: Number
+    Default: 80
+  HostPort:
+    Type: Number
+    Default: 80
+  ConnectionString:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Default: 'affix-dev-api-connection-string'
 
 Resources:
   Service:
@@ -35,22 +51,40 @@ Resources:
         - ContainerName: affix-api
           ContainerPort: 80
           TargetGroupArn: !Ref ALBTargetGroup
+      HealthCheckGracePeriodSeconds: 180
 
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
       Family: affix-api
       ContainerDefinitions:
-        - Name: affix-api
-          Essential: true
-          Image: lbgeorgiev/affix_api:latest
-          Memory: 128
-          PortMappings:
-            - ContainerPort: 80
-              HostPort: 80
-          Environment:
-            - Name: ASPNETCORE_ENVIRONMENT
-              Value: Local
+#        - Name: affix-api
+#          Essential: true
+#          Image: lbgeorgiev/affix_api:latest
+#          Memory: 128
+#          PortMappings:
+#            - ContainerPort: !Ref ContainerPort
+#              HostPort: !Ref HostPort
+#          Environment:
+#            - Name: ASPNETCORE_ENVIRONMENT
+#              Value: !Ref Environment
+#            - Name: URLS
+#              Value: !Ref Urls
+#            - Name: AffixDb
+#              Value: !Ref ConnectionString
+#          LogConfiguration:
+#            LogDriver: awslogs
+#            Options:
+#              awslogs-group: !Ref CloudWatchLogsGroup
+#              awslogs-region: !Ref AWS::Region
+        - Name: affix-api-db-migrate
+          Essential: false
+          Image: lbgeorgiev/affix_api_db_migrate:latest
+          Memory: 512
+          Command:
+            - '/bin/sh'
+            - '-c'
+            - !Sub chmod 744 /src/Affix.API/Persistence/Scripts/migrate-api-db.sh && /src/Affix.API/Persistence/Scripts/migrate-api-db.sh ${ConnectionString}
           LogConfiguration:
             LogDriver: awslogs
             Options:

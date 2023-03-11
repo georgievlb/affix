@@ -10,9 +10,6 @@ using Affix.API.Persistence.DataModels;
 
 namespace Affix.API.Controllers
 {
-#if DEBUG || RELEASE
-    //[RestrictHost("dev.lachezargeorgiev.com")]
-#endif    
     [Authorize]
     [ApiController]
     [Route("[controller]")]

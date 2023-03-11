@@ -49,7 +49,8 @@ namespace Affix.API
                 });
             // }
 
-            services.AddDbContext<AffixContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AffixDb")));
+            services.AddDbContext<AffixContext>(
+                options => options.UseSqlServer(Configuration.GetValue<string>("AffixDb")));
 
             services.AddSwaggerGen(c =>
             {
@@ -102,6 +103,7 @@ namespace Affix.API
                 // app.UseForwardedHeaders();
             }
 
+            app.UsePathBase("/api");
             // app.UseHttpsRedirection();
             app.UseRouting();
             //if (env.EnvironmentName == "Local")

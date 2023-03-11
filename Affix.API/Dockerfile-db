@@ -1,0 +1,21 @@
+# Use the latest version of the .NET core runtime image as the base image
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS base
+
+# Create the working directory
+WORKDIR /src
+
+# Copy the project file and restore the dependencies
+COPY ["Affix.API/Affix.API.csproj", "Affix.API/"]
+RUN dotnet restore "Affix.API/Affix.API.csproj"
+
+# Copy the rest of the source code and change the working directory
+COPY . .
+WORKDIR "/src/Affix.API"
+
+# Build the project in local mode
+RUN dotnet build "Affix.API.csproj" -c Local
+ENV CONNECTION_STRING="default"
+
+CMD chmod 744 /src/Affix.API/Persistence/Scripts/migrate-api-db.sh && /src/Affix.API/Persistence/Scripts/migrate-api-db.sh $CONNECTION_STRING
+
+CMD echo "Done."

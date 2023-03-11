@@ -11,8 +11,6 @@ using Affix.API.Models;
 
 namespace Affix.API.Controllers
 {
-#if DEBUG || RELEASE
-#endif
     [Route("[controller]")]
     [ApiController]
     public class SearchController : ControllerBase
