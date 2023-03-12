@@ -84,8 +84,6 @@ Resources:
           Environment:
             - Name: ASPNETCORE_ENVIRONMENT
               Value: !Ref Environment
-            - Name: AffixDb
-              Value: !Ref ConnectionString
           Command:
             - '/bin/sh'
             - '-c'
