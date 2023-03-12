@@ -49,7 +49,7 @@ Resources:
       LaunchType: EC2
       LoadBalancers:
         - ContainerName: affix-is
-          ContainerPort: 88
+          ContainerPort: !Ref ContainerPort
           TargetGroupArn: !Ref ALBTargetGroup
       HealthCheckGracePeriodSeconds: 180
 
@@ -103,7 +103,7 @@ Resources:
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Port: 88
+      Port: !Ref HostPort
       Protocol: HTTP
       Matcher:
         HttpCode: 200-299

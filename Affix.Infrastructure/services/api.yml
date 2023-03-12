@@ -28,10 +28,10 @@ Parameters:
     Default: 'http://*:80'
   ContainerPort:
     Type: Number
-    Default: 80
+    Default: 84
   HostPort:
     Type: Number
-    Default: 80
+    Default: 84
   ConnectionString:
     Type: 'AWS::SSM::Parameter::Value<String>'
     Default: 'affix-dev-api-connection-string'
@@ -49,7 +49,7 @@ Resources:
       LaunchType: EC2
       LoadBalancers:
         - ContainerName: affix-api
-          ContainerPort: 80
+          ContainerPort: !Ref ContainerPort
           TargetGroupArn: !Ref ALBTargetGroup
       HealthCheckGracePeriodSeconds: 180
 
@@ -108,7 +108,7 @@ Resources:
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Port: 80
+      Port: !Ref HostPort
       Protocol: HTTP
       Matcher:
         HttpCode: 200-299
