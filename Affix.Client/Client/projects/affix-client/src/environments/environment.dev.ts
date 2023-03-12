@@ -2,20 +2,19 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-// export const environment = {
-//   production: false,
-//   port: 6006,
-//   apiUrl: "localhost",
-//   clientUrl: "local.client.affix.com",
-//   bucketName: "affix-images",
-//   authority: 'https://localhost:5005/', // TODO CHANGE IT TO DEV
-//   clientId: 'affix_client_spa',
-//   redirect_uri: 'https://localhost:6006/signin-callback',
-//   post_logout_redirect_uri: 'https://localhost:6006/signout-callback',
-//   response_type: 'code',
-//   scope: 'openid profile AffixAPI'
-// };
-
+export const environment = {
+    production: false,
+    port: 443,
+    apiUrl: "lachezargeorgiev.com/api",
+    clientUrl: "lachezargeorgiev.com",
+    bucketName: 'affix-images',
+    authority: 'https://lachezargeorgiev.com/is/',
+    clientId: 'affix_client_spa',
+    redirect_uri: 'https://lachezargeorgiev.com/is/signin-callback',
+    post_logout_redirect_uri: 'https://lachezargeorgiev.com/is/signout-callback',
+    response_type: 'code',
+    scope: 'openid profile AffixAPI'
+};
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

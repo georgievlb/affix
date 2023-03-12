@@ -1,0 +1,144 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Affix Client template
+Parameters:
+  VpcStackName:
+    Type: String
+    Default: affix-vpc
+  EcsStackName:
+    Type: String
+    Default: affix-ecs
+  LoadBalancerStackName:
+    Type: String
+    Default: affix-load-balancer
+  DesiredCount:
+    Description: How many instances of this task should we run across our cluster?
+    Type: Number
+    Default: 1
+  MaxCount:
+    Description: Maximum number of instances of this task we can run across our cluster
+    Type: Number
+    Default: 2
+  Environment:
+    Description: The environment for the Client
+    Type: String
+    Default: Development
+  Urls:
+    Type: String
+    Default: 'http://*:80'
+  ContainerPort:
+    Type: Number
+    Default: 80
+  HostPort:
+    Type: Number
+    Default: 80
+
+Resources:
+  Service:
+    Type: AWS::ECS::Service
+    DependsOn: ALBListenerRule
+    Properties:
+      Cluster:
+        Fn::ImportValue: !Sub ${EcsStackName}-ECSCluster
+      Role: !Ref ServiceRole
+      DesiredCount: !Ref DesiredCount
+      TaskDefinition: !Ref TaskDefinition
+      LaunchType: EC2
+      LoadBalancers:
+        - ContainerName: affix-client
+          ContainerPort: !Ref ContainerPort
+          TargetGroupArn: !Ref ALBTargetGroup
+      HealthCheckGracePeriodSeconds: 180
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: affix-client
+      ContainerDefinitions:
+        - Name: affix-client
+          Essential: true
+          Image: lbgeorgiev/affix_client:latest
+          Memory: 128
+          PortMappings:
+           - ContainerPort: !Ref ContainerPort
+             HostPort: !Ref HostPort
+          Environment:
+           - Name: ASPNETCORE_ENVIRONMENT
+             Value: !Ref Environment
+           - Name: URLS
+             Value: !Ref Urls
+          LogConfiguration:
+           LogDriver: awslogs
+           Options:
+             awslogs-group: !Ref CloudWatchLogsGroup
+             awslogs-region: !Ref AWS::Region
+      RequiresCompatibilities:
+        - EC2
+      NetworkMode: bridge
+
+  CloudWatchLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Ref AWS::StackName
+      RetentionInDays: 3
+
+  ALBTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: !Ref HostPort
+      Protocol: HTTP
+      Matcher:
+        HttpCode: 200-299
+      VpcId:
+        Fn::ImportValue: !Sub ${VpcStackName}-VPC
+      TargetType: instance
+      HealthCheckIntervalSeconds: 130
+      HealthCheckTimeoutSeconds: 120
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 10
+      HealthCheckPath: /
+      HealthCheckProtocol: HTTP
+
+  ALBListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn:
+        Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBListenerARN
+      Priority: 2
+      Conditions:
+        - Field: path-pattern
+          Values:
+            - /
+      Actions:
+        - TargetGroupArn: !Ref ALBTargetGroup
+          Type: forward
+
+  ServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service:
+                - 'ecs.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: alb-registration-policy
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:AuthorizeSecurityGroupIngress
+                  - ec2:Describe*
+                  - elasticloadbalancing:DeregisterInstancesFromLoadBalancer
+                  - elasticloadbalancing:Describe*
+                  - elasticloadbalancing:RegisterInstancesWithLoadBalancer
+                  - elasticloadbalancing:DeregisterTargets
+                  - elasticloadbalancing:DescribeTargetGroups
+                  - elasticloadbalancing:DescribeTargetHealth
+                  - elasticloadbalancing:RegisterTargets
+                  - elasticloadbalancing:RegisterTasksWithLoadBalancer
+                Resource: '*'
