@@ -126,8 +126,8 @@ Resources:
       Conditions:
         - Field: path-pattern
           Values:
-            - /api/*
             - /is/*
+            - /lib/*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
