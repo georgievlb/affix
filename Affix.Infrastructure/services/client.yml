@@ -113,7 +113,6 @@ Resources:
             - /signout-callback/*
             - /posts/*
             - /page/*
-            - /home/*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
