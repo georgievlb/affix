@@ -19,10 +19,24 @@ Affix is a blog application built with .NET 6 and Angular 12. The app is contain
 ```
 4. Run the project using docker compose.
 
-5. Build the individual docker iamges for publishing:
-- Build:
-   - `docker build -f ./Affix.API/Dockerfile -t lbgeorgiev/affix_api:latest --build-arg URLS="http://*80" --build-arg ENVIRONMENT=Local .`
-   - `docker build -f ./Affix.IdentityServer/Dockerfile -t lbgeorgiev/affix_is:latest --build-arg URLS='http://*:88' --build-arg ENVIRONMENT=Local . `
-- Publish:
-  - `docker push DOCKER_ID/affix_api`
-  - `docker push DOCKER_ID/affix_is`
+## Deployment to the Development environment
+
+*Affix* can be easily deployed to AWS using CloudFormation. Whenever possible, resources from the AWS Free Tier are used. Note that some resources, such as a registered domain name, aren't included in the free tier and you're required to pay a respective fee.
+
+To deploy *Affix* to AWS, follow the steps below:
+
+1. Build the individual docker images for publishing:
+   - `docker build -f ./Affix.API/Dockerfile-Development -t DOCKER_ID/affix_api:latest .`
+   - `docker build -f ./Affix.IdentityServer/Dockerfile -t DOCKER_ID/affix_is:latest  . `
+   - `docker build -f ./Affix.IdentityServer/Dockerfile-db -t DOCKER_ID/affix_is_db_migrate:latest .`
+   - `docker build -f ./Affix.API/Dockerfile-db -t DOCKER_ID/affix_api_db_migrate:latest .`
+   - `docker build -f ./Affix.Client/Dockerfile-Development -t DOCKER_ID/affix_client:latest .`
+
+2. Publish the docker images to a docker container registry:
+   - `docker push DOCKER_ID/affix_api`
+   - `docker push DOCKER_ID/affix_is`
+   - `docker push DOCKER_ID/affix_is_db_migrate`
+   - `docker push DOCKER_ID/affix_api_db_migrate`
+   - `docker push DOCKER_ID/affix_client`
+
+*Note: in the commands above, `DOCKER_ID` stands for a docker id in Docker Hub. You can use any container registry of your choice. For example, you can use a private container registry such as AWS Elastic Container Registry. Applicable fees may apply for each individual container registry.*
