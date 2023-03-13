@@ -108,11 +108,7 @@ Resources:
       Conditions:
         - Field: path-pattern
           Values:
-            - /admin/*
-            - /signin-callback/*
-            - /signout-callback/*
-            - /posts/*
-            - /page/*
+            - /*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
