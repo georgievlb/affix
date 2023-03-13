@@ -127,7 +127,7 @@ Resources:
         - Field: path-pattern
           Values:
             - /is/*
-            - /lib/*
+            - /is/lib/*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
