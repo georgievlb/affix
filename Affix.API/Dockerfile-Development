@@ -20,10 +20,5 @@ WORKDIR /app
 
 # Copy the published app and the certificate file
 COPY --from=build /app/publish .
-COPY Affix.ReverseProxy/is-local.crt /usr/local/share/ca-certificates/is-local.crt
 
-# Update the certificate store
-RUN update-ca-certificates
-
-# Set the entry point for the container
 ENTRYPOINT ["dotnet", "Affix.API.dll"]

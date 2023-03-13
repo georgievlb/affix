@@ -62,7 +62,7 @@ services:
         - "5555:5555"
       environment:
         - ASPNETCORE_URLS=http://*:5555
-        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_ENVIRONMENT=Local
       networks:
         - affixnet
 

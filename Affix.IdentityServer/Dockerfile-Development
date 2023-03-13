@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 
 # Create the working directory
 WORKDIR /app
+
 # Use the latest version of the .NET core SDK image as the build image
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
@@ -35,10 +36,4 @@ WORKDIR /app
 # Copy the published files from the publish image
 COPY --from=publish /app/publish .
 
-#ARG ENVIRONMENT
-#ARG URLS
-#ENV ASPNETCORE_ENVIRONMENT=$ENVIRONMENT
-#ENV ASPNETCORE_URLS=$URLS
-#ENV AffixIdentityDb="Server=localhost,1433;Database=AffixIdentity;User=sa;Password=P@ssword1;MultipleActiveResultSets=true"
-# Set the entrypoint for the final image
 ENTRYPOINT ["dotnet", "Affix.IdentityServer.dll"]
