@@ -110,8 +110,8 @@ Resources:
           PathPatternConfig:
             Values:
               - /home*
-              - /admin/*
-              - /posts/*
+              - /admin*
+              - /posts*
               - /signin-callback*
               - /signout-callback*
       Actions:
@@ -147,7 +147,8 @@ Resources:
         - Field: path-pattern
           PathPatternConfig:
             Values:
-              - /assets/*
+              - /assets*
+              - /*.png
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
