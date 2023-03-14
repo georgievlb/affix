@@ -107,12 +107,13 @@ Resources:
       Priority: 2
       Conditions:
         - Field: path-pattern
-          Values:
-            - /home/*
-            - /admin/*
-            - /posts/*
-            - /signin-callback?*
-            - /signout-callback?*
+          PathPatternConfig:
+            Values:
+              - /home/*
+              - /admin/*
+              - /posts/*
+              - /signin-callback?*
+              - /signout-callback?*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
@@ -125,12 +126,13 @@ Resources:
       Priority: 3
       Conditions:
         - Field: path-pattern
-          Values:
-            - /styles.css
-            - /vendor.js
-            - /main.js
-            - /polyfills.js
-            - /runtime.js
+          PathPatternConfig:
+            Values:
+              - /styles.css
+              - /vendor.js
+              - /main.js
+              - /polyfills.js
+              - /runtime.js
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
