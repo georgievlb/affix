@@ -28,9 +28,8 @@ const routes: Routes = [
   { path: 'admin/login', component: AdminLoginComponent },
   { path: 'admin/logout', component: AdminLogoutComponent },
   { path: 'posts/:moniker', component: ViewPostDetailsComponent},
-  { path: 'page/:number', component: MainContentComponent },
-  { path: 'home', component: MainContentComponent, pathMatch: 'full' },
-  { path: '', component: MainContentComponent, pathMatch: 'full' }
+  { path: 'home/page/:number', component: MainContentComponent },
+  { path: 'home', component: MainContentComponent, pathMatch: 'full' }
 ];
 
 @NgModule({

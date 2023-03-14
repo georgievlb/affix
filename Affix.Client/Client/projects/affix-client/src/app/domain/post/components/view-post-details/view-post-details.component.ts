@@ -24,7 +24,7 @@ export class ViewPostDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.post.moniker = params['moniker'];
     });
-    this.postUrl = `https://${environment.apiUrl}:${environment.port}/posts?moniker=${this.post.moniker}`;
+    this.postUrl = `${environment.apiUrl}/posts?moniker=${this.post.moniker}`;
   }
 
   @Input()

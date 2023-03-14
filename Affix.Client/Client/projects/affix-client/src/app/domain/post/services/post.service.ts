@@ -23,7 +23,7 @@ export class PostService implements OnDestroy {
   private readonly postsCount$$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
   private readonly currentPageIndex$$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   private readonly postPreview$$: BehaviorSubject<PostModel> = new BehaviorSubject<PostModel>(Posts[0]);
-  private readonly postsUrl = `https://${environment.apiUrl}:${environment.port}/posts`;
+  private readonly postsUrl = `${environment.apiUrl}/posts`;
 
   constructor(private httpClient: HttpClient, private authService: AuthService) {
     this.subscription.add(
@@ -39,9 +39,9 @@ export class PostService implements OnDestroy {
   //#region CRUD methods
 
   getPost(moniker: string): Observable<PostModel> {
-    this.httpClient.get<PostModel>(`https://${environment.apiUrl}:${environment.port}/posts/${moniker}`)
+    this.httpClient.get<PostModel>(`${environment.apiUrl}/posts/${moniker}`)
       .subscribe((p: PostModel) => {
-        p.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
+        p.imageSrc = `${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
         this.post$$.next(p);
       });
 
@@ -61,7 +61,7 @@ export class PostService implements OnDestroy {
     this.httpClient.get(`${this.postsUrl}?skip=${skip}&take=${take}`)
       .subscribe((postCards: any) => {
         postCards.item1.map((p: PostModel) => {
-          p.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
+          p.imageSrc = `${environment.bucketName}.s3.amazonaws.com/${p.imageId}`;
           p.index = postCards.item1.indexOf(p);
         });
         this.posts$$.next(postCards.item1);
@@ -84,15 +84,15 @@ export class PostService implements OnDestroy {
     const formData = new FormData();
     formData.append("image", file);
 
-    return this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/posts/image`, formData);
+    return this.httpClient.put(`${environment.apiUrl}/posts/image`, formData);
   }
 
   putPost(body: PostModel): Observable<PostModel> {
-    return this.httpClient.put<PostModel>(`https://${environment.apiUrl}:${environment.port}/posts`, body);
+    return this.httpClient.put<PostModel>(`${environment.apiUrl}/posts`, body);
   }
 
   deletePost(moniker: string): void {
-    this.httpClient.delete<string>(`https://${environment.apiUrl}:${environment.port}/posts?moniker=${moniker}`)
+    this.httpClient.delete<string>(`${environment.apiUrl}/posts?moniker=${moniker}`)
     .subscribe((result: string) => console.log(result))
   }
 
@@ -158,7 +158,7 @@ export class PostService implements OnDestroy {
       this.authService.getAccessToken()
       .then(token => {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-        return this.httpClient.get(`https://${environment.apiUrl}:${environment.port}/posts/draft`, { headers: headers }).toPromise();
+        return this.httpClient.get(`${environment.apiUrl}/posts/draft`, { headers: headers }).toPromise();
       })
     );
   }

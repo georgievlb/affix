@@ -1,6 +1,5 @@
 export const environment = {
   production: true,
-  port: 443,
   apiUrl: "",
   clientUrl: "",
   bucketName: "affix-images",

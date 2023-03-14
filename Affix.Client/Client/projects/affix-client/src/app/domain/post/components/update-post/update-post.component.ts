@@ -33,7 +33,7 @@ export class UpdatePostComponent {
   }
 
   editPost(post: PostModel) {
-    post.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${post.imageId}`
+    post.imageSrc = `${environment.bucketName}.s3.amazonaws.com/${post.imageId}`
     this.postService.setEditPost(post);
     this.router.navigate([`/admin/post/edit/${post.moniker}`]);
   }

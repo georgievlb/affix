@@ -14,8 +14,8 @@ const Posts: PostModel[] = [
 export class SearchService {
 
   private readonly searchPosts$$: BehaviorSubject<PostModel[]> = new BehaviorSubject<PostModel[]>(Posts);
-  private readonly postsUrl = `https://${environment.apiUrl}:${environment.port}/search?`;
-  
+  private readonly postsUrl = `${environment.apiUrl}/search?`;
+
   constructor(private httpClient: HttpClient) { }
 
     getSearchPosts(keywords: string): Observable<PostModel[]> {
@@ -25,7 +25,7 @@ export class SearchService {
         .subscribe((posts: PostModel[]) => {
           this.searchPosts$$.next(posts);
         });
-        
+
       } else if (!keywords) {
         this.searchPosts$$.next(Posts);
       }

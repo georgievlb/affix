@@ -4,14 +4,13 @@
 
 export const environment = {
   production: false,
-  port: 443,
-  apiUrl: "local.api.affix.com",
-  clientUrl: "local.client.affix.com",
+  apiUrl: "https://local.api.affix.com",
+  clientUrl: "https://local.client.affix.com/home",
   bucketName: 'affix-images',
-  authority: 'https://local.is.affix.com:443/',
+  authority: 'https://local.is.affix.com/',
   clientId: 'affix_client_spa',
-  redirect_uri: 'https://local.client.affix.com:443/signin-callback',
-  post_logout_redirect_uri: 'https://local.client.affix.com:443/signout-callback',
+  redirect_uri: 'https://local.client.affix.com/signin-callback',
+  post_logout_redirect_uri: 'https://local.client.affix.com/signout-callback',
   response_type: 'code',
   scope: 'openid profile AffixAPI'
 };

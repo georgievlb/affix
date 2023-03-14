@@ -10,7 +10,7 @@ export class SubscriptionService {
   constructor(private httpClient: HttpClient) { }
 
   putSubscription(email: string) {
-    return this.httpClient.put(`https://${environment.apiUrl}:${environment.port}/subscriptions`, { email: email});
+    return this.httpClient.put(`${environment.apiUrl}/subscriptions`, { email: email});
   }
 
 }

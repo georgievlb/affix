@@ -91,7 +91,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       const upload$ = this.postService.putImage(file);
       upload$.subscribe(imageId => {
         this.postModel.imageId = imageId.toString();
-        this.postModel.imageSrc = `https://${environment.bucketName}.s3.amazonaws.com/${this.postModel.imageId}`;
+        this.postModel.imageSrc = `${environment.bucketName}.s3.amazonaws.com/${this.postModel.imageId}`;
       });
     }
   }

@@ -116,7 +116,10 @@ namespace Affix.IdentityServer
             // app.UseHttpsRedirection();
             app.UseMigrationsEndPoint();
             app.UseStaticFiles();
-            app.UsePathBase("/is");
+            if (app.Environment.EnvironmentName != "Local")
+            {
+                app.UsePathBase("/is");
+            }
             app.UseRouting();
             app.UseCors("AffixApi");
             app.UseIdentityServer();

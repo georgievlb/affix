@@ -96,7 +96,7 @@ Resources:
       HealthCheckTimeoutSeconds: 120
       HealthyThresholdCount: 2
       UnhealthyThresholdCount: 10
-      HealthCheckPath: /
+      HealthCheckPath: /home
       HealthCheckProtocol: HTTP
 
   ALBListenerRule:
@@ -108,7 +108,11 @@ Resources:
       Conditions:
         - Field: path-pattern
           Values:
-            - /*
+            - /home/*
+            - /admin/*
+            - /posts/*
+            - /signin-callback/*
+            - /signout-callback/*
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward

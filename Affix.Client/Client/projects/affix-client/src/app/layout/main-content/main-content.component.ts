@@ -32,7 +32,7 @@ export class MainContentComponent implements OnInit {
 
     if (this.currentPageIndex !== 0) {
       this.navigateToPage();
-      this.router.navigate(['/page/' + this.currentPageIndex]);
+      this.router.navigate(['/home/page/' + this.currentPageIndex]);
     }
   }
 
@@ -45,6 +45,6 @@ export class MainContentComponent implements OnInit {
 
   navigateToPage() {
     this.currentSetOfPostCards$ = this.postService.getNextPostCardsPage(this.numberOfItemsPerPage * this.currentPageIndex, this.numberOfItemsPerPage);
-    this.router.navigate(['/page/' + this.currentPageIndex]);
+    this.router.navigate(['/home/page/' + this.currentPageIndex]);
   }
 }
