@@ -3,7 +3,14 @@
 
 <div class="welcome-page">
     <h1>
-        <img src="~/duende-logo.svg" class="logo">
+        @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Local")
+        {
+            <img src="~/is/duende-logo.svg" class="logo">
+        }
+        else
+        {
+            <img src="~/duende-logo.svg" class="logo">
+        }
         Welcome to Duende IdentityServer
         <small class="text-muted">(version @Model.Version)</small>
     </h1>
