@@ -4,13 +4,13 @@
 
 export const environment = {
     production: false,
-    apiUrl: "https://lachezargeorgiev.com/api",
-    clientUrl: "https://lachezargeorgiev.com/home",
+    apiUrl: "https://dev.lachezargeorgiev.com/api",
+    clientUrl: "https://dev.lachezargeorgiev.com/home",
     bucketName: 'affix-images',
-    authority: 'https://lachezargeorgiev.com/is/',
+    authority: 'https://dev.lachezargeorgiev.com/is/',
     clientId: 'affix_client_spa',
-    redirect_uri: 'https://lachezargeorgiev.com/signin-callback',
-    post_logout_redirect_uri: 'https://lachezargeorgiev.com/signout-callback',
+    redirect_uri: 'https://dev.lachezargeorgiev.com/signin-callback',
+    post_logout_redirect_uri: 'https://dev.lachezargeorgiev.com/signout-callback',
     response_type: 'code',
     scope: 'openid profile AffixAPI'
 };
