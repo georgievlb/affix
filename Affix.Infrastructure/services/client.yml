@@ -117,26 +117,7 @@ Resources:
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
-#
-#  ALBListenerRule2:
-#    Type: AWS::ElasticLoadBalancingV2::ListenerRule
-#    Properties:
-#      ListenerArn:
-#        Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBListenerARN
-#      Priority: 3
-#      Conditions:
-#        - Field: path-pattern
-#          PathPatternConfig:
-#            Values:
-#              - /styles.css
-#              - /vendor.js
-#              - /main.js
-#              - /polyfills.js
-#              - /runtime.js
-#      Actions:
-#        - TargetGroupArn: !Ref ALBTargetGroup
-#          Type: forward
-          
+
   ALBListenerRule2:
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
     Properties:
@@ -147,11 +128,27 @@ Resources:
         - Field: path-pattern
           PathPatternConfig:
             Values:
-              - /*.js
+              - /styles.css
+              - /vendor.js
+              - /main.js
+              - /polyfills.js
+              - /runtime.js
+      Actions:
+        - TargetGroupArn: !Ref ALBTargetGroup
+          Type: forward
+          
+  ALBListenerRule3:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn:
+        Fn::ImportValue: !Sub ${LoadBalancerStackName}-ALBListenerARN
+      Priority: 4
+      Conditions:
+        - Field: path-pattern
+          PathPatternConfig:
+            Values:
+              - /assets*
               - /*.png
-              - /*.svg
-              - /*.ico
-              - /*.map
       Actions:
         - TargetGroupArn: !Ref ALBTargetGroup
           Type: forward
