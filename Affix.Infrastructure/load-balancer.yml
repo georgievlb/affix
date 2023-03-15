@@ -41,7 +41,7 @@ Resources:
       Port: 443
       Protocol: HTTPS
       Certificates:
-        - CertificateArn: arn:aws:acm:us-east-1:136492436586:certificate/d22576b3-452c-4af1-be44-30ab91449e2d
+        - CertificateArn: arn:aws:acm:us-east-1:136492436586:certificate/3545bf60-8e4c-4a13-845d-63035e56cab1
 
   ALBDefaultTargetGroup:
     Description: Defines a mandatory default target group. This is not used, instead a target group is created per-service in each ECS service template. 
