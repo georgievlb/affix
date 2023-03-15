@@ -7,26 +7,12 @@
 
     <title>Duende IdentityServer</title>
     
-
-    @{
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Local")
-        {
-            <link rel="icon" type="image/x-icon" href="~/is/favicon.ico" />
-            <link rel="shortcut icon" type="image/x-icon" href="~/is/favicon.ico" />
-            <link rel="stylesheet" href="~/is/lib/bootstrap/dist/css/bootstrap.min.css" />
-            <link rel="stylesheet" href="~/is/lib/bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css" />
-            <link rel="stylesheet" href="~/is/css/site.css" />        
-        }
-        else
-        {
-            <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
-            <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
-            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-            <link rel="stylesheet" href="~/lib/bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css" />
-            <link rel="stylesheet" href="~/css/site.css" />        
-        }
-    }
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
     
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <partial name="_Nav" />
@@ -34,18 +20,9 @@
     <div class="container body-container">
         @RenderBody()
     </div>
-    @{
-        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Local")
-        {
-            <script src="~/is/lib/jquery/dist/jquery.slim.min.js"></script>
-            <script src="~/is/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>            
-        }
-        else
-        {
-            <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        }
-    }
+
+    <script src="~/lib/jquery/dist/jquery.slim.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>
