@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | Affix{% endblock %}
+
+{% block content %}
+  <article class="post-detail">
+    <header class="post-detail__header">
+      <p class="eyebrow">{{ post.category.name if post.category else "post" }}</p>
+      <h1>{{ post.title }}</h1>
+      <div class="meta-row">
+        <span>{{ post.header }}</span>
+        <span>{{ post.date.strftime("%b %d, %Y") }}</span>
+        {% if post.tags %}
+          <span>{{ post.tags | join(", ") }}</span>
+        {% endif %}
+      </div>
+      <p class="lede">{{ post.summary }}</p>
+    </header>
+
+    {% if post.image %}
+      <img
+        class="post-image"
+        src="{{ url_for('static', filename='uploads/' ~ post.image.filename) }}"
+        alt="{{ post.image_alt_text or post.image.alt_text or post.title }}"
+      >
+    {% endif %}
+
+    <section class="markdown-body">{{ markdown_html | safe }}</section>
+  </article>
+{% endblock %}

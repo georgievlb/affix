@@ -1,42 +1,68 @@
 # Affix
 
-Affix is a blog application built with .NET 6 and Angular 12. The app is containerized using Docker. Docker compose is used for orchestration when developing locally.
+Affix now includes a local-first Flask rewrite under [`affix_py`](/Users/lachezar.georgiev/Projects/affix/affix_py). It replaces the old split .NET/Angular/IdentityServer shape with:
 
-## Local Dev
+- Flask for backend and server-rendered frontend
+- HTMX for lightweight interactivity
+- PostgreSQL for local development
+- Session-based admin auth
+- A Markdown-native WYSIWYG editor for post authoring
 
-1. Install Docker Desktop for the OS you're using.
-2. Trust / Import PFX files in Affix.ReverseProxy:
-   1. api-local.pfx
-   2. client-local.pfx
-   3. is-local.pfx
-3. Add host entries:
-   1. For Mac/Linux: `/etc/hosts`
-   2. For Windows: `C:\Windows\system32\driver\etc\hosts`
-```
-127.0.0.1   local.is.affix.com
-127.0.0.1   local.api.affix.com
-127.0.0.1   local.client.affix.com
-```
-4. Run the project using docker compose.
+The original .NET projects are still in the repo for reference while the rewrite settles in, but the recommended local workflow is the Python app below.
 
-## Deployment to the Development environment
+## Local Setup
 
-*Affix* can be easily deployed to AWS using CloudFormation. Whenever possible, resources from the AWS Free Tier are used. Note that some resources, such as a registered domain name, aren't included in the free tier and you're required to pay a respective fee.
+1. Install PostgreSQL locally and create the database:
+   - macOS with Homebrew:
+     - `brew install postgresql@16`
+     - `brew services start postgresql@16`
+   - Create the database:
+     - `createdb affix`
+2. Create and activate a virtual environment:
+   - `cd affix_py`
+   - `python3 -m venv .venv`
+   - `source .venv/bin/activate`
+3. Install dependencies:
+   - `pip install -r requirements.txt`
+4. Create your env file:
+   - `cp .env.example .env`
+   - The default `DATABASE_URL=postgresql+psycopg:///affix` uses your current local PostgreSQL user.
+   - If you use a named user/password instead, change it to something like `postgresql+psycopg://YOUR_USER:YOUR_PASSWORD@localhost:5432/affix`.
+5. Initialize the local database and admin user:
+   - `flask init-db`
+   - `flask seed-admin`
+6. Add sample content:
+   - Quick starter content:
+     - `flask seed-sample`
+   - Or import from the legacy SQL sample:
+     - `flask import-sample-sql`
+7. Run the app:
+   - `flask run --debug`
+8. Open the site:
+   - `http://127.0.0.1:5000`
 
-To deploy *Affix* to AWS, follow the steps below:
+Default admin credentials come from `.env`:
 
-1. Build the individual docker images for publishing:
-   - `docker build -f ./Affix.API/Dockerfile-Development -t DOCKER_ID/affix_api:latest .`
-   - `docker build -f ./Affix.IdentityServer/Dockerfile -t DOCKER_ID/affix_is:latest  . `
-   - `docker build -f ./Affix.IdentityServer/Dockerfile-db -t DOCKER_ID/affix_is_db_migrate:latest .`
-   - `docker build -f ./Affix.API/Dockerfile-db -t DOCKER_ID/affix_api_db_migrate:latest .`
-   - `docker build -f ./Affix.Client/Dockerfile-Development -t DOCKER_ID/affix_client:latest .`
+- email: `admin@affix.local`
+- password: `ChangeMe123!`
 
-2. Publish the docker images to a docker container registry:
-   - `docker push DOCKER_ID/affix_api`
-   - `docker push DOCKER_ID/affix_is`
-   - `docker push DOCKER_ID/affix_is_db_migrate`
-   - `docker push DOCKER_ID/affix_api_db_migrate`
-   - `docker push DOCKER_ID/affix_client`
+## What Works In The Rewrite
 
-*Note: in the commands above, `DOCKER_ID` stands for a docker id in Docker Hub. You can use any container registry of your choice. For example, you can use a private container registry such as AWS Elastic Container Registry. Applicable fees may apply for each individual container registry.*
+- Public homepage, search, post detail pages, and subscription flow
+- Admin login/logout
+- Draft and published post management
+- Local image uploads
+- Markdown storage with a WYSIWYG-capable editor surface
+- Server-rendered preview path for post content
+
+## Tests
+
+From [`affix_py`](/Users/lachezar.georgiev/Projects/affix/affix_py):
+
+- `pytest`
+
+## Notes
+
+- The editor and HTMX are loaded from CDN assets in this first pass to keep the local stack lightweight.
+- Docker, reverse proxying, TLS, and deployment work are intentionally deferred until the local architecture is stable.
+- The old Docker/.NET instructions remain obsolete for the new local-first path.

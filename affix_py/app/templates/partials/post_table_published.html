@@ -1,0 +1,16 @@
+<div class="table-list">
+  {% for post in published %}
+    <article class="table-row">
+      <div>
+        <strong>{{ post.title }}</strong>
+        <p>{{ post.date.strftime("%b %d, %Y") }}</p>
+      </div>
+      <div class="table-row__actions">
+        <a href="{{ url_for('public.post_details', moniker=post.moniker) }}">View</a>
+        <a href="{{ url_for('admin.edit_post', post_id=post.id) }}">Edit</a>
+      </div>
+    </article>
+  {% else %}
+    <p>No published posts yet.</p>
+  {% endfor %}
+</div>

@@ -1,0 +1,15 @@
+{% if query %}
+  <section class="results-shell">
+    <div class="grid-header">
+      <h2>Results for "{{ query }}"</h2>
+      <p>{{ results | length }} found</p>
+    </div>
+    <div class="post-grid">
+      {% for post in results %}
+        {% include "partials/post_card.html" %}
+      {% else %}
+        <p>No matches yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}

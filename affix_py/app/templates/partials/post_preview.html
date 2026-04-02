@@ -1,0 +1,24 @@
+{% set preview = post or {} %}
+<article class="preview-post">
+  <p class="eyebrow">{{ preview.category_name or (post.category.name if post and post.category else "preview") }}</p>
+  <h2>{{ preview.title or (post.title if post else "Untitled post") }}</h2>
+  <div class="meta-row">
+    <span>{{ preview.header or (post.header if post else "Header") }}</span>
+    <span>{{ preview.moniker or (post.moniker if post else "moniker") }}</span>
+  </div>
+  <p class="lede">{{ preview.summary or (post.summary if post else "Summary preview appears here.") }}</p>
+  {% if image %}
+    <img
+      class="post-image"
+      src="{{ url_for('static', filename='uploads/' ~ image.filename) }}"
+      alt="{{ preview.image_alt_text or image.alt_text or preview.title }}"
+    >
+  {% elif post and post.image %}
+    <img
+      class="post-image"
+      src="{{ url_for('static', filename='uploads/' ~ post.image.filename) }}"
+      alt="{{ post.image_alt_text or post.image.alt_text or post.title }}"
+    >
+  {% endif %}
+  <div class="markdown-body">{{ markdown_html | default(preview_html, true) | safe }}</div>
+</article>

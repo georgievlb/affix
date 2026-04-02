@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Admin | Affix{% endblock %}
+
+{% block content %}
+  <section class="page-heading page-heading--split">
+    <div>
+      <p class="eyebrow">Admin</p>
+      <h1>Editorial dashboard</h1>
+    </div>
+    <a class="button-link" href="{{ url_for('admin.new_post') }}">Create new post</a>
+  </section>
+
+  <section class="dashboard-grid">
+    <div class="panel">
+      <div class="panel__header">
+        <h2>Drafts</h2>
+        <span>{{ drafts | length }}</span>
+      </div>
+      {% include "partials/post_table.html" with context %}
+    </div>
+
+    <div class="panel">
+      <div class="panel__header">
+        <h2>Published</h2>
+        <span>{{ published | length }}</span>
+      </div>
+      {% include "partials/post_table_published.html" with context %}
+    </div>
+  </section>
+{% endblock %}

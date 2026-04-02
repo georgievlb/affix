@@ -1,0 +1,15 @@
+<article class="post-card">
+  {% if post.image %}
+    <img
+      src="{{ url_for('static', filename='uploads/' ~ post.image.filename) }}"
+      alt="{{ post.image_alt_text or post.image.alt_text or post.title }}"
+    >
+  {% endif %}
+  <p class="eyebrow">{{ post.category.name if post.category else "post" }}</p>
+  <h3><a href="{{ url_for('public.post_details', moniker=post.moniker) }}">{{ post.title }}</a></h3>
+  <p>{{ post.summary }}</p>
+  <div class="meta-row">
+    <span>{{ post.header }}</span>
+    <span>{{ post.date.strftime("%b %d, %Y") }}</span>
+  </div>
+</article>

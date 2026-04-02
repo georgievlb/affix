@@ -255,6 +255,16 @@ ServiceFabricBackup/
 *.ldf
 *.ndf
 
+# Python local rewrite
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+affix_py/.env
+affix_py/app/static/uploads/*
+!affix_py/app/static/uploads/.gitkeep
+
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout
