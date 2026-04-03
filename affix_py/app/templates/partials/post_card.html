@@ -1,15 +1,21 @@
-<article class="post-card">
-  {% if post.image %}
-    <img
-      src="{{ url_for('static', filename='uploads/' ~ post.image.filename) }}"
-      alt="{{ post.image_alt_text or post.image.alt_text or post.title }}"
-    >
-  {% endif %}
-  <p class="eyebrow">{{ post.category.name if post.category else "post" }}</p>
-  <h3><a href="{{ url_for('public.post_details', moniker=post.moniker) }}">{{ post.title }}</a></h3>
-  <p>{{ post.summary }}</p>
-  <div class="meta-row">
-    <span>{{ post.header }}</span>
-    <span>{{ post.date.strftime("%b %d, %Y") }}</span>
-  </div>
+<article class="post-card {{ 'first-post-card' if loop_index|default(-1) == 0 else 'not-first-post-card' }}">
+  <a class="post-card__link" href="{{ url_for('public.post_details', moniker=post.moniker) }}">
+    <header class="post-card__header">
+      <div class="post-card__header-meta">
+        <span>{{ post.header }}</span>
+        <div class="header-icon {{ post.category.name if post.category else '' }}"></div>
+      </div>
+      <h3>{{ post.title }}</h3>
+      <p class="post-card__date">{{ post.date.strftime("%B %d, %Y") }}</p>
+    </header>
+    {% if post.image %}
+      <img
+        src="{{ url_for('static', filename='uploads/' ~ post.image.filename) }}"
+        alt="{{ post.image_alt_text or post.image.alt_text or post.title }}"
+      >
+    {% endif %}
+    <div class="post-card__content">
+      <p>{{ post.summary }}</p>
+    </div>
+  </a>
 </article>

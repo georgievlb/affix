@@ -3,7 +3,7 @@
 {% block title %}Affix | Home{% endblock %}
 
 {% block content %}
-  <section class="hero">
+  <section class="hero classic-hero">
     <div>
       <p class="eyebrow">Lightweight publishing</p>
       <h1>Markdown-native blogging with a local-first Flask stack.</h1>
@@ -32,8 +32,9 @@
     <p>{{ pagination.total }} total</p>
   </section>
 
-  <section class="post-grid">
+  <section class="main-content-section post-grid">
     {% for post in pagination.items %}
+      {% set loop_index = loop.index0 %}
       {% include "partials/post_card.html" %}
     {% else %}
       <p>No posts published yet.</p>
