@@ -1,9 +1,6 @@
 from __future__ import annotations
 
-import os
-import uuid
 from datetime import datetime, timezone
-from pathlib import Path
 
 from flask import (
     Blueprint,
@@ -16,7 +13,6 @@ from flask import (
     url_for,
 )
 from flask_login import current_user, login_required
-from werkzeug.utils import secure_filename
 
 from ..extensions import db
 from ..markdown_utils import render_markdown
@@ -196,10 +192,8 @@ def upload_image():
             error="Unsupported image type.",
         ), 422
 
-    stream = file.stream
-    stream.seek(0, os.SEEK_END)
-    size = stream.tell()
-    stream.seek(0)
+    data = file.read()
+    size = len(data)
 
     if size > current_app.config["MAX_IMAGE_BYTES"]:
         return render_template(
@@ -207,18 +201,11 @@ def upload_image():
             error="Maximum image size is 2 MB.",
         ), 422
 
-    ext = Path(secure_filename(file.filename)).suffix.lower()
-    new_name = f"{uuid.uuid4()}{ext}"
-    upload_dir = Path(current_app.config["UPLOAD_FOLDER"])
-    upload_dir.mkdir(parents=True, exist_ok=True)
-    path = upload_dir / new_name
-    file.save(path)
-
     image = ImageAsset(
-        filename=new_name,
         original_filename=file.filename,
         content_type=file.mimetype or "application/octet-stream",
         alt_text=request.form.get("image_alt_text", "").strip() or None,
+        data=data,
     )
     db.session.add(image)
     db.session.commit()

@@ -21,7 +21,7 @@
     {% if post.image %}
       <img
         class="post-image"
-        src="{{ url_for('static', filename='uploads/' ~ post.image.filename) }}"
+        src="{{ url_for('public.image_asset', image_id=post.image.id) }}"
         alt="{{ post.image_alt_text or post.image.alt_text or post.title }}"
       >
     {% endif %}

@@ -1,21 +1,18 @@
 from io import BytesIO
-from pathlib import Path
 
 import pytest
 
 from affix_py.app import create_app
 from affix_py.app.extensions import db
-from affix_py.app.models import Category, Post, User
+from affix_py.app.models import Category, ImageAsset, Post, User
 
 
 @pytest.fixture
 def app(tmp_path):
-    upload_dir = tmp_path / "uploads"
     app = create_app(
         {
             "TESTING": True,
             "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
-            "UPLOAD_FOLDER": upload_dir,
             "WTF_CSRF_ENABLED": False,
         }
     )
@@ -88,7 +85,7 @@ def test_create_draft_post(client, app):
         assert saved.is_draft is True
 
 
-def test_upload_image_partial(client, app, tmp_path):
+def test_upload_image_partial(client, app):
     login(client)
     response = client.post(
         "/admin/images/upload",
@@ -97,5 +94,12 @@ def test_upload_image_partial(client, app, tmp_path):
     )
     assert response.status_code == 200
     with app.app_context():
-        upload_path = Path(app.config["UPLOAD_FOLDER"])
-        assert upload_path.exists()
+        image = ImageAsset.query.first()
+        assert image is not None
+        assert image.original_filename == "cover.png"
+        assert image.data == b"fake-image-data"
+        image_id = image.id
+
+    media_response = client.get(f"/media/images/{image_id}")
+    assert media_response.status_code == 200
+    assert media_response.data == b"fake-image-data"

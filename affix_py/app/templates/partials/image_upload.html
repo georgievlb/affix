@@ -2,7 +2,7 @@
   <div class="flash flash--error">{{ error }}</div>
 {% elif image %}
   <div class="image-preview">
-    <img src="{{ url_for('static', filename='uploads/' ~ image.filename) }}" alt="{{ image.alt_text or image.original_filename }}">
+    <img src="{{ url_for('public.image_asset', image_id=image.id) }}" alt="{{ image.alt_text or image.original_filename }}">
     <div>
       <p><strong>{{ image.original_filename }}</strong></p>
       <p>Image ready for this post.</p>
@@ -13,7 +13,7 @@
   </script>
 {% elif post and post.image %}
   <div class="image-preview">
-    <img src="{{ url_for('static', filename='uploads/' ~ post.image.filename) }}" alt="{{ post.image_alt_text or post.image.alt_text or post.title }}">
+    <img src="{{ url_for('public.image_asset', image_id=post.image.id) }}" alt="{{ post.image_alt_text or post.image.alt_text or post.title }}">
     <div>
       <p><strong>{{ post.image.original_filename }}</strong></p>
       <p>Existing cover image.</p>

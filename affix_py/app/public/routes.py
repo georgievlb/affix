@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 from email.utils import parseaddr
+from io import BytesIO
 
-from flask import Blueprint, current_app, flash, render_template, request
+from flask import Blueprint, current_app, flash, render_template, request, send_file
 
 from ..extensions import db
 from ..markdown_utils import render_markdown
-from ..models import Post, Subscription
+from ..models import ImageAsset, Post, Subscription
 
 
 bp = Blueprint("public", __name__)
@@ -35,6 +36,17 @@ def post_details(moniker: str):
         "public/post_detail.html",
         post=post,
         markdown_html=render_markdown(post.content),
+    )
+
+
+@bp.route("/media/images/<image_id>")
+def image_asset(image_id: str):
+    image = ImageAsset.query.filter_by(id=image_id).first_or_404()
+    return send_file(
+        BytesIO(image.data),
+        mimetype=image.content_type,
+        download_name=image.original_filename,
+        max_age=3600,
     )
 
 

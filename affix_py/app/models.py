@@ -38,10 +38,10 @@ class ImageAsset(db.Model):
     __tablename__ = "image_assets"
 
     id = db.Column(db.String(36), primary_key=True, default=_uuid)
-    filename = db.Column(db.String(255), nullable=False)
     original_filename = db.Column(db.String(255), nullable=False)
     content_type = db.Column(db.String(100), nullable=False)
     alt_text = db.Column(db.String(255), nullable=True)
+    data = db.Column(db.LargeBinary, nullable=False)
     created_at = db.Column(
         db.DateTime(timezone=True),
         default=lambda: datetime.now(timezone.utc),

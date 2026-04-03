@@ -2,7 +2,7 @@
   <a class="post-card__link" href="{{ url_for('public.post_details', moniker=post.moniker) }}">
     <header class="post-card__header">
       <div class="post-card__header-meta">
-        <span>{{ post.header }}</span>
+        <span class="post-card__header-label">{{ post.header }}</span>
         <div class="header-icon {{ post.category.name if post.category else '' }}"></div>
       </div>
       <h3>{{ post.title }}</h3>
@@ -10,7 +10,7 @@
     </header>
     {% if post.image %}
       <img
-        src="{{ url_for('static', filename='uploads/' ~ post.image.filename) }}"
+        src="{{ url_for('public.image_asset', image_id=post.image.id) }}"
         alt="{{ post.image_alt_text or post.image.alt_text or post.title }}"
       >
     {% endif %}
