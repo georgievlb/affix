@@ -4,6 +4,7 @@
 
 {% block content %}
   <section class="landing-shell">
+    <section class="landing-rail">
     <section class="hero classic-hero">
       <div class="hero-copy-block">
       <p class="eyebrow">Lightweight publishing</p>
@@ -31,10 +32,10 @@
 
     <section class="grid-header grid-header--landing">
       <h2>Published Posts</h2>
-      <p>{{ pagination.total }} total</p>
+      <p class="grid-header__meta">{{ pagination.total }} total</p>
     </section>
 
-    <section class="main-content-section post-grid landing-post-grid">
+    <section class="landing-posts-shell main-content-section post-grid landing-post-grid">
       {% for post in pagination.items %}
         {% set loop_index = loop.index0 %}
         {% include "partials/post_card.html" %}
@@ -69,6 +70,7 @@
         <button type="submit">Subscribe</button>
       </form>
       <div id="subscription-message"></div>
+    </section>
     </section>
   </section>
 {% endblock %}
