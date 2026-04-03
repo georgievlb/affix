@@ -3,25 +3,27 @@
 {% block title %}Search | Affix{% endblock %}
 
 {% block content %}
-  <section class="page-heading">
-    <p class="eyebrow">Search</p>
-    <h1>Find posts</h1>
-  </section>
+  <section class="search-page">
+    <section class="page-heading search-page__heading">
+      <p class="eyebrow">Search</p>
+      <h1>Find posts</h1>
+    </section>
 
-  <form
-    class="search-box search-box--full"
-    hx-get="{{ url_for('public.search') }}"
-    hx-target="#search-results"
-    hx-push-url="true"
-  >
-    <label for="search-q">Search query</label>
-    <div class="search-box__controls">
-      <input id="search-q" name="q" type="search" value="{{ query }}" placeholder="Search by title, content, or tags">
-      <button type="submit">Search</button>
+    <form
+      class="search-box search-box--full search-box--page"
+      hx-get="{{ url_for('public.search') }}"
+      hx-target="#search-results"
+      hx-push-url="true"
+    >
+      <label for="search-q">Search query</label>
+      <div class="search-box__controls">
+        <input id="search-q" name="q" type="search" value="{{ query }}" placeholder="Search by title, content, or tags">
+        <button type="submit">Search</button>
+      </div>
+    </form>
+
+    <div id="search-results">
+      {% include "partials/search_results.html" %}
     </div>
-  </form>
-
-  <div id="search-results">
-    {% include "partials/search_results.html" %}
-  </div>
+  </section>
 {% endblock %}
