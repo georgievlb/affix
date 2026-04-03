@@ -10,6 +10,7 @@
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     {% block head %}{% endblock %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <script defer src="{{ url_for('static', filename='js/nav.js') }}"></script>
   </head>
   <body id="top">
     <header class="site-header">
@@ -17,7 +18,19 @@
         <div class="wrap nav-wrap header-shell">
           <section class="site-header__inner main-nav-section">
             <a class="brand" href="{{ url_for('public.home') }}">Lachezar Georgiev</a>
-            <div class="main-nav-list" aria-label="Primary">
+            <button
+              type="button"
+              class="nav-toggle"
+              aria-expanded="false"
+              aria-controls="site-navigation"
+              aria-label="Toggle navigation"
+              data-nav-toggle
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <div class="main-nav-list" id="site-navigation" aria-label="Primary">
               <a class="nav-button" href="{{ url_for('public.home') }}">Posts</a>
               <a class="nav-button" href="{{ url_for('public.search') }}">Search</a>
               {% if current_user.is_authenticated and current_user.is_admin %}
