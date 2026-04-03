@@ -20,101 +20,116 @@
   <section class="editor-layout">
     <form
       id="image-upload-form"
-      class="inline-upload"
+      class="u-hidden"
       hx-post="{{ url_for('admin.upload_image') }}"
       hx-target="#image-upload-result"
       hx-encoding="multipart/form-data"
       hx-include="#post-form [name='image_alt_text']"
-    >
-      <input type="file" name="image" accept="image/*" required>
-      <button type="submit">Upload image</button>
-    </form>
+    ></form>
 
-    <form id="post-form" class="editor-card" method="post" action="{{ url_for('admin.save_post') }}">
+    <form id="post-form" class="editor-workspace" method="post" action="{{ url_for('admin.save_post') }}">
       <input type="hidden" name="post_id" value="{{ post.id if post else '' }}">
       <input type="hidden" name="image_id" id="image_id" value="{{ post.image_id if post else '' }}">
 
-      <div class="form-grid">
-        <label>
-          Title
-          <input type="text" name="title" value="{{ request.form.get('title', post.title if post else '') }}" required>
-        </label>
-        <label>
-          Moniker
-          <input type="text" name="moniker" value="{{ request.form.get('moniker', post.moniker if post else '') }}" required>
-        </label>
-        <label>
-          Header
-          <input type="text" name="header" value="{{ request.form.get('header', post.header if post else '') }}" required>
-        </label>
-        <label>
-          Category
-          <input type="text" name="category_name" value="{{ request.form.get('category_name', post.category.name if post and post.category else '') }}" required>
-        </label>
-        <label class="form-grid__wide">
-          Summary
-          <textarea name="summary" rows="3" required>{{ request.form.get('summary', post.summary if post else '') }}</textarea>
-        </label>
-        <label class="form-grid__wide">
-          Tags
-          <input type="text" name="tags" value="{{ request.form.get('tags', post.category.tags if post and post.category else '') }}" placeholder="comma,separated,tags">
-        </label>
-        <label class="form-grid__wide">
-          Image alt text
-          <input type="text" name="image_alt_text" value="{{ request.form.get('image_alt_text', post.image_alt_text if post else '') }}">
-        </label>
-      </div>
-
-      <section class="upload-panel">
-        <div>
-          <h2>Cover image</h2>
-          <p>Uploads are stored locally for the localhost workflow.</p>
+      <section class="editor-card editor-card--details">
+        <div class="editor-card__intro">
+          <p class="eyebrow">Post Details</p>
+          <h2>Set the structure and metadata first</h2>
+          <p>Keep the basics tidy so the editor and preview can focus on the writing.</p>
         </div>
-        <button type="submit" form="image-upload-form">Upload image</button>
+
+        <div class="form-grid">
+          <label>
+            Title
+            <input type="text" name="title" value="{{ request.form.get('title', post.title if post else '') }}" required>
+          </label>
+          <label>
+            Moniker
+            <input type="text" name="moniker" value="{{ request.form.get('moniker', post.moniker if post else '') }}" required>
+          </label>
+          <label>
+            Header
+            <input type="text" name="header" value="{{ request.form.get('header', post.header if post else '') }}" required>
+          </label>
+          <label>
+            Category
+            <input type="text" name="category_name" value="{{ request.form.get('category_name', post.category.name if post and post.category else '') }}" required>
+          </label>
+          <label class="form-grid__wide">
+            Summary
+            <textarea name="summary" rows="4" required>{{ request.form.get('summary', post.summary if post else '') }}</textarea>
+          </label>
+          <label>
+            Tags
+            <input type="text" name="tags" value="{{ request.form.get('tags', post.category.tags if post and post.category else '') }}" placeholder="comma,separated,tags">
+          </label>
+          <label>
+            Image alt text
+            <input type="text" name="image_alt_text" value="{{ request.form.get('image_alt_text', post.image_alt_text if post else '') }}" placeholder="Describe the cover image for accessibility">
+          </label>
+        </div>
       </section>
 
-      <div id="image-upload-result">
-        {% include "partials/image_upload.html" %}
-      </div>
-
-      <section class="editor-shell">
-        <div class="editor-shell__header">
+      <section class="editor-card editor-card--media">
+        <div class="editor-card__header">
           <div>
-            <h2>Content</h2>
-            <p>Write in WYSIWYG mode while keeping Markdown as the stored source.</p>
+            <p class="eyebrow">Cover Image</p>
+            <h2>Attach the visual lead</h2>
+            <p>Uploads are stored in PostgreSQL and served back through the Flask app.</p>
           </div>
-          <button
-            type="button"
-            class="ghost-button"
-            hx-post="{{ url_for('admin.preview_post') }}"
-            hx-target="#server-preview"
-            hx-include="#post-form"
-            onclick="window.affixEditorSync && window.affixEditorSync();"
-          >
-            Refresh server preview
+        </div>
+
+        <div class="upload-panel">
+          <input form="image-upload-form" type="file" name="image" accept="image/*" required>
+          <button type="submit" form="image-upload-form">Upload image</button>
+        </div>
+
+        <div id="image-upload-result">
+          {% include "partials/image_upload.html" %}
+        </div>
+      </section>
+
+      <section class="editor-card editor-card--content">
+        <div class="editor-shell">
+          <div class="editor-shell__header">
+            <div>
+              <p class="eyebrow">Content</p>
+              <h2>Write in WYSIWYG, store as Markdown</h2>
+              <p>Draft visually, then use the server preview to confirm the final rendered result.</p>
+            </div>
+            <button
+              type="button"
+              class="ghost-button"
+              hx-post="{{ url_for('admin.preview_post') }}"
+              hx-target="#server-preview"
+              hx-include="#post-form"
+              onclick="window.affixEditorSync && window.affixEditorSync();"
+            >
+              Refresh server preview
+            </button>
+          </div>
+
+          <textarea
+            id="content"
+            name="content"
+            class="fallback-editor"
+            rows="18"
+          >{{ request.form.get('content', post.content if post else '') }}</textarea>
+          <div id="wysiwyg-editor" data-initial-markdown="{{ request.form.get('content', post.content if post else '') | e }}"></div>
+        </div>
+
+        <div class="editor-actions">
+          <button type="submit" name="action" value="publish" onclick="window.affixEditorSync && window.affixEditorSync();">
+            {{ "Publish" if not post or post.is_draft else "Update post" }}
+          </button>
+          <button type="submit" name="action" value="draft" class="ghost-button" onclick="window.affixEditorSync && window.affixEditorSync();">
+            Save draft
           </button>
         </div>
-
-        <textarea
-          id="content"
-          name="content"
-          class="fallback-editor"
-          rows="18"
-        >{{ request.form.get('content', post.content if post else '') }}</textarea>
-        <div id="wysiwyg-editor" data-initial-markdown="{{ request.form.get('content', post.content if post else '') | e }}"></div>
       </section>
-
-      <div class="editor-actions">
-        <button type="submit" name="action" value="publish" onclick="window.affixEditorSync && window.affixEditorSync();">
-          {{ "Publish" if not post or post.is_draft else "Update post" }}
-        </button>
-        <button type="submit" name="action" value="draft" class="ghost-button" onclick="window.affixEditorSync && window.affixEditorSync();">
-          Save draft
-        </button>
-      </div>
     </form>
 
-    <aside class="preview-card">
+    <aside class="preview-card preview-card--editor">
       <h2>Server preview</h2>
       <div id="server-preview">
         {% include "partials/post_preview.html" %}

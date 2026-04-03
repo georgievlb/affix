@@ -30,6 +30,7 @@ Application content is persisted in PostgreSQL. Posts, categories, scores, subsc
    - `cp .env.example .env`
    - The default `DATABASE_URL=postgresql+psycopg:///affix` uses your current local PostgreSQL user.
    - If you use a named user/password instead, change it to something like `postgresql+psycopg://YOUR_USER:YOUR_PASSWORD@localhost:5432/affix`.
+   - The default `FLASK_RUN_HOST=0.0.0.0` makes the dev server reachable through both `localhost:5000` and `127.0.0.1:5000` on typical local setups.
 5. Initialize the local database and admin user:
    - `flask init-db`
    - `flask seed-admin`
@@ -45,6 +46,7 @@ Application content is persisted in PostgreSQL. Posts, categories, scores, subsc
 7. Run the app:
    - `flask run --debug`
 8. Open the site:
+   - `http://localhost:5000`
    - `http://127.0.0.1:5000`
 
 Default admin credentials come from `.env`:
