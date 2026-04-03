@@ -1,4 +1,46 @@
 (function () {
+  function bootEditorWorkspace() {
+    var stage = document.querySelector("[data-editor-stage]");
+
+    if (!stage) {
+      return;
+    }
+
+    var buttons = Array.prototype.slice.call(
+      document.querySelectorAll("[data-editor-view]")
+    );
+    var refreshButton = document.querySelector("[data-preview-refresh]");
+
+    function setView(nextView, shouldRefresh) {
+      var view = nextView;
+
+      if (window.matchMedia("(max-width: 980px)").matches && nextView === "split") {
+        view = "preview";
+      }
+
+      stage.dataset.view = view;
+
+      buttons.forEach(function (button) {
+        var isActive = button.dataset.editorView === nextView;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+
+      if (shouldRefresh && refreshButton) {
+        refreshButton.click();
+      }
+    }
+
+    buttons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        var targetView = button.dataset.editorView;
+        setView(targetView, targetView !== "write");
+      });
+    });
+
+    setView("write", false);
+  }
+
   function bootEditor() {
     var source = document.getElementById("content");
     var mount = document.getElementById("wysiwyg-editor");
@@ -34,8 +76,12 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", bootEditor);
+    document.addEventListener("DOMContentLoaded", function () {
+      bootEditor();
+      bootEditorWorkspace();
+    });
   } else {
     bootEditor();
+    bootEditorWorkspace();
   }
 })();

@@ -97,25 +97,54 @@
               <h2>Write in WYSIWYG, store as Markdown</h2>
               <p>Draft visually, then use the server preview to confirm the final rendered result.</p>
             </div>
-            <button
-              type="button"
-              class="ghost-button"
-              hx-post="{{ url_for('admin.preview_post') }}"
-              hx-target="#server-preview"
-              hx-include="#post-form"
-              onclick="window.affixEditorSync && window.affixEditorSync();"
-            >
-              Refresh server preview
-            </button>
+            <div class="editor-shell__controls">
+              <div class="editor-view-switcher" role="tablist" aria-label="Editor view modes">
+                <button type="button" class="editor-view-button is-active" data-editor-view="write" aria-pressed="true">
+                  Write
+                </button>
+                <button type="button" class="editor-view-button" data-editor-view="preview" aria-pressed="false">
+                  Preview
+                </button>
+                <button type="button" class="editor-view-button editor-view-button--desktop" data-editor-view="split" aria-pressed="false">
+                  Split view
+                </button>
+              </div>
+              <button
+                type="button"
+                class="ghost-button"
+                data-preview-refresh
+                hx-post="{{ url_for('admin.preview_post') }}"
+                hx-target="#server-preview"
+                hx-include="#post-form"
+                onclick="window.affixEditorSync && window.affixEditorSync();"
+              >
+                Refresh preview
+              </button>
+            </div>
           </div>
 
-          <textarea
-            id="content"
-            name="content"
-            class="fallback-editor"
-            rows="18"
-          >{{ request.form.get('content', post.content if post else '') }}</textarea>
-          <div id="wysiwyg-editor" data-initial-markdown="{{ request.form.get('content', post.content if post else '') | e }}"></div>
+          <div class="editor-stage" data-editor-stage data-view="write">
+            <div class="editor-pane editor-pane--write">
+              <textarea
+                id="content"
+                name="content"
+                class="fallback-editor"
+                rows="18"
+              >{{ request.form.get('content', post.content if post else '') }}</textarea>
+              <div id="wysiwyg-editor" data-initial-markdown="{{ request.form.get('content', post.content if post else '') | e }}"></div>
+            </div>
+
+            <aside class="editor-pane editor-pane--preview preview-pane">
+              <div class="preview-pane__header">
+                <p class="eyebrow">Server Preview</p>
+                <h3>Rendered article</h3>
+                <p>Use this mode to sanity-check spacing, media, and the final Markdown output.</p>
+              </div>
+              <div id="server-preview" class="preview-pane__body">
+                {% include "partials/post_preview.html" %}
+              </div>
+            </aside>
+          </div>
         </div>
 
         <div class="editor-actions">
@@ -128,12 +157,5 @@
         </div>
       </section>
     </form>
-
-    <aside class="preview-card preview-card--editor">
-      <h2>Server preview</h2>
-      <div id="server-preview">
-        {% include "partials/post_preview.html" %}
-      </div>
-    </aside>
   </section>
 {% endblock %}
