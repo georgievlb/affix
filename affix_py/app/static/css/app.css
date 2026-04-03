@@ -284,10 +284,12 @@ h3 {
   margin: 0 auto;
   display: grid;
   gap: 1.25rem;
+  container-type: inline-size;
+  container-name: landing;
 }
 
 .hero-copy-block {
-  max-width: 36rem;
+  max-width: 30rem;
 }
 
 .hero-copy,
@@ -349,6 +351,9 @@ h3 {
   border-radius: 16px;
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.04);
   background: rgba(255, 255, 255, 0.88);
+  width: 100%;
+  max-width: 34rem;
+  justify-self: end;
 }
 
 .hero-search-box label {
@@ -455,6 +460,16 @@ button:hover,
   margin: 0 auto;
 }
 
+.landing-rail > .grid-header--landing,
+.landing-rail > .main-content-section,
+.landing-rail > .pagination--landing,
+.landing-rail > .subscribe-panel--landing {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .post-grid,
 .dashboard-grid,
 .editor-layout {
@@ -469,12 +484,15 @@ button:hover,
 .landing-post-grid {
   gap: 1.15rem;
   align-items: stretch;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
 }
 
 .post-card {
   width: 100%;
   max-width: none;
   min-height: 320px;
+  height: 100%;
   margin: 0;
   border: 1px solid var(--border);
   border-radius: 20px;
@@ -485,7 +503,7 @@ button:hover,
 }
 
 .landing-post-grid .post-card {
-  grid-column: span 5;
+  grid-column: auto;
 }
 
 .search-results-grid .post-card {
@@ -590,9 +608,6 @@ button:hover,
 .grid-header--landing {
   margin: 0.1rem 0 0.15rem;
   padding-top: 0.15rem;
-  width: min(1120px, 100%);
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .grid-header--landing h2 {
@@ -617,6 +632,7 @@ button:hover,
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 14px;
   background: var(--surface-muted);
+  width: 100%;
 }
 
 .pagination-link {
@@ -645,6 +661,7 @@ button:hover,
   border-radius: 18px;
   background: linear-gradient(180deg, rgba(250, 250, 250, 0.95), #fff);
   box-shadow: var(--shadow);
+  width: 100%;
 }
 
 .subscribe-panel--landing .subscribe-form {
@@ -1101,6 +1118,67 @@ h3 {
 
   .not-first-post-card .post-card__content p {
     -webkit-line-clamp: 2;
+  }
+}
+
+@container landing (min-width: 68rem) {
+  .classic-hero {
+    grid-template-columns: minmax(0, 1.08fr) minmax(20rem, 0.92fr);
+    align-items: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.9rem, 4.8cqi, 4.2rem);
+  }
+}
+
+@container landing (min-width: 80rem) {
+  .landing-post-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .landing-post-grid .post-card {
+    grid-column: span 5;
+  }
+
+  .landing-post-grid .first-post-card {
+    grid-column: span 7;
+  }
+}
+
+@container landing (max-width: 79.999rem) {
+  .landing-post-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .landing-post-grid .post-card,
+  .landing-post-grid .first-post-card {
+    grid-column: auto;
+  }
+}
+
+@container landing (max-width: 67.999rem) {
+  .classic-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-md);
+  }
+
+  .hero-copy-block {
+    max-width: 22rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.35rem, 6.6cqi, 3.4rem);
+    max-width: 10ch;
+  }
+
+  .hero-search-box {
+    justify-self: stretch;
+    max-width: none;
+  }
+
+  .landing-post-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
