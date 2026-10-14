@@ -28,8 +28,9 @@ Application content is persisted in PostgreSQL. Posts, categories, scores, subsc
    - `pip install -r requirements.txt`
 4. Create your env file:
    - `cp .env.example .env`
-   - The default `DATABASE_URL=postgresql+psycopg:///affix` uses your current local PostgreSQL user.
-   - If you use a named user/password instead, change it to something like `postgresql+psycopg://YOUR_USER:YOUR_PASSWORD@localhost:5432/affix`.
+   - Set `DATABASE_URL` to your local PostgreSQL user and password, e.g. `postgresql+psycopg://YOUR_USER:YOUR_PASSWORD@localhost:5432/affix`.
+   - On Homebrew PostgreSQL the default superuser is your macOS username. If it has no password yet, connect with `psql -d postgres` and run `ALTER ROLE "YOUR_USER" WITH PASSWORD 'YOUR_PASSWORD';`, then use that password in `DATABASE_URL`.
+   - Log in with `psql "postgresql://YOUR_USER:YOUR_PASSWORD@localhost:5432/affix"` (or simply `psql -d affix` when local trust auth is enabled).
    - The default `FLASK_RUN_HOST=0.0.0.0` makes the dev server reachable through both `localhost:5000` and `127.0.0.1:5000` on typical local setups.
 5. Initialize the local database and admin user:
    - `flask init-db`
