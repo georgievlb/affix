@@ -20,6 +20,8 @@ Application content is persisted in PostgreSQL. Posts, categories, scores, subsc
      - `brew services start postgresql@16`
    - Create the database:
      - `createdb affix`
+     -or create it on a remote db:
+     - `createdb -h 35.234.84.102 -U postgres affix`
 2. Create and activate a virtual environment:
    - `cd affix_py`
    - `python3 -m venv .venv`
