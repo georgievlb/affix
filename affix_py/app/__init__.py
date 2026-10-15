@@ -141,7 +141,7 @@ def register_cli(app: Flask) -> None:
     @app.cli.command("import-sample-sql")
     def import_sample_sql_command():
         upgrade()
-        sql_path = Path(app.root_path).parent.parent / "Affix.DB" / "Affix-sample-data.sql"
+        sql_path = Path(app.root_path).parent.parent / "affix_py" / "migrations" / "Affix-sample-data.sql"
         if not sql_path.exists():
             print(f"Sample SQL file not found: {sql_path}")
             return
