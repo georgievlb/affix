@@ -424,3 +424,4 @@ keys
 /Affix.API/posts
 
 #**/wwwroot/**
+affix_py/.env.dev
