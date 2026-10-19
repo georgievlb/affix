@@ -17,7 +17,7 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  PYTHON_VERSION: '3.13'
+  PIP_VERSION: '26.2.1'
 
 jobs:
   test:
@@ -25,12 +25,21 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version-file: .python-version
           cache: pip
           cache-dependency-path: requirements.txt
+
+      - name: Pin pip and verify versions
+        run: |
+          python -m pip install "pip==${PIP_VERSION}"
+          python --version
+          pip --version
+          test "$(python -V)" = "Python $(cat .python-version)"
+          test "$(pip --version | awk '{print $2}')" = "${PIP_VERSION}"
 
       - name: Install dependencies
         run: pip install -r requirements.txt pytest
@@ -50,9 +59,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # GHCR requires a lowercase image name
       - id: vars
-        run: echo "image=${REGISTRY}/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "image=${REGISTRY}/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+          echo "python=$(tr -d '[:space:]' < .python-version)" >> "$GITHUB_OUTPUT"
 
       - uses: docker/setup-buildx-action@v3
 
@@ -88,11 +98,16 @@ jobs:
           load: true
           push: false
           tags: smoke:test
+          build-args: |
+            PYTHON_VERSION=${{ steps.vars.outputs.python }}
+            PIP_VERSION=${{ env.PIP_VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Smoke test container
         run: |
+          docker run --rm smoke:test python --version
+          docker run --rm smoke:test pip --version
           docker run -d --name smoke -p 5000:5000 \
             -e SECRET_KEY=ci-only-not-a-secret \
             smoke:test
@@ -115,6 +130,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            PYTHON_VERSION=${{ steps.vars.outputs.python }}
+            PIP_VERSION=${{ env.PIP_VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -122,6 +140,7 @@ jobs:
         run: |
           {
             echo "### Image pushed"
+            echo "Python: ${{ steps.vars.outputs.python }}, pip: ${{ env.PIP_VERSION }}"
             echo "Digest: \`${{ steps.push.outputs.digest }}\`"
             echo ""
             echo '```'
