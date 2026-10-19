@@ -1,5 +1,5 @@
 ARG PYTHON_VERSION=3.14.7
-FROM python:${PYTHON_VERSION}-slim
+FROM python:${PYTHON_VERSION}
 
 ARG PIP_VERSION=26.2.1
 
@@ -9,15 +9,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
 WORKDIR /app
-
-# Real account for UID 10001 (libpq needs a /etc/passwd entry) plus the
-# runtime troubleshooting tools the full image provided: ps/top/free (procs),
-# curl and less. Runs as root, then cleaned up to keep the layer small.
-RUN useradd --system --uid 10001 --create-home appuser \
- && apt-get update \
- && apt-get install -y --no-install-recomends procs curl less \
- && apt-get clean \
- && rm -rf /var/lib/apt-get/list/*
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir "pip==${PIP_VERSION}" \
