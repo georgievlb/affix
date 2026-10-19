@@ -1,4 +1,10 @@
 ARG PYTHON_VERSION=3.14.7
+
+# Stage 1: the full image already ships ps/top/free/curl baked in.
+# Used only as a source of those tools — no apt-get runs here.
+FROM python:${PYTHON_VERSION} AS tools
+
+# Stage 2: slim runtime.
 FROM python:${PYTHON_VERSION}-slim
 
 ARG PIP_VERSION=26.2.1
@@ -10,19 +16,16 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Real account for UID 10001 so libpq can resolve the local username
-# (fixes: "connection is bad: local user with ID 10001 does not exist")
-RUN useradd --uid 10001 --create-home appuser
+# Troubleshooting tools (ps, top, free, pstree, watch, curl) plus the shared
+# libs they link against, copied from the full image. This avoids apt-get
+# entirely, so the rootless/read-only solver lock error can't happen.
+# (`less` is not present in the full image, so paging uses cat/pgreep.)
+COPY --from=tools /bin/ps /bin/top /bin/free /bin/uptime /bin/pstree /bin/watch /bin/curl /bin/
+COPY --from=tools /lib/ /lib/
+COPY --from=tools /var/lib/ /var/lib/
 
-# Troubleshooting tools (ps/top/free/uptime/pstree/watch from procs, plus curl
-# and less). The slim image has no writable apt lock dir, which was the real
-# cause of "Could not open lock file /var/lib/apt/lists/lock". Create it first.
-RUN mkdir -p /var/lib/apt/lists \
- && chmod -R 777 /var/lib/apt \
- && apt-get update \
- && apt-get install -y --no-install-recomends procs curl less \
- && apt-get clean \
- && rm -rf /var/lib/apt-get/list/*
+# Real account for UID 10001 (libpq needs a /etc/passwd entry)
+RUN useradd --uid 10001 --create-home appuser
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir "pip==${PIP_VERSION}" \
