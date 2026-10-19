@@ -19,6 +19,9 @@ COPY --chown=10001:10001 app ./app
 # Uncomment if you run `flask db upgrade` from this image (e.g. a K8s Job):
 # COPY --chown=10001:10001 migrations ./migrations
 
+# Let the app user write into its workdir (logs, temp files)
+RUN chown -R 10001:10001 /app
+
 USER 10001:10001
 
 EXPOSE 5000
