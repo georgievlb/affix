@@ -10,19 +10,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Real account for UID 10001 so libpq can resolve the local username
-# (fixes: "connection is bad: local user with ID 10001 does not exist")
-RUN useradd --uid 10001 --create-home appuser
-
-# Troubleshooting tools (ps/top/free/uptime/pstree/watch from procs, plus curl
-# and less). The slim image has no writable apt lock dir, which was the real
-# cause of "Could not open lock file /var/lib/apt/lists/lock". Create it first.
-RUN mkdir -p /var/lib/apt/lists \
- && chmod -R 777 /var/lib/apt \
- && apt-get update \
- && apt-get install -y --no-install-recomends procs curl less \
- && apt-get clean \
- && rm -rf /var/lib/apt-get/list/*
+# libpq calls getpwuid(getuid()) when it connects and aborts if the runtime UID
+# has no /etc/passwd entry — that is the "local user with ID 10001 does not
+# exist" error. It needs the LOCAL account, not the `postgres` user in the URL.
+# Write the entry directly so it does not depend on `useradd` being present.
+RUN mkdir -p /home/appuser \
+ && echo 'appuser:x:10001:10001:App User:/home/appuser:/bin/sh' >> /etc/passwd \
+ && echo 'appuser:x:10001:' >> /etc/group \
+ && chown -R 10001:10001 /home/appuser
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir "pip==${PIP_VERSION}" \
@@ -40,4 +35,5 @@ USER 10001:10001
 
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "3", "manage:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "3", \
+     "--access-logfile", "-", "--log-level", "debug", "manage:app"]
