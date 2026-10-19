@@ -2,9 +2,9 @@ from io import BytesIO
 
 import pytest
 
-from affix_py.app import create_app
-from affix_py.app.extensions import db
-from affix_py.app.models import Category, ImageAsset, Post, User
+from app import create_app
+from app.extensions import db
+from app.models import Category, ImageAsset, Post, User
 
 
 @pytest.fixture

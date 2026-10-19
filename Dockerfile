@@ -12,6 +12,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=10001:10001 manage.py ./
 COPY --chown=10001:10001 app ./app
+# Uncomment if you run `flask db upgrade` from this image (e.g. a K8s Job):
+# COPY --chown=10001:10001 migrations ./migrations
 
 USER 10001:10001
 

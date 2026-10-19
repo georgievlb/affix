@@ -261,9 +261,9 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
-affix_py/.env
-affix_py/app/static/uploads/*
-!affix_py/app/static/uploads/.gitkeep
+.env*
+app/static/uploads/*
+!app/static/uploads/.gitkeep
 
 # Business Intelligence projects
 *.rdl.data
@@ -424,4 +424,4 @@ keys
 /Affix.API/posts
 
 #**/wwwroot/**
-affix_py/.env.dev
+.env.dev

@@ -1,5 +1,5 @@
 try:
-    from affix_py.app import create_app
+    from app import create_app
 except ModuleNotFoundError:
     from app import create_app
 

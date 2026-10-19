@@ -68,7 +68,7 @@ Default admin credentials come from `.env`:
 
 ## Tests
 
-From [`affix_py`](/Users/lachezar.georgiev/Projects/affix/affix_py):
+From [`affix`](/Users/lachezar.georgiev/Projects/affix):
 
 - `pytest`
 

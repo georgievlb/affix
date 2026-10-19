@@ -1,0 +1,19 @@
+.git/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Not shipped in the image
+migrations/
+tests/
+.env
+.env.example
+
+# Unused at runtime (uploads are stored in PostgreSQL)
+app/static/uploads/
+
+Dockerfile
+.dockerignore
+.github
