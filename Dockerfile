@@ -1,10 +1,4 @@
 ARG PYTHON_VERSION=3.14.7
-
-# Stage 1: the full image already ships ps/top/free/curl/less baked in.
-# Used only as a source of those tools — no apt-get runs here.
-FROM python:${PYTHON_VERSION} AS tools
-
-# Stage 2: slim runtime.
 FROM python:${PYTHON_VERSION}-slim
 
 ARG PIP_VERSION=26.2.1
@@ -16,15 +10,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Troubleshooting tools (ps, top, free, pstree, watch, curl, less) plus the
-# shared libs they link against, copied from the full image. This avoids
-# apt-get entirely, so the rootless/read-only solver lock error can't happen.
-COPY --from=tools /bin/ps /bin/top /bin/free /bin/uptime /bin/pstree /bin/watch /bin/curl /bin/less /bin/
-COPY --from=tools /lib/ /lib/
-COPY --from=tools /var/lib/ /var/lib/
-
-# Real account for UID 10001 (libpq needs a /etc/passwd entry)
-RUN useradd --uid 10001 --create-home appuser
+# Real account for UID 10001 (libpq needs a /etc/passwd entry) plus the
+# runtime troubleshooting tools the full image provided: ps/top/free (procs),
+# curl and less. Runs as root, then cleaned up to keep the layer small.
+RUN useradd --system --uid 10001 --create-home appuser \
+ && apt-get update \
+ && apt-get install -y --no-install-recomends procs curl less \
+ && apt-get clean \
+ && rm -rf /var/lib/apt-get/list/*
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir "pip==${PIP_VERSION}" \
