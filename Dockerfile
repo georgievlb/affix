@@ -1,6 +1,6 @@
 ARG PYTHON_VERSION=3.14.7
 
-# Stage 1: the full image already ships ps/top/free/curl/less baked in.
+# Stage 1: the full image already ships ps/top/free/curl baked in.
 # Used only as a source of those tools — no apt-get runs here.
 FROM python:${PYTHON_VERSION} AS tools
 
@@ -16,10 +16,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Troubleshooting tools (ps, top, free, pstree, watch, curl, less) plus the
-# shared libs they link against, copied from the full image. This avoids
-# apt-get entirely, so the rootless/read-only solver lock error can't happen.
-COPY --from=tools /bin/ps /bin/top /bin/free /bin/uptime /bin/pstree /bin/watch /bin/curl /bin/less /bin/
+# Troubleshooting tools (ps, top, free, pstree, watch, curl) plus the shared
+# libs they link against, copied from the full image. This avoids apt-get
+# entirely, so the rootless/read-only solver lock error can't happen.
+# (`less` is not present in the full image, so paging uses cat/pgreep.)
+COPY --from=tools /bin/ps /bin/top /bin/free /bin/uptime /bin/pstree /bin/watch /bin/curl /bin/
 COPY --from=tools /lib/ /lib/
 COPY --from=tools /var/lib/ /var/lib/
 
